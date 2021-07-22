@@ -155,6 +155,12 @@ class VehiculoForm(ModelForm):
         widgets = {
             'marca': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
         }
+        
+    '''Eliminamos espacios de la matricula '''
+    def clean_matricula(self):
+        data = self.cleaned_data['matricula']
+        data = data.replace(" ","")
+        return data
    
     def save(self, commit=True):
         data = {}
