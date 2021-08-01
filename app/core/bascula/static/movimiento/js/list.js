@@ -152,7 +152,7 @@ function getData(all) {
                 render: function (data, type, row) {
                     var buttons =''
                     if (row.peso_salida==0){
-                        buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a> ';
+                        buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" id="btnSalida" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a> ';
                     }
                     btnClass = "btn btn-secondary btn-flat disabled_print"
                     if (!row.fec_impresion) {
@@ -242,6 +242,40 @@ $(function () {
                 message_error(errorThrown + ' ' + textStatus);
             }
         });
-   } );    
+   } );  
+   
+   
+   /////////////////////////////
+    //   EVENTO TIPO SALIDA   // 
+    /////////////////////////////
+
+    tblData.on( 'click', '#btnSalida', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var parameters = {
+            // Indicamos con esta variable que estamos imprimiendo por primera vez el ticket 
+            'tipo_salida':true,
+        };
+        
+        Swal.fire({
+            title: 'Seleccione el Tipo de Salida',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: `Camión Lleno`,
+            denyButtonText: `Camión Vacío`,
+            cancelButtonText: `Cancelar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+            //   Swal.fire('Saliendo Camion Lleno', '', 'success')
+              parameters['tipo_salida'] = true
+              location.href = url+'lleno';
+            } else if (result.isDenied) {
+            //   Swal.fire('Saliendo Camion Vacio', '', 'info')
+              parameters['tipo_salida'] = false
+              location.href = url+'vacio';
+            }
+          })        
+   } );   
 
 });

@@ -201,6 +201,7 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 	
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
+		self.tipo_salida = kwargs['tipo_salida']
 		return super().dispatch(request, *args, **kwargs)
 
 	def validate_data(self):
@@ -271,7 +272,7 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['title'] = 'Salida Bascula'
+		context['title'] = '%s %s' % ('Salida Bascula Camión',str(self.tipo_salida).capitalize())
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'edit'
@@ -280,6 +281,7 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		context['frmChofer'] = ChoferForm()
 		context['puerto_bascula1'] = ConfigSerial.objects.get(cod__exact='BSC1').puerto
 		context['puerto_bascula2'] = ConfigSerial.objects.get(cod__exact='BSC2').puerto
+		context['tipo_salida'] = self.tipo_salida
 		return context
 
 '''ELIMINAR MOVIMIENTO DE BASCULA'''

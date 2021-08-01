@@ -17,7 +17,7 @@ urlpatterns = [
     # MOVIMIENTO BASCULA
     path('movimiento', MovimientoList.as_view(), name='movimiento_list'),
     path('movimiento/add/', MovimientoCreate.as_view(), name='movimiento_create'),
-    path('movimiento/update/<int:pk>/', MovimientoUpdate.as_view(), name='movimiento_update'),
+    path('movimiento/update/<int:pk>/<tipo_salida>/', MovimientoUpdate.as_view(), name='movimiento_update'),
     path('movimiento/delete/<int:pk>/', MovimientoDelete.as_view(), name='movimiento_delete'),
     path('movimiento/print/<int:pk>/', MovimientoPrint.as_view(), name='movimiento_print'),
     # CLIENTE

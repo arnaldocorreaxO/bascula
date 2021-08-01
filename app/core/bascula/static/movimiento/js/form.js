@@ -311,14 +311,27 @@ $(function () {
             }
         }
         else {
-            if (peso_salida.val() <= 0) {
-                message_error('Peso Salida es Cero');
-                return false;
-            };
-            if (peso_entrada.val() == peso_salida.val()) {
-                message_error('Peso Entrada y Salida son iguales');
-                return false;
-            };
+             // Tipo Salida Vehiculo (lleno / vacio)
+             var tipo_salida = $('input[name="tipo_salida"]');
+             // alert(tipo_salida.val());
+             if (peso_salida.val() <= 0) {
+                 message_warning('Peso Salida es Cero');
+                 return false;
+             };
+             if (peso_entrada.val() == peso_salida.val()) {
+                 message_warning('Peso Entrada y Salida son iguales');
+                 return false;
+             };
+ 
+             if (tipo_salida.val()=='lleno' && (Number(peso_entrada.val()) > Number(peso_salida.val()))) {
+                 message_warning('Peso Salida (lleno) es menor a Peso Entrada (vacio) ');
+                 return false;
+             };
+ 
+             if (tipo_salida.val()=='vacio' && (Number(peso_entrada.val()) < Number(peso_salida.val()))) {
+                 message_warning('Peso Salida (vacío) es mayor a Peso Entrada (lleno)');
+                 return false;
+             };
 
         };
 
