@@ -152,17 +152,23 @@ class MovimientoCreate(PermissionMixin,CreateView):
 			elif action == 'search_peso_tara_interno':
 				data = {'peso':'0'}
 				if request.POST['id']:
+					vehiculo = Vehiculo.objects.filter(id=request.POST['id']).first()
 					movimiento = Movimiento.objects.filter(fecha = datetime.datetime.now() ,
-														vehiculo_id=request.POST['id'])\
+														vehiculo=vehiculo)\
 												.order_by('-id')
 					if movimiento:
-						data = {'peso':movimiento.first().peso_tara}				
-						# Retornamos data como diccionario y recuperos directo data['peso']
-						# Si enviamos como lista de diccionarios debemos definir una lista 
-						# data[] y usar append
-						# data.append({'peso':movimiento.first().peso_tara}) y recuperar
-						# data[0]['peso'], pero en este caso solo enviamos una clave y valor 											
-					# print(data)
+						peso_tara = movimiento.first().peso_tara
+						if peso_tara > 0:						
+							data = {'peso':peso_tara}				
+							# Retornamos data como diccionario y recuperos directo data['peso']
+							# Si enviamos como lista de diccionarios debemos definir una lista 
+							# data[] y usar append
+							# data.append({'peso':movimiento.first().peso_tara}) y recuperar
+							# data[0]['peso'], pero en este caso solo enviamos una clave y valor 											
+						# print(data)
+						else:
+
+							data['error'] = 'Movimiento de Entrada ya está registrado para el vehiculo %s' % (vehiculo)
 
 			elif action == 'search_producto_id':
 				data = [{'id': '', 'text': '------------'}]

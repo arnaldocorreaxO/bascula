@@ -77,6 +77,8 @@ $(function () {
                     // console.log(data);
                     return false;
                 }
+                $('#id_vehiculo').val('').change();
+                $('#id_cliente').val('').change();
                 message_error(data.error);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);

@@ -259,12 +259,12 @@ class MovimientoEntradaForm(ModelForm):
         widgets = {
             'vehiculo': forms.Select(attrs={
                 'class': 'custom-select select2',
-                'style': 'width: 95%'
+                'style': 'width: 90%'
                 }
             ),
             'chofer': forms.Select(attrs={
                 'class': 'custom-select select2',
-                 'style': 'width: 95%'
+                 'style': 'width: 90%'
                 }
             ),
             'cliente': forms.Select(attrs={
