@@ -17,8 +17,8 @@ from core.security.mixins import PermissionMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.http.response import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -203,12 +203,19 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 	success_url = reverse_lazy('movimiento_list')
 	template_name = 'movimiento/create.html'
 	permission_required = 'change_movimiento'
-
 	
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		self.tipo_salida = kwargs['tipo_salida']
 		return super().dispatch(request, *args, **kwargs)
+
+	def get_object(self, queryset=None):
+		# Una vez tenga PESO NETO ya no se puede modificar la salida
+		try:		
+			obj = self.model.objects.get(pk=self.kwargs['pk'],peso_neto__exact=0)
+			return obj
+		except self.model.DoesNotExist:
+			raise Http404("INFORMACION: Movimiento de Bascula NO existe o ya fue realizada la SALIDA")
 
 	def validate_data(self):
 		data = {'valid': True}
@@ -236,13 +243,8 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 					data['valid'] = False
 		except:
 			pass
-		return JsonResponse(data)
-	
-	# def get_form(self, form_class=None):
-	# 	instance = self.get_object()
-	# 	form = MovimientoSalidaForm(instance=instance)
-	# 	# form.fields['cli'].queryset = Client.objects.filter(id=instance.cli.id)
-	# 	return form
+		return JsonResponse(data)	
+
 
 	def post(self, request, *args, **kwargs):
 		data = {}
@@ -388,8 +390,7 @@ class MovimientoPrint(View):
 		increment = 1 * 5.45
 		height += increment
 		print(round(height))
-		return round(height)
-		
+		return round(height)		
 	
 	@method_decorator(csrf_exempt)
 	def get(self, request, *args, **kwargs):
