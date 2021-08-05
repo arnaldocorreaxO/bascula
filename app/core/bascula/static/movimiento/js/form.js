@@ -300,8 +300,6 @@ $(function () {
 
     $('#frmMovimiento').on('submit', function (e) {
         e.preventDefault();
-        $('select').prop('disabled', false);
-
         var parameters = new FormData(this);
 
         if (action == 'add') {
@@ -334,8 +332,10 @@ $(function () {
              };
 
         };
-
+        $('select').prop('disabled', false);
+        var parameters = new FormData(this);
         parameters.append('action', action);
+
         submit_formdata_with_ajax('Notificación',
             '¿Estas seguro de realizar la siguiente acción?',
             window.location.pathname,
