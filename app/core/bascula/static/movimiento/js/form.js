@@ -279,9 +279,11 @@ $(function () {
         if (action == 'add') {
             if (peso_entrada.val() == 0) { //si el input es cero
                 $('#btnGuardar').attr('disabled', 'disabled');
+                $('.btnBascula').removeAttr("disabled");
             }
             else { // si tiene un valor diferente a cero
                 $('#btnGuardar').removeAttr("disabled");
+                $('.btnBascula').attr('disabled', 'disabled');
             }
         }
         else {

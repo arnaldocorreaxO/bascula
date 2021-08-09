@@ -14,8 +14,7 @@ class MovimientoAdmin(ModeloAdminBase):
     list_display = ('id','fecha','nro_ticket','cliente','producto','vehiculo','chofer','fec_impresion')
     search_fields = ['cliente__denominacion','producto__denominacion','chofer__nombre',
                      'chofer__apellido','nro_ticket','vehiculo__matricula']
-    readonly_fields = ('fecha', 'nro_ticket', 'peso_embarque','peso_entrada', 'peso_salida', 
-                       'peso_tara', 'peso_bruto', 'peso_neto','fec_entrada', 'fec_salida',
+    readonly_fields = ('fecha', 'nro_ticket','fec_entrada', 'fec_salida',
                        'usu_insercion', 'fec_insercion', 'usu_modificacion', 'fec_modificacion',)
     list_editable =['fec_impresion'] #Consume muchos recursos (tarda mucho la consulta)
     list_filter =['cliente','producto','vehiculo','chofer','fecha']
