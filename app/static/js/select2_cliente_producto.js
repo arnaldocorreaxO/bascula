@@ -25,42 +25,42 @@ $(function () {
     var token = $('input[name="csrfmiddlewaretoken"]');
     // alert(token.val())
 
-    select_cliente.on('change', function () {
-        var id = $(this).val(); //ID CLIENTE        
-        var options = '<option value="">--------------</option>';
-        if (id === '') {
-            select_producto.html(options);
-            return false;
-        }
-        $.ajax({
-            headers: { "X-CSRFToken": token.val() },            
-            // url: window.location.pathname,
-            url: '/bascula/movimiento/add/',
-            type: 'POST',
-            data: {
-                'action': 'search_producto_id',
-                'id': id,
-            },
-            dataType: 'json',
-        }).done(function (data) {
-            if (!data.hasOwnProperty('error')) {
-                select_producto.html('').select2({
-                    theme: "bootstrap4",
-                    language: 'es',
-                    data: data                    
-                });
+        select_cliente.on('change', function () {
+            var id_cliente = $(this).val(); //ID CLIENTE        
+            var options = '<option value="">--------------</option>';
+            if (id_cliente === '') {
+                select_producto.html(options);
                 return false;
             }
-            message_error(data.error);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus + ': ' + errorThrown);
-        }).always(function (data) {
-            //select_producto.html(options);
-        });
+            $.ajax({
+                headers: { "X-CSRFToken": token.val() },
+                // url: window.location.pathname,
+                url: '/bascula/movimiento/add/',
+                type: 'POST',
+                data: {
+                    'action': 'search_producto_id',
+                    'id': id_cliente,
+                },
+                dataType: 'json',
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    select_producto.html('').select2({
+                        theme: "bootstrap4",
+                        language: 'es',
+                        data: data
+                    });
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+                //select_producto.html(options);
+            });
 
-        // SOLO INTERNO 
-        if (id == 1 ){
-            var id = $('#id_vehiculo').val(); //ID CLIENTE
+
+
+            var id_vehiculo = $('#id_vehiculo').val(); //ID VEHICULO
             $.ajax({
                 headers: { "X-CSRFToken": token.val() },
                 // url: window.location.pathname,
@@ -68,13 +68,15 @@ $(function () {
                 type: 'POST',
                 data: {
                     'action': 'search_peso_tara_interno',
-                    'id': id
+                    'id': id_vehiculo
                 },
                 dataType: 'json',
             }).done(function (data) {
-                if (!data.hasOwnProperty('error')) {                    
-                    $('#id_peso_entrada').val(parseInt(data['peso'])) ;
-                    // console.log(data);
+                if (!data.hasOwnProperty('error')) {
+                    // SOLO INTERNO 
+                    if (id_cliente == 1) {
+                        $('#id_peso_entrada').val(parseInt(data['peso']));
+                    };
                     return false;
                 }
                 $('#id_vehiculo').val('').change();
@@ -85,11 +87,11 @@ $(function () {
             }).always(function (data) {
                 //select_producto.html(options);
             });
-        };
-    });
 
-    select_vehiculo.on('change', function () {
-        select_cliente.change();
-    });
+        });
+
+        select_vehiculo.on('change', function () {
+            select_cliente.change();
+        });
    
 });
