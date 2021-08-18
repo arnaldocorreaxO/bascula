@@ -251,11 +251,9 @@ class Movimiento(ModeloBase):
 
 		item = model_to_dict(self)
 		item['fecha'] = self.fecha.strftime('%d/%m/%Y')
-		
+		item['cliente'] = str(self.cliente)
 		item['vehiculo'] = str(self.vehiculo)
-		# item['chofer'] = self.chofer.toJSON()
 		item['chofer'] = str(self.chofer)
-		# item['producto'] = self.producto.toJSON()
 		item['producto'] = str(self.producto)
 		item['porc_humedad'] = format(self.porc_humedad,'.0f')
 		item['nro_remision'] = format(self.nro_remision,'.0f')

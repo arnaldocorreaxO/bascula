@@ -126,6 +126,7 @@ function getData(all) {
             {data: "id"},
             {data: "nro_ticket"},
             {data: "fec_entrada"},
+            {data: "cliente"},
             {data: "vehiculo"},
             {data: "chofer"},
             {data: "producto"},
