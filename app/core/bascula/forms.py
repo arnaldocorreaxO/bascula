@@ -151,7 +151,8 @@ class VehiculoForm(ModelForm):
         
     class Meta:
         model = Vehiculo
-        fields =['matricula','marca',]    
+        fields = '__all__'
+        exclude = readonly_fields    
         widgets = {
             'marca': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
         }
@@ -182,7 +183,8 @@ class ChoferForm(ModelForm):
         
     class Meta:
         model = Chofer
-        fields =['codigo','nombre','apellido']
+        fields = '__all__'
+        exclude = readonly_fields
                    
     def save(self, commit=True):
         data = {}

@@ -233,7 +233,7 @@ class Movimiento(ModeloBase):
 	fec_entrada = models.DateTimeField(verbose_name='Fecha Entrada',auto_now_add=True)
 	fec_salida = models.DateTimeField(verbose_name='Fecha Salida',null=True,blank=True)
 	fec_impresion = models.DateTimeField(verbose_name='Fecha Impresión',null=True,blank=True)	
-	
+	anulado = models.BooleanField(default=False)
 	bascula_entrada = models.SmallIntegerField(null=True,default=1)
 	bascula_salida = models.SmallIntegerField(null=True,blank=True,default=1)
 
