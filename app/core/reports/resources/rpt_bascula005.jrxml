@@ -296,7 +296,7 @@ ORDER BY 3,4,1,2]]>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
 				<reportElement stretchType="ElementGroupHeight" x="229" y="0" width="110" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
@@ -306,7 +306,7 @@ ORDER BY 3,4,1,2]]>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
 				<reportElement stretchType="ElementGroupHeight" x="449" y="0" width="108" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
