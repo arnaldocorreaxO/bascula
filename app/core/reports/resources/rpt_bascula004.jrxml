@@ -147,6 +147,9 @@ ORDER BY 1,2,3,4]]>
 			<band height="20">
 				<textField pattern="#,##0">
 					<reportElement x="479" y="2" width="92" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -154,6 +157,9 @@ ORDER BY 1,2,3,4]]>
 				</textField>
 				<staticText>
 					<reportElement x="336" y="2" width="143" height="18" uuid="2e6a1a06-f2a8-48d2-8b8d-261bc3c44ed7"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
