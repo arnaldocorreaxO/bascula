@@ -1,7 +1,9 @@
 import locale
 import datetime
+from django.db.models.aggregates import Count
 
 from django.db.models.fields import FloatField
+from django.db.models.query_utils import Q
 
 from core.bascula.models import Categoria, Cliente, Movimiento, Producto
 from core.base.models import Empresa
@@ -62,6 +64,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         .order_by('-tot_recepcion'):
                         data.append({'name':  i['producto__denominacion']+ ' - ' +i['cliente__denominacion'],
                                      'data': [i['tot_recepcion']/1000]})              
+            
             elif action == 'get_graph_3':
                 data = []
                 month = datetime.datetime.now().month 
@@ -73,6 +76,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         data.append({'name':  i['fecha'].strftime('%d'),
                                      'data': [i['tot_recepcion']/1000]})     
                         # print(data)         
+            
             elif action == 'get_graph_4':
                 data = []                
                 year = datetime.datetime.now().year
@@ -84,7 +88,55 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         mes = datetime.date(1900, i['fecha__month'], 1).strftime('%B').capitalize()
                         data.append({'name':  mes,
                                      'data': [i['tot_recepcion']/1000]})     
-                        # print(data)         
+                        print(data)  
+            
+            elif action == 'get_graph_5':
+                now = datetime.datetime.now() 
+                dataset = Movimiento.objects \
+                                    .values('producto__denominacion') \
+                                    .filter(fecha = now)\
+                                    .annotate(vehiculo_entrada_count=Count('id'),
+                                                vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
+                                                vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
+                                    .order_by('producto__denominacion')
+                # print(dataset)
+
+                categorias = list()
+                vehiculo_entrada_series_data = list()
+                vehiculo_salida_series_data = list()
+                vehiculo_pendiente_series_data = list()
+
+
+                for entry in dataset:
+                    categorias.append('%s' % entry['producto__denominacion'])
+                    vehiculo_entrada_series_data.append(entry['vehiculo_entrada_count'])
+                    vehiculo_salida_series_data.append(entry['vehiculo_salida_count'])
+                    vehiculo_pendiente_series_data.append(entry['vehiculo_pendiente_count'])
+
+                vehiculo_entrada_series = {
+                    'name': 'Entraron',
+                    'data': vehiculo_entrada_series_data,
+                    # 'color': 'green'
+                }
+
+                vehiculo_salida_series = {
+                    'name': 'Salieron',
+                    'data': vehiculo_salida_series_data,
+                    # 'color': 'red'
+                }
+
+                vehiculo_pendiente_series = {
+                    'name': 'Pendientes',
+                    'data': vehiculo_pendiente_series_data,
+                    # 'color': 'red'
+                }
+
+                data = {
+                    'xAxis': {'categories': categorias},
+                    'series': [vehiculo_entrada_series, vehiculo_salida_series,vehiculo_pendiente_series]
+                }
+
+                # print(data)
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
