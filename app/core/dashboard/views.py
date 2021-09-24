@@ -18,6 +18,7 @@ from django.views.generic import TemplateView
 
 locale.setlocale(locale.LC_TIME, '')
 
+
 class DashboardView(LoginRequiredMixin, TemplateView):
 
     @method_decorator(csrf_exempt)
@@ -40,15 +41,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             action = request.POST['action']
             if action == 'get_graph_1':
-                info = []          
-                hoy = datetime.datetime.now()  
+                info = []
+                hoy = datetime.datetime.now()
                 for i in Movimiento.objects.values('producto__denominacion') \
-                        .filter(fecha=hoy,peso_neto__gt=0)\
-                        .annotate(tot_recepcion=Sum('peso_neto',output_field=FloatField())) \
+                        .filter(fecha=hoy, peso_neto__gt=0)\
+                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('-tot_recepcion'):
-                        info.append([i['producto__denominacion'],
-                                     i['tot_recepcion']/1000])
-                        
+                    info.append([i['producto__denominacion'],
+                                 i['tot_recepcion']/1000])
+
                 data = {
                     'name': 'Stock de Productos',
                     'type': 'pie',
@@ -56,48 +57,49 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                     'data': info,
                 }
             elif action == 'get_graph_2':
-                data = []               
-                now = datetime.datetime.now() 
-                for i in Movimiento.objects.values('producto__denominacion','cliente__denominacion') \
-                        .filter(fecha = now,peso_neto__gt=0)\
-                        .annotate(tot_recepcion=Sum('peso_neto',output_field=FloatField())) \
+                data = []
+                now = datetime.datetime.now()
+                for i in Movimiento.objects.values('producto__denominacion', 'cliente__denominacion') \
+                        .filter(fecha=now, peso_neto__gt=0)\
+                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('-tot_recepcion'):
-                        data.append({'name':  i['producto__denominacion']+ ' - ' +i['cliente__denominacion'],
-                                     'data': [i['tot_recepcion']/1000]})              
-            
+                    data.append({'name':  i['producto__denominacion'] + ' - ' + i['cliente__denominacion'],
+                                 'data': [i['tot_recepcion']/1000]})
+
             elif action == 'get_graph_3':
                 data = []
-                month = datetime.datetime.now().month 
+                month = datetime.datetime.now().month
                 year = datetime.datetime.now().year
                 for i in Movimiento.objects.values('fecha') \
-                        .filter(cliente=2,producto=2,fecha__month=month, fecha__year=year)\
-                        .annotate(tot_recepcion=Sum('peso_neto',output_field=FloatField())) \
+                        .filter(cliente=2, producto=2, fecha__month=month, fecha__year=year)\
+                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('fecha'):
-                        data.append({'name':  i['fecha'].strftime('%d'),
-                                     'data': [i['tot_recepcion']/1000]})     
-                        # print(data)         
-            
+                    data.append({'name':  i['fecha'].strftime('%d'),
+                                 'data': [i['tot_recepcion']/1000]})
+                    # print(data)
+
             elif action == 'get_graph_4':
-                data = []                
+                data = []
                 year = datetime.datetime.now().year
                 for i in Movimiento.objects.values('fecha__month') \
-                        .filter(cliente=2,producto=2, fecha__year=year)\
-                        .annotate(tot_recepcion=Sum('peso_neto',output_field=FloatField())) \
+                        .filter(cliente=2, producto=2, fecha__year=year)\
+                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('fecha__month'):
-                        #Utilizamos una fecha cualquiera para retornar solo el mes ;)
-                        mes = datetime.date(1900, i['fecha__month'], 1).strftime('%B').capitalize()
-                        data.append({'name':  mes,
-                                     'data': [i['tot_recepcion']/1000]})     
-                        print(data)  
-            
+                    #Utilizamos una fecha cualquiera para retornar solo el mes ;)
+                    mes = datetime.date(1900, i['fecha__month'], 1).strftime(
+                        '%B').capitalize()
+                    data.append({'name':  mes,
+                                 'data': [i['tot_recepcion']/1000]})
+                    print(data)
+
             elif action == 'get_graph_5':
-                now = datetime.datetime.now() 
+                now = datetime.datetime.now()
                 dataset = Movimiento.objects \
-                                    .values('producto__denominacion','cliente__denominacion') \
-                                    .filter(fecha = now)\
-                                    .annotate(  vehiculo_entrada_count=Count('id'),
-                                                vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
-                                                vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
+                                    .values('producto__denominacion', 'cliente__denominacion') \
+                                    .filter(fecha=now)\
+                                    .annotate(vehiculo_entrada_count=Count('id'),
+                                              vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
+                                        vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
                                     .order_by('producto__denominacion')
                 # print(dataset)
 
@@ -106,12 +108,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 vehiculo_salida_series_data = list()
                 vehiculo_pendiente_series_data = list()
 
-
                 for entry in dataset:
-                    categorias.append('%s - %s' % (entry['producto__denominacion'], entry['cliente__denominacion']))
-                    vehiculo_entrada_series_data.append(entry['vehiculo_entrada_count'])
-                    vehiculo_salida_series_data.append(entry['vehiculo_salida_count'])
-                    vehiculo_pendiente_series_data.append(entry['vehiculo_pendiente_count'])
+                    categorias.append(
+                        '%s - %s' % (entry['producto__denominacion'], entry['cliente__denominacion']))
+                    vehiculo_entrada_series_data.append(
+                        entry['vehiculo_entrada_count'])
+                    vehiculo_salida_series_data.append(
+                        entry['vehiculo_salida_count'])
+                    vehiculo_pendiente_series_data.append(
+                        entry['vehiculo_pendiente_count'])
 
                 vehiculo_entrada_series = {
                     'name': 'Entraron',
@@ -133,7 +138,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
                 data = {
                     'xAxis': {'categories': categorias},
-                    'series': [vehiculo_entrada_series, vehiculo_salida_series,vehiculo_pendiente_series]
+                    'series': [vehiculo_entrada_series, vehiculo_salida_series, vehiculo_pendiente_series]
                 }
 
                 # print(data)
