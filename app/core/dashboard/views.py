@@ -93,9 +93,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             elif action == 'get_graph_5':
                 now = datetime.datetime.now() 
                 dataset = Movimiento.objects \
-                                    .values('producto__denominacion') \
+                                    .values('producto__denominacion','cliente__denominacion') \
                                     .filter(fecha = now)\
-                                    .annotate(vehiculo_entrada_count=Count('id'),
+                                    .annotate(  vehiculo_entrada_count=Count('id'),
                                                 vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
                                                 vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
                                     .order_by('producto__denominacion')
@@ -108,7 +108,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 
                 for entry in dataset:
-                    categorias.append('%s' % entry['producto__denominacion'])
+                    categorias.append('%s - %s' % (entry['producto__denominacion'], entry['cliente__denominacion']))
                     vehiculo_entrada_series_data.append(entry['vehiculo_entrada_count'])
                     vehiculo_salida_series_data.append(entry['vehiculo_salida_count'])
                     vehiculo_pendiente_series_data.append(entry['vehiculo_pendiente_count'])
@@ -146,7 +146,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Panel de administración'
-        context['current_day'] = datetime.datetime.today().strftime("%d/%m/%Y %H:%M:%S")
+        context['current_date'] = datetime.datetime.today().strftime("%d/%m/%Y %H:%M:%S")
         context['current_month'] = datetime.datetime.today().strftime("%B de %Y")
         context['current_year'] = datetime.datetime.today().strftime("%Y")
         context['company'] = Empresa.objects.first()
