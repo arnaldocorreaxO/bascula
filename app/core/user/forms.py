@@ -13,7 +13,7 @@ class UserForm(ModelForm):
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'username', 'password', 'dni', 'email', 'groups', 'image','sucursal'
+        fields = 'first_name', 'last_name', 'username', 'password', 'dni', 'email', 'groups', 'image','sucursal','is_active', 'is_staff','is_superuser'
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus nombres'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus apellidos'}),
@@ -25,8 +25,8 @@ class UserForm(ModelForm):
             'groups': forms.SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple', 'style': 'width:100%'}),
             
         }
-        exclude = ['is_change_password', 'is_active', 'is_staff', 'user_permissions', 'date_joined',
-                   'last_login', 'is_superuser', 'token']
+        exclude = ['is_change_password',  'user_permissions', 'date_joined',
+                   'last_login',  'token']
 
     def update_session(self, user):
         request = get_current_request()

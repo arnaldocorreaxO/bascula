@@ -90,7 +90,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         '%B').capitalize()
                     data.append({'name':  mes,
                                  'data': [i['tot_recepcion']/1000]})
-                    print(data)
+                    # print(data)
 
             elif action == 'get_graph_5':
                 now = datetime.datetime.now()

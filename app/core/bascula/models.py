@@ -277,6 +277,10 @@ class Movimiento(ModeloBase):
 		db_table = 'bascula_movimiento'
 		verbose_name = 'movimiento'
 		verbose_name_plural = 'movimientos'
+		permissions = (
+            ('habilita_peso_manual', 'Puede ingresar peso en forma manual'),		
+        )
+
 
 
 	
