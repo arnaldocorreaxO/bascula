@@ -266,3 +266,57 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 		context['title'] = 'Reporte de Total de Productos por Clientes'
 		context['action'] = 'report'
 		return context
+
+'''REPORTE 006'''
+'''PENDIENTE'''
+
+'''REPORTE 007'''
+class RptBascula007ReportView(ModuleMixin, FormView):
+	template_name = 'bascula/reports/rpt_bascula004.html'
+	form_class = ReportForm
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+		action = request.POST['action']
+		data = {}
+		try:
+			if action == 'report':
+				data = []
+				date_range = request.POST['date_range']
+				fecha_desde = date_range[:11].strip()
+				fecha_hasta = date_range[13:].strip()				
+				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None
+				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
+				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None	
+				#CONFIG				 
+				report = JasperReportBase()  
+				report.report_name  = 'rpt_bascula007'
+				report.report_url = reverse_lazy(report.report_name)
+				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
+				#PARAMETROS
+				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_FECHA_DESDE'] = fecha_desde
+				report.params['P_FECHA_HASTA'] = fecha_hasta
+				return report.render_to_response()
+
+			else:
+				data['error'] = 'No ha ingresado una opción'
+		except Exception as e:
+			print('####################### ERROR #######################')
+			print(str(e))
+			data['error'] = str(e)
+		return HttpResponse(json.dumps(data), content_type='application/json')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['title'] = 'Resumen de Totales por Clientes y Productos'
+		context['action'] = 'report'
+		return context
