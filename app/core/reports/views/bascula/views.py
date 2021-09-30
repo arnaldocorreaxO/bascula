@@ -298,7 +298,7 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
-				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
+				report.params['P_TITULO3'] = 'INFORME DIARIO TOTALES PÓR CLIENTES Y PRODUCTOS'				
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
 				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
 				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
