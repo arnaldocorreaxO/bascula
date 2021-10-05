@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULACT"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -25,9 +25,9 @@
 		PRO.DENOMINACION ||' - '|| PRO.CODIGO AS PRODUCTO,
 		CHO.NOMBRE || ' ' || CHO.APELLIDO || ' - '  ||CHO.CODIGO AS CHOFER,
 		VEH.MATRICULA || '  -  ' ||	MAR.DENOMINACION AS VEHICULO,
-		MOV.PESO_BRUTO AS PESO_BRUTO,
-		MOV.PESO_TARA AS PESO_TARA,
-		MOV.PESO_NETO AS PESO_NETO
+		MOV.PESO_BRUTO/1000.00 AS PESO_BRUTO,
+		MOV.PESO_TARA/1000.00 AS PESO_TARA,
+		MOV.PESO_NETO/1000.00 AS PESO_NETO
 FROM 
 BASCULA_MOVIMIENTO MOV
 INNER JOIN BASCULA_PRODUCTO PRO ON MOV.PRODUCTO_ID = PRO.ID 
@@ -71,17 +71,17 @@ ORDER BY 6,4,1,2]]>
 		<property name="com.jaspersoft.studio.field.name" value="vehiculo"/>
 		<property name="com.jaspersoft.studio.field.label" value="vehiculo"/>
 	</field>
-	<field name="peso_bruto" class="java.lang.Integer">
+	<field name="peso_bruto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_bruto"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_bruto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
 	</field>
-	<field name="peso_tara" class="java.lang.Integer">
+	<field name="peso_tara" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_tara"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_tara"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
 	</field>
-	<field name="peso_neto" class="java.lang.Integer">
+	<field name="peso_neto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_neto"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_neto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
@@ -89,7 +89,7 @@ ORDER BY 6,4,1,2]]>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.lang.Long" resetType="Group" resetGroup="Group2" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -185,7 +185,7 @@ ORDER BY 6,4,1,2]]>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[BRUTO (kg)]]></text>
+					<text><![CDATA[BRUTO (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="412" y="32" width="54" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
@@ -198,7 +198,7 @@ ORDER BY 6,4,1,2]]>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TARA (kg)]]></text>
+					<text><![CDATA[TARA (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="520" y="32" width="54" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
@@ -211,7 +211,7 @@ ORDER BY 6,4,1,2]]>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[NETO (kg)]]></text>
+					<text><![CDATA[NETO (Ton)]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="70" y="6" width="410" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
@@ -244,7 +244,7 @@ ORDER BY 6,4,1,2]]>
 		</groupHeader>
 		<groupFooter>
 			<band height="22">
-				<textField pattern="#,##0">
+				<textField pattern="#,##0.00">
 					<reportElement x="520" y="2" width="54" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
@@ -256,7 +256,7 @@ ORDER BY 6,4,1,2]]>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO (kg):]]></text>
+					<text><![CDATA[TOTAL NETO (Ton):]]></text>
 				</staticText>
 			</band>
 		</groupFooter>
@@ -360,7 +360,7 @@ ORDER BY 6,4,1,2]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement stretchType="ElementGroupHeight" x="466" y="2" width="54" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -370,7 +370,7 @@ ORDER BY 6,4,1,2]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement stretchType="ElementGroupHeight" x="412" y="2" width="54" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -380,7 +380,7 @@ ORDER BY 6,4,1,2]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement stretchType="ElementGroupHeight" x="520" y="2" width="54" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>

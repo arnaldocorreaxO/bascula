@@ -24,9 +24,9 @@
 		MOV.NRO_REMISION AS NRO_REMISION,
 		VEH.MATRICULA AS NRO_CHAPA,
 		
-		MOV.PESO_BRUTO AS PESO_BRUTO,
-		MOV.PESO_TARA AS PESO_TARA,
-		MOV.PESO_NETO AS PESO_NETO
+		MOV.PESO_BRUTO/1000.00 AS PESO_BRUTO,
+		MOV.PESO_TARA/1000.00 AS PESO_TARA,
+		MOV.PESO_NETO/1000.00 AS PESO_NETO
 FROM 
 BASCULA_MOVIMIENTO MOV
 INNER JOIN BASCULA_PRODUCTO PRO ON MOV.PRODUCTO_ID = PRO.ID 
@@ -60,7 +60,7 @@ ORDER BY 3,4,1,2]]>
 		<property name="com.jaspersoft.studio.field.name" value="producto"/>
 		<property name="com.jaspersoft.studio.field.label" value="producto"/>
 	</field>
-	<field name="nro_remision" class="java.lang.Integer">
+	<field name="nro_remision" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="nro_remision"/>
 		<property name="com.jaspersoft.studio.field.label" value="nro_remision"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
@@ -70,17 +70,17 @@ ORDER BY 3,4,1,2]]>
 		<property name="com.jaspersoft.studio.field.label" value="nro_chapa"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_vehiculo"/>
 	</field>
-	<field name="peso_bruto" class="java.lang.Integer">
+	<field name="peso_bruto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_bruto"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_bruto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
 	</field>
-	<field name="peso_tara" class="java.lang.Integer">
+	<field name="peso_tara" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_tara"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_tara"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
 	</field>
-	<field name="peso_neto" class="java.lang.Integer">
+	<field name="peso_neto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="peso_neto"/>
 		<property name="com.jaspersoft.studio.field.label" value="peso_neto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
@@ -88,7 +88,7 @@ ORDER BY 3,4,1,2]]>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.lang.Long" resetType="Group" resetGroup="Group1" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -122,7 +122,7 @@ ORDER BY 3,4,1,2]]>
 		</groupHeader>
 		<groupFooter>
 			<band height="22">
-				<textField pattern="#,##0">
+				<textField pattern="#,##0.00">
 					<reportElement x="478" y="3" width="80" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
@@ -134,7 +134,7 @@ ORDER BY 3,4,1,2]]>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO (kg):]]></text>
+					<text><![CDATA[TOTAL NETO (Ton):]]></text>
 				</staticText>
 			</band>
 		</groupFooter>
@@ -181,7 +181,7 @@ ORDER BY 3,4,1,2]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TARA (kg)]]></text>
+					<text><![CDATA[TARA (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="398" y="24" width="80" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
@@ -194,7 +194,7 @@ ORDER BY 3,4,1,2]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[BRUTO (kg)]]></text>
+					<text><![CDATA[BRUTO (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="478" y="24" width="80" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
@@ -207,7 +207,7 @@ ORDER BY 3,4,1,2]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[NETO (kg)]]></text>
+					<text><![CDATA[NETO (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="88" y="24" width="64" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>

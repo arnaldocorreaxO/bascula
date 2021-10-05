@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULACT"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -22,7 +22,7 @@
 		PRO.DENOMINACION ||' - '|| PRO.CODIGO AS PRODUCTO,
 		MOV.FECHA AS FECHA,
 		COUNT(1) AS CANT_VIAJE,
-		SUM(MOV.PESO_NETO) AS TOTAL_NETO
+		SUM(MOV.PESO_NETO)/1000.00 AS TOTAL_NETO
 		
 FROM 
 BASCULA_MOVIMIENTO MOV
@@ -56,14 +56,14 @@ ORDER BY 1,2,3]]>
 		<property name="com.jaspersoft.studio.field.name" value="cant_viaje"/>
 		<property name="com.jaspersoft.studio.field.label" value="cant_viaje"/>
 	</field>
-	<field name="total_neto" class="java.lang.Long">
+	<field name="total_neto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="total_neto"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_neto"/>
 	</field>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.lang.Long" resetType="Group" resetGroup="Group1" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -106,7 +106,7 @@ ORDER BY 1,2,3]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL PESO NETO (kg)]]></text>
+					<text><![CDATA[TOTAL PESO NETO (Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="180" y="32" width="200" height="20" uuid="f30a83f9-9858-4d01-8c6e-c102e57c4184"/>
@@ -164,7 +164,7 @@ ORDER BY 1,2,3]]>
 					</textElement>
 					<text><![CDATA[TOTALES:]]></text>
 				</staticText>
-				<textField pattern="#,##0">
+				<textField pattern="#,##0.00">
 					<reportElement x="380" y="0" width="192" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<box>
 						<topPen lineWidth="1.0"/>
