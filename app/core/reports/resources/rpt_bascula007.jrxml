@@ -258,7 +258,7 @@ ORDER BY 1,2,3]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement stretchType="ElementGroupHeight" x="380" y="0" width="192" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
