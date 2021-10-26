@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULACT"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -63,7 +63,7 @@ ORDER BY 1,2,3]]>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -72,8 +72,14 @@ ORDER BY 1,2,3]]>
 	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[(($P{P_FECHA_HASTA} != null && $P{P_FECHA_HASTA}.length() == 10) ? $P{P_FECHA_HASTA}.substring(8,10)+"/"+$P{P_FECHA_HASTA}.substring(5,7)+"/"+$P{P_FECHA_HASTA}.substring(0,4) : "")]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_VIAJES" class="java.lang.Long" resetType="Group" resetGroup="Group2" calculation="Sum">
+	<variable name="V_SUM_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
+	</variable>
+	<variable name="V_AVG_DET_PESO" class="java.lang.Float" resetType="None">
+		<variableExpression><![CDATA[$F{total_neto}.floatValue()/$F{cant_viaje}.floatValue()]]></variableExpression>
+	</variable>
+	<variable name="V_AVG_TOT_PESO" class="java.lang.Float" resetType="None">
+		<variableExpression><![CDATA[$V{V_SUM_NETO}.floatValue()/$V{V_SUM_VIAJES}.floatValue()]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{cliente}]]></groupExpression>
@@ -81,9 +87,9 @@ ORDER BY 1,2,3]]>
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{producto}]]></groupExpression>
 		<groupHeader>
-			<band height="52">
+			<band height="57">
 				<staticText>
-					<reportElement x="0" y="32" width="180" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="0" y="32" width="120" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -109,7 +115,7 @@ ORDER BY 1,2,3]]>
 					<text><![CDATA[TOTAL PESO NETO (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="180" y="32" width="200" height="20" uuid="f30a83f9-9858-4d01-8c6e-c102e57c4184"/>
+					<reportElement x="120" y="32" width="130" height="20" uuid="f30a83f9-9858-4d01-8c6e-c102e57c4184"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -149,10 +155,23 @@ ORDER BY 1,2,3]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="250" y="32" width="130" height="20" uuid="c750d2e5-d067-4794-9a93-59d62dd85b5e"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PROMEDIO (Ton)]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="18">
+			<band height="23">
 				<staticText>
 					<reportElement x="0" y="0" width="180" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
 					<box>
@@ -168,7 +187,9 @@ ORDER BY 1,2,3]]>
 					<reportElement x="380" y="0" width="192" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<box>
 						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
@@ -176,15 +197,30 @@ ORDER BY 1,2,3]]>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0">
-					<reportElement x="180" y="0" width="200" height="18" uuid="18afd1fd-6855-4ac3-a432-ebd58deeade6"/>
+					<reportElement x="120" y="0" width="130" height="18" uuid="18afd1fd-6855-4ac3-a432-ebd58deeade6"/>
 					<box>
 						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_VIAJES}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="250" y="0" width="130" height="18" uuid="512bafe8-4316-4ed4-b4dc-f6dbf55d48c6"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_AVG_TOT_PESO}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -249,7 +285,7 @@ ORDER BY 1,2,3]]>
 		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="180" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="120" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -269,11 +305,18 @@ ORDER BY 1,2,3]]>
 				<textFieldExpression><![CDATA[$F{total_neto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="180" y="0" width="200" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
+				<reportElement x="120" y="0" width="130" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cant_viaje}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="130" height="13" uuid="74e6bcab-46f2-4659-b69e-eed74e839549"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_AVG_DET_PESO}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
