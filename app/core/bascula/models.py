@@ -99,7 +99,7 @@ class Vehiculo(ModeloBase):
 	# 	return self.cleaned_data['matricula'].upper()
 
 	class Meta:
-		# ordering = ['1',]
+		ordering = ['matricula',]
 		db_table = 'bascula_vehiculo'
 		verbose_name = 'vehiculo'
 		verbose_name_plural = 'vehiculos'
@@ -125,7 +125,7 @@ class Chofer(ModeloBase):
 		return f"{self.nombre} {self.apellido}"
 	
 	class Meta:
-	# ordering = ['1',]
+		ordering = ['nombre','apellido',]
 		db_table = 'bascula_chofer'
 		verbose_name = 'chofer'
 		verbose_name_plural = 'choferes'
@@ -152,7 +152,7 @@ class Cliente(ModeloBase):
 		return f"{self.codigo}-{self.denominacion}"
 
 	class Meta:
-	# ordering = ['1',]
+		ordering = ['denominacion',]
 		db_table = 'bascula_cliente'
 		verbose_name = 'cliente'
 		verbose_name_plural = 'clientes'
@@ -186,7 +186,7 @@ class Producto(ModeloBase):
 	def __str__(self):
 		return f"{self.codigo} - {self.denominacion}"
 	class Meta:
-	# ordering = ['1',]
+		ordering = ['denominacion',]
 		db_table = 'bascula_producto'
 		verbose_name = 'producto'
 		verbose_name_plural = 'productos'

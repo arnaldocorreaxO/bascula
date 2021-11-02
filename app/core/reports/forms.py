@@ -7,17 +7,12 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
+
+    cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
+    producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
+    vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.filter(activo__exact=True).order_by('matricula'), empty_label="(Todos)")
+    chofer = forms.ModelChoiceField(queryset=Chofer.objects.filter(activo__exact=True).order_by('nombre','apellido'), empty_label="(Todos)")
    
-    cliente = forms.ChoiceField(choices=[
-    (item.id, item) for item in Cliente.objects.filter(activo__exact=True).order_by('denominacion')])
-    producto = forms.ChoiceField(choices=[
-    (item.id, item) for item in Producto.objects.filter(activo__exact=True).order_by('denominacion')])
-    vehiculo = forms.ChoiceField(choices=[
-    (item.id, item ) for item in Vehiculo.objects.filter(activo__exact=True).order_by('matricula')])
-    chofer = forms.ChoiceField(choices=[
-    (item.id, item) for item in Chofer.objects.filter(activo__exact=True).order_by('apellido','nombre')])
-
-
     cliente.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     producto.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})

@@ -47,20 +47,25 @@ class MovimientoList(PermissionMixin,FormView):
 				data =[]
 				start_date = request.POST['start_date']
 				end_date = request.POST['end_date']
-				cliente = request.POST['cliente']
-				producto = request.POST['producto']
-				chofer = request.POST['chofer']
-				vehiculo = request.POST['vehiculo']
+				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None
+				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
+				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None
+
+				cliente= ",".join(cliente) if cliente!=[''] else None
+				producto = ",".join(producto) if producto!=[''] else None
+				vehiculo= ",".join(vehiculo) if vehiculo!=[''] else None
+				chofer = ",".join(chofer) if chofer!=[''] else None
 
 				_where = "1 = 1"
-				if len(cliente):
-					_where += f" AND bascula_movimiento.cliente_id = '{cliente}'"
-				if len(producto):
-					_where += f" AND bascula_movimiento.producto_id = '{producto}'"
-				if len(chofer):
-					_where += f" AND bascula_movimiento.chofer_id = '{chofer}'"
-				if len(vehiculo):
-					_where += f" AND bascula_movimiento.vehiculo_id = '{vehiculo}'"
+				if cliente:
+					_where += f" AND bascula_movimiento.cliente_id IN ({cliente})"
+				if producto:
+					_where += f" AND bascula_movimiento.producto_id IN ({producto})"
+				if chofer:
+					_where += f" AND bascula_movimiento.chofer_id IN ({chofer})"
+				if vehiculo:
+					_where += f" AND bascula_movimiento.vehiculo_id IN ({vehiculo})"
 				# peso_salida__lte=0
 				# qs = Movimiento.objects.filter()\
 				# 					.extra(where=[_where])\

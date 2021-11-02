@@ -22,16 +22,22 @@ function initTable() {
 
 
 function getData(all) {
+    /*Cuando el objecto select es multiple retorna un array []
+    Si utilizamos select_cliente.val()            retorna la variable cliente[]=[''] Ej. cadena vacía
+    Utilizamos    select_cliente.val().join(", ") retorna la variable cliente  =[''] Ej. cadena vacía    
+    
+    */
 
     var parameters = {
         'action': 'search',
         'start_date': input_daterange.data('daterangepicker').startDate.format('YYYY-MM-DD'),
         'end_date': input_daterange.data('daterangepicker').endDate.format('YYYY-MM-DD'),
-        'cliente': select_cliente.val(),
-        'producto': select_producto.val(),
-        'chofer': select_chofer.val(),
-        'vehiculo': select_vehiculo.val(),        
+        'cliente': select_cliente.val().join(", "),
+        'producto': select_producto.val().join(", "),
+        'chofer': select_chofer.val().join(", "),
+        'vehiculo': select_vehiculo.val().join(", "),        
     };
+
 
     if (all) {
         parameters['start_date'] = '';

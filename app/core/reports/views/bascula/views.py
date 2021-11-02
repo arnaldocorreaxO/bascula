@@ -29,11 +29,11 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				data = []
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
-				fecha_hasta = date_range[13:].strip()				
-				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None
+				fecha_hasta = date_range[13:].strip()					
+				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
 				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
-				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None	
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None		
 				#CONFIG				 
 				report = JasperReportBase()  
 				report.report_name  = 'rpt_bascula001'
@@ -41,10 +41,10 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR CLIENTE Y PRODUCTO'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()
@@ -92,10 +92,10 @@ class RptBascula002ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR VEHICULO Y PRODUCTO'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()
@@ -143,10 +143,10 @@ class RptBascula003ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR CLIENTE Y PRODUCTO'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()
@@ -194,10 +194,10 @@ class RptBascula004ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()
@@ -245,10 +245,10 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()
@@ -299,10 +299,10 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO3'] = 'INFORME DIARIO TOTALES PÓR CLIENTES Y PRODUCTOS'				
-				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente else None
-				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto else None
-				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo else None
-				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				return report.render_to_response()

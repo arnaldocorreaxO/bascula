@@ -14,24 +14,40 @@ from core.bascula.models import (Categoria, ClienteProducto, Movimiento, Chofer,
 ====================
 ===   SHEARCH    ===
 ==================== '''
-class SearchForm(forms.ModelForm):
+# class SearchForm(forms.ModelForm):
+#     # Extra Fields
+#     date_range = forms.CharField(widget=forms.TextInput(attrs={
+#         'class': 'form-control',
+#         'autocomplete': 'off'
+#     }))
+
+#     class Meta:
+#         model = Movimiento
+#         fields = '__all__'
+#         widgets = {
+#             'cliente': forms.Select(attrs={'class': 'form-control select2', }),
+#             'producto': forms.Select(attrs={'class': 'form-control select2', }),
+#             'vehiculo': forms.Select(attrs={'class': 'form-control select2', }),
+#             'chofer': forms.Select(attrs={'class': 'form-control select2', }),
+#             # 'tipo_voto': forms.Select(attrs={'class': 'form-control select2', }),
+#         }
+
+class SearchForm(forms.Form):
     # Extra Fields
     date_range = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
         'autocomplete': 'off'
     }))
 
-    class Meta:
-        model = Movimiento
-        fields = '__all__'
-        widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control select2', }),
-            'producto': forms.Select(attrs={'class': 'form-control select2', }),
-            'vehiculo': forms.Select(attrs={'class': 'form-control select2', }),
-            'chofer': forms.Select(attrs={'class': 'form-control select2', }),
-            # 'tipo_voto': forms.Select(attrs={'class': 'form-control select2', }),
-        }
-      
+    cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'),empty_label="(Todos)")
+    producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
+    vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.filter(activo__exact=True).order_by('matricula'), empty_label="(Todos)")
+    chofer = forms.ModelChoiceField(queryset=Chofer.objects.filter(activo__exact=True).order_by('nombre','apellido'), empty_label="(Todos)")
+   
+    cliente.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
+    producto.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
+    vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
+    chofer.widget.attrs.update({'class': 'form-control select2','multiple':'true'})  
 
 ''' 
 ====================
