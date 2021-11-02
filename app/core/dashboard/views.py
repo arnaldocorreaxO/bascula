@@ -83,12 +83,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 data = []
                 year = datetime.datetime.now().year
                 for i in Movimiento.objects.values('fecha__month') \
-                        .filter(cliente=2, producto=2, fecha__year=year)\
+                        .filter(producto=2, fecha__year=year)\
+                        .exclude(cliente=1)\
                         .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('fecha__month'):
                     #Utilizamos una fecha cualquiera para retornar solo el mes ;)
-                    mes = datetime.date(1900, i['fecha__month'], 1).strftime(
-                        '%B').capitalize()
+                    mes = datetime.date(1900, i['fecha__month'], 1).strftime('%B').capitalize()
                     data.append({'name':  mes,
                                  'data': [i['tot_recepcion']/1000]})
                     # print(data)
