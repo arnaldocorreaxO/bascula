@@ -71,9 +71,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 month = datetime.datetime.now().month
                 year = datetime.datetime.now().year
                 for i in Movimiento.objects.values('fecha') \
-                        .filter(cliente=2, producto=2, fecha__month=month, fecha__year=year)\
-                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
-                        .order_by('fecha'):
+                    .filter(producto=2, fecha__month=month, fecha__year=year)\
+                    .exclude(cliente=1)\
+                    .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
+                    .order_by('fecha'):
                     data.append({'name':  i['fecha'].strftime('%d'),
                                  'data': [i['tot_recepcion']/1000]})
                     # print(data)
