@@ -272,7 +272,7 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 
 '''REPORTE 007'''
 class RptBascula007ReportView(ModuleMixin, FormView):
-	template_name = 'bascula/reports/rpt_bascula004.html'
+	template_name = 'bascula/reports/rpt_bascula007.html'
 	form_class = ReportForm
 
 	@method_decorator(csrf_exempt)
@@ -285,9 +285,20 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 		try:
 			if action == 'report':
 				data = []
+				# Rango de Fecha
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
-				fecha_hasta = date_range[13:].strip()				
+				fecha_hasta = date_range[13:].strip()
+				# Rango de Hora de Entrada				
+				time_range_in = request.POST['time_range_in']
+				hora_ent_desde = time_range_in[:8].strip()
+				hora_ent_hasta = time_range_in[10:].strip()	
+				# Rango de Hora de Salida			
+				time_range_out = request.POST['time_range_out']
+				hora_sal_desde = time_range_out[:8].strip()
+				hora_sal_hasta = time_range_out[10:].strip()				
+		
+			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
 				# vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
@@ -305,6 +316,11 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				# report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
+				report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
+				report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
+				report.params['P_HORA_SAL_DESDE'] = hora_sal_desde
+				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta
+
 				return report.render_to_response()
 
 			else:

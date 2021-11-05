@@ -7,6 +7,14 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
+    time_range_in = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
+    time_range_out = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
 
     cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
     producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
