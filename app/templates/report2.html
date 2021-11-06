@@ -23,6 +23,7 @@
             <div class="card-body" style="display: block;">
                 <div class="container-fluid">
                     <input type="hidden" name="action" id="action" value="{{ action }}">
+                    <input type="hidden" name="tipo" id="tipo" value="pdf">
                     {% csrf_token %}
                     {# Forms Visible #}
                     <!-- {{ form.as_p}} -->
@@ -43,10 +44,13 @@
             {% block box_footer %}
                 <div class="card-footer">
                     {% block buttons %}
-                        <button type="submit" class="btn btn-success btn-flat">
-                            <i class="far fa-file-alt"></i> Visualizar
+                        <button type="submit" class="btn btn-danger btn-flat" value="pdf">
+                            <i class="far fa-file-pdf"></i> Ver PDF
                         </button>
-                        <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                        <button type="submit" class="btn btn-success btn-flat" value="xls">
+                            <i class="far fa-file-excel"></i> Ver Excel
+                        </button>
+                        <a href="{{ list_url }}" class="btn btn-secondary btn-flat">
                             <i class="fas fa-times"></i> Cancelar
                         </a>
                     {% endblock %}
