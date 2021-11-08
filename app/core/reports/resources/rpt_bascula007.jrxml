@@ -368,7 +368,7 @@ ULTIMA SALIDA]]></text>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["TOTALES  - " + $F{cliente} +" - " + $F{producto} + " :"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["TOTALES (" + $F{cliente} + ") - (" + $F{producto} + ") :"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
