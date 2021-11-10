@@ -13,6 +13,13 @@
         }
     </style>
 
+    <script src="{% static '/js/graphics/gph_bascula001.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula002.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula003.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula004.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula005.js' %}"></script>
+
+
 {% endblock %}
 {% load widget_tweaks %}
 {% block breadcrumb %}
@@ -192,7 +199,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimientos del Día {{ current_date }}</h3>
+                            <!-- <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimientos del Día {{ current_date }}</h3> -->
                         </div>
                         <div class="card-body p-0">
                             <div class="container-fluid p-3" id="graph_2">
@@ -205,7 +212,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimiento Clinker Mes de {{ current_month }} Actualizado: {{ current_date }}</h3>
+                            <!-- <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimiento Clinker Mes de {{ current_month }} Actualizado: {{ current_date }}</h3> -->
                         </div>
                         <div class="card-body p-0">
                             <div class="container-fluid p-3" id="graph_3">
@@ -219,7 +226,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimiento Clinker Año {{ current_year }} Actualizado: {{ current_date }}</h3>
+                            <!-- <h3 class="card-title"><i class="fas fa-calendar-check"></i> Movimiento Clinker Año {{ current_year }} Actualizado: {{ current_date }}</h3> -->
                         </div>
                         <div class="card-body p-0">
                             <div class="container-fluid p-3" id="graph_4">
@@ -232,7 +239,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-calendar-check"></i> Cantidad de Vehiculos por Productos - {{ current_date }}</h3>
+                        <!-- <h3 class="card-title"><i class="fas fa-calendar-check"></i> Cantidad de Vehiculos por Productos - {{ current_date }}</h3> -->
                     </div>
                     <div class="card-body p-0">
                         <div class="container-fluid p-3" id="graph_5">
@@ -241,353 +248,24 @@
                 </div>
             </div>
             
-            
-            
-            
-            <script>
-                var graph_1 = Highcharts.chart('graph_1', {
-                    chart: {
-                        type: 'pie',
-                        options3d: {
-                            enabled: true,
-                            alpha: 45,
-                            beta: 0
-                        }
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    title: {
-                        text: ''
-                    },
-                    accessibility: {
-                        point: {
-                            valueSuffix: '%'
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: 'Stock: <b>{point.y:.2f} TON</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            depth: 35,
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                            }
-                        }
-                    },
-                });
 
-                function get_graph_1() {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'get_graph_1'
-                        },
-                        dataType: 'json',
-                    }).done(function (request) {
-                        if (!request.hasOwnProperty('error')) {
-                            graph_1.addSeries(request);
-                            return false;
-                        }
-                        message_error(request.error);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                }
-
-                function get_graph_2() {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'get_graph_2'
-                        },
-                        dataType: 'json',
-                    }).done(function (request) {
-                        if (!request.hasOwnProperty('error')) {
-                            Highcharts.chart('graph_2', {
-                                chart: {
-                                    type: 'column'
-                                },
-                                title: {
-                                    text: ''
-                                },
-                                subtitle: {
-                                    text: ''
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                xAxis: {
-                                    categories: [
-                                    'PRODUCTOS'                                 
-                                    ],
-                                    crosshair: true
-                                },
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: 'TONELADAS'
-                                    }
-                                },
-                                tooltip: {
-                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                        '<td style="padding:0"><b>{point.y:.2f} TON</b></td></tr>',
-                                    footerFormat: '</table>',
-                                    shared: true,
-                                    useHTML: true
-                                },
-                                plotOptions: {
-                                    column: {
-                                        pointPadding: 0.2,
-                                        borderWidth: 0
-                                    },
-                                    series: {
-                                        dataLabels: {
-                                            enabled: true,
-                                            format: '<b>{point.y:.2f}',
-                                            style: {
-                                                fontSize: 20 + 'px'
-                                            }
-                                        }
-                                    }
-                                },
-                                series: request
-                            });
-                            return false;
-                        }
-                        message_error(request.error);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                }
-
-                function get_graph_3() {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'get_graph_3'
-                        },
-                        dataType: 'json',
-                    }).done(function (request) {
-                        if (!request.hasOwnProperty('error')) {
-                            Highcharts.chart('graph_3', {
-                                chart: {
-                                    type: 'column'
-                                },
-                                title: {
-                                    text: ''
-                                },
-                                subtitle: {
-                                    text: ''
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                xAxis: {
-                                    categories: [
-                                    'DIA'                                 
-                                    ],
-                                    crosshair: true
-                                },
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: 'TONELADAS'
-                                    }
-                                },
-                                tooltip: {
-                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                        '<td style="padding:0"><b>{point.y:.2f} TON</b></td></tr>',
-                                    footerFormat: '</table>',
-                                    shared: true,
-                                    useHTML: true
-                                },
-                                plotOptions: {
-                                    column: {
-                                        pointPadding: 0.2,
-                                        borderWidth: 0
-                                    },
-                                    series: {
-                                        dataLabels: {
-                                            enabled: true,
-                                            format: '<b>{point.y:.2f}',
-                                            style: {
-                                                fontSize: 20 + 'px'
-                                            }
-                                        }
-                                    }
-                                },
-                                series: request
-                            });
-                            return false;
-                        }
-                        message_error(request.error);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                }
-                function get_graph_4() {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'get_graph_4'
-                        },
-                        dataType: 'json',
-                    }).done(function (request) {
-                        if (!request.hasOwnProperty('error')) {
-                            Highcharts.chart('graph_4', {
-                                chart: {
-                                    type: 'column'
-                                },
-                                title: {
-                                    text: ''
-                                },
-                                subtitle: {
-                                    text: ''
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                xAxis: {
-                                    categories: [
-                                    'MES'                                 
-                                    ],
-                                    crosshair: true
-                                },
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: 'TONELADAS'
-                                    }
-                                },
-                                tooltip: {
-                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                        '<td style="padding:0"><b>{point.y:.2f} TON</b></td></tr>',
-                                    footerFormat: '</table>',
-                                    shared: true,
-                                    useHTML: true
-                                },
-                                plotOptions: {
-                                    column: {
-                                        pointPadding: 0.2,
-                                        borderWidth: 0
-                                    },
-                                    series: {
-                                        dataLabels: {
-                                            enabled: true,
-                                            format: '<b>{point.y:.2f}',
-                                            style: {
-                                                fontSize: 20 + 'px'
-                                            }
-                                        }
-                                    }
-                                },
-                                series: request
-                            });
-                            return false;
-                        }
-                        message_error(request.error);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                }
-
-                function get_graph_5() {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'get_graph_5'
-                        },
-                        dataType: 'json',
-                    }).done(function (request) {
-                        if (!request.hasOwnProperty('error')) {
-                            console.log(request.series);
-                            Highcharts.chart('graph_5', {
-                                chart: {
-                                    type: 'bar'
-                                },
-                                title: {
-                                    text: ''
-                                },
-                                subtitle: {
-                                    text: ''
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                xAxis: request.xAxis,
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: 'Cantidad Vehiculos'
-                                    }
-                                },
-                                tooltip: {
-                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
-                                    footerFormat: '</table>',
-                                    shared: true,
-                                    useHTML: true
-                                },
-                                plotOptions: {
-                                    column: {
-                                        pointPadding: 0.2,
-                                        borderWidth: 0
-                                    },
-                                    series: {
-                                        dataLabels: {
-                                            enabled: true,
-                                            format: '<b>{point.y}',
-                                            style: {
-                                                fontSize: 20 + 'px'
-                                            }
-                                        }
-                                    }
-                                },
-                                series: request.series
-                            });
-                            return false;
-                        }
-                        message_error(request.error);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                }
+            <script> 
 
                 function init() {
+                    currentYear  = "{{current_year}}";
+                    currentMonth = "{{current_month}}";
+                    currentDate  = "{{current_date}}";
                     get_graph_1();
-                    get_graph_2();
-                    get_graph_3();
-                    get_graph_4();
-                    get_graph_5();
+                    get_graph_2(currentDate);
+                    get_graph_3(currentMonth,currentDate);
+                    get_graph_4(currentYear,currentDate);
+                    get_graph_5(currentDate);
                 }
 
                 $(function () {
                     init();
                 });
+
             </script>
         </div>
     {% endif %}

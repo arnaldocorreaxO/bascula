@@ -45,6 +45,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 hoy = datetime.datetime.now()
                 for i in Movimiento.objects.values('producto__denominacion') \
                         .filter(fecha=hoy, peso_neto__gt=0)\
+                        .exclude(anulado=True)\
                         .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
                         .order_by('-tot_recepcion'):
                     info.append([i['producto__denominacion'],
@@ -58,46 +59,180 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 }
             elif action == 'get_graph_2':
                 data = []
+                categorias=[]
+                val_tot_recepcion_series=[]
+                val_tot_recepcion_series_data=[]
+                val_ctd_recepcion_series=[]
+                val_ctd_recepcion_series_data=[]
+
                 now = datetime.datetime.now()
-                for i in Movimiento.objects.values('producto__denominacion', 'cliente__denominacion') \
-                        .filter(fecha=now, peso_neto__gt=0)\
-                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
-                        .order_by('-tot_recepcion'):
-                    data.append({'name':  i['producto__denominacion'] + ' - ' + i['cliente__denominacion'],
-                                 'data': [i['tot_recepcion']/1000]})
+
+                movimientos = Movimiento.objects\
+                            .values('producto__denominacion', 'cliente__denominacion') \
+                            .filter(fecha=now, peso_neto__gt=0)\
+                            .exclude(anulado=True)\
+                            .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+                                      ctd_recepcion=Count(True)) \
+                            .order_by('-tot_recepcion')
+                for i in movimientos:
+
+                    # CATEGORIAS DENOMINACION DE LOS PRODUCTOS + CLIENTES
+                    categorias.append(i['producto__denominacion'] + ' - ' + i['cliente__denominacion'])
+                     # SERIES           
+                    val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
+                    val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+                
+                val_tot_recepcion_series = {
+                    'name': 'Toneladas',
+                    'data': val_tot_recepcion_series_data,
+                    'dataLabels': {
+                                            'enabled': 'true',
+                                            'format': "<b>{point.y:.2f}",
+                                            'style': {
+                                                'fontSize': "20 + 'px'"
+                                            }
+                                        }
+                }
+                val_ctd_recepcion_series = {
+                    'name': 'Viajes',
+                    'data': val_ctd_recepcion_series_data,
+                    'dataLabels': {
+                                            'enabled': 'true',
+                                            'format': "<b>{point.y:.0f}",
+                                            'style': {
+                                                'fontSize': "20 + 'px'"
+                                            }
+                                        }
+                }
+                data = {
+                'categories': categorias,
+                'series': [val_tot_recepcion_series,val_ctd_recepcion_series]
+                }
+                # print(data)
 
             elif action == 'get_graph_3':
                 data = []
+                categorias=[]
+                val_tot_recepcion_series=[]
+                val_tot_recepcion_series_data=[]
+                val_ctd_recepcion_series=[]
+                val_ctd_recepcion_series_data=[]
+               
                 month = datetime.datetime.now().month
                 year = datetime.datetime.now().year
-                for i in Movimiento.objects.values('fecha') \
-                    .filter(producto=2, fecha__month=month, fecha__year=year)\
-                    .exclude(cliente=1)\
-                    .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
-                    .order_by('fecha'):
-                    data.append({'name':  i['fecha'].strftime('%d'),
-                                 'data': [i['tot_recepcion']/1000]})
-                    # print(data)
-
+                movimientos = Movimiento.objects\
+                            .values('fecha') \
+                            .filter(producto=2, fecha__month=month, fecha__year=year)\
+                            .exclude(cliente=1)\
+                            .exclude(anulado=True)\
+                            .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+                                      ctd_recepcion=Count(True)) \
+                            .order_by('fecha')
+                #.exclude(anulado=True)\ Este debe ir solo no combinar con otros campos la razon es que 
+                # no genera de forma correcta el query 
+                # NOT (anulado=True and otro_campo=1) 
+                # esto es igual a (False and True) = False
+                # print(movimientos.query)
+                for i in movimientos:
+                    # CATEGORIAS Dias 1 al 31
+                    categorias.append(i['fecha'].strftime('%d'))
+                    # SERIES           
+                    val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
+                    val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+                   
+                val_tot_recepcion_series = {
+                    'name': 'Toneladas',
+                    'data': val_tot_recepcion_series_data,
+                    'color':'#f9975d',
+                    'dataLabels': {
+                                            'enabled': 'true',
+                                            'format': "<b>{point.y:.2f}",
+                                            'style': {
+                                                'fontSize': "20 + 'px'"
+                                            }
+                                        }
+                }
+                val_ctd_recepcion_series = {
+                    'name': 'Viajes',
+                    'data': val_ctd_recepcion_series_data,
+                     'color':'#090910',
+                    'dataLabels': {
+                                            'enabled': 'true',
+                                            'format': "<b>{point.y:.0f}",
+                                            'style': {
+                                                'fontSize': "20 + 'px'"
+                                            }
+                                        }
+                }
+                data = {
+                'categories': categorias,
+                'series': [val_tot_recepcion_series,val_ctd_recepcion_series]
+                }
+                # print(data)
+                # data['series'] = data
+                # print(data)
             elif action == 'get_graph_4':
                 data = []
+                categorias=[]
+                val_tot_recepcion_series=[]
+                val_tot_recepcion_series_data=[]
+                val_ctd_recepcion_series=[]
+                val_ctd_recepcion_series_data=[]
                 year = datetime.datetime.now().year
-                for i in Movimiento.objects.values('fecha__month') \
-                        .filter(producto=2, fecha__year=year)\
-                        .exclude(cliente=1)\
-                        .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
-                        .order_by('fecha__month'):
+                movimientos = Movimiento.objects\
+                            .values('fecha__month') \
+                            .filter(producto=2, fecha__year=year)\
+                            .exclude(cliente=1)\
+                            .exclude(anulado=True)\
+                            .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+                                      ctd_recepcion=Count(True)) \
+                            .order_by('fecha__month')
+                for i in movimientos:
+                    # CATEGORIAS MESES
                     #Utilizamos una fecha cualquiera para retornar solo el mes ;)
                     mes = datetime.date(1900, i['fecha__month'], 1).strftime('%B').capitalize()
-                    data.append({'name':  mes,
-                                 'data': [i['tot_recepcion']/1000]})
-                    # print(data)
+                    categorias.append(mes)
+                    # SERIES           
+                    val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
+                    val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+                
+                val_tot_recepcion_series = {
+                    'name': 'Toneladas',
+                    'data': val_tot_recepcion_series_data,
+                    'color':'#a9ff96',
+                    'dataLabels': {
+                                            'enabled': 'true',
+                                            'format': "<b>{point.y:.2f}",                          
+                                            'style': {
+                                                'fontSize': '14px'
+                                            }
+                                        }
+                }
+                val_ctd_recepcion_series = {
+                    'name': 'Viajes',
+                    'data': val_ctd_recepcion_series_data,
+                    'color':'#090910',
+                    'dataLabels': {
+                                            'enabled': 'true',                                            
+                                            'format': "<b>{point.y:.0f}",
+                                            'style': {
+                                                'fontSize': '14px'
+                                            }
+                                        }
+                }
+                data = {
+                'categories': categorias,
+                'series': [val_tot_recepcion_series,val_ctd_recepcion_series]
+                }
+
+                print(data)
 
             elif action == 'get_graph_5':
                 now = datetime.datetime.now()
                 dataset = Movimiento.objects \
                                     .values('producto__denominacion', 'cliente__denominacion') \
                                     .filter(fecha=now)\
+                                    .exclude(anulado=True)\
                                     .annotate(vehiculo_entrada_count=Count('id'),
                                               vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
                                         vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
