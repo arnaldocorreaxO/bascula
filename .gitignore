@@ -4,6 +4,6 @@
 env/* 
 *.directory 
 */.directory
-app/core/reports/jasperbase.py
+#app/core/reports/jasperbase.py
 app/deploy/start_bascula.bat
 *.pdf
