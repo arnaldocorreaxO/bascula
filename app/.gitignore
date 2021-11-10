@@ -11,6 +11,8 @@ db*.sqlite3
 db.sqlite3-journal
 media
 # app/core/reports/jasperbase.py
+app/core/reports/*.xls
+app/core/reports/*.xlsx
 app/deploy/start_bascula.bat
 
 
