@@ -1,4 +1,4 @@
-function get_graph_2(currentDate) {
+function get_graph_2(args) {
     $.ajax({
         url: window.location.pathname,
         type: 'POST',
@@ -13,10 +13,10 @@ function get_graph_2(currentDate) {
                     type: 'column'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento del Día ' + currentDate + '</span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento del Día ' + args[2] + '</span>'
                 },
                 subtitle: {
-                    text: ''
+                    text: args[0] + '<br> Actualizado: '+ args[1]
                 },
                 exporting: {
                     enabled: true

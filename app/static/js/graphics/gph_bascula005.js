@@ -1,4 +1,4 @@
-function get_graph_5(currentDate) {
+function get_graph_5(args) {
     $.ajax({
         url: window.location.pathname,
         type: 'POST',
@@ -14,10 +14,10 @@ function get_graph_5(currentDate) {
                     type: 'bar'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Cantidad de Vehículos por Productos - ' + currentDate + '</span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Cantidad de Vehículos por Productos </span>'
                 },
                 subtitle: {
-                    text: ''
+                    text: args[0] + '<br> Actualizado: '+ args[1]
                 },
                 exporting: {
                     enabled: true

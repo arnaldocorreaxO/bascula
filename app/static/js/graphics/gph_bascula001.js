@@ -1,4 +1,5 @@
-function get_graph_1() {
+
+function get_graph_1(args) {
 
     var graph_1 = Highcharts.chart('graph_1', {
         chart: {
@@ -14,6 +15,9 @@ function get_graph_1() {
         },
         title: {
             text: ''
+        },
+        subtitle: {
+            text: args[0] + '<br> Actualizado: '+ args[1]
         },
         accessibility: {
             point: {

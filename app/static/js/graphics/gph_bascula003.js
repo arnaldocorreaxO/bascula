@@ -1,4 +1,4 @@
-function get_graph_3(currentMonth,currentDate) {
+function get_graph_3(args) {
     $.ajax({
         url: window.location.pathname,
         type: 'POST',
@@ -13,10 +13,10 @@ function get_graph_3(currentMonth,currentDate) {
                     type: 'column'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento Clinker Mes de  ' + currentMonth + ' Actualizado: ' + currentDate + '</span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento Clinker Mes de  ' + args[3] + ' de ' + args[4] + '</span>'
                 },
                 subtitle: {
-                    text: ''
+                    text: args[0] + '<br> Actualizado: '+ args[1]
                 },
                 exporting: {
                     enabled: true,                

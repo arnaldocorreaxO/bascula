@@ -15,6 +15,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 from django.views.generic import TemplateView
+from core.user.models import User
 
 locale.setlocale(locale.LC_TIME, '')
 
@@ -122,7 +123,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 year = datetime.datetime.now().year
                 movimientos = Movimiento.objects\
                             .values('fecha') \
-                            .filter(producto=2, fecha__month=month, fecha__year=year)\
+                            .filter(producto=2, fecha__month=month, fecha__year=year,peso_neto__gt=0)\
                             .exclude(cliente=1)\
                             .exclude(anulado=True)\
                             .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
@@ -133,12 +134,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 # NOT (anulado=True and otro_campo=1) 
                 # esto es igual a (False and True) = False
                 # print(movimientos.query)
-                for i in movimientos:
+                for mov in movimientos:
                     # CATEGORIAS Dias 1 al 31
-                    categorias.append(i['fecha'].strftime('%d'))
+                    categorias.append(mov['fecha'].strftime('%d'))
                     # SERIES           
-                    val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
-                    val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+                    val_tot_recepcion_series_data.append(mov['tot_recepcion']/1000)          
+                    val_ctd_recepcion_series_data.append(mov['ctd_recepcion'])
                    
                 val_tot_recepcion_series = {
                     'name': 'Toneladas',
@@ -181,20 +182,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 year = datetime.datetime.now().year
                 movimientos = Movimiento.objects\
                             .values('fecha__month') \
-                            .filter(producto=2, fecha__year=year)\
+                            .filter(producto=2, fecha__year=year, peso_neto__gt=0)\
                             .exclude(cliente=1)\
                             .exclude(anulado=True)\
                             .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
                                       ctd_recepcion=Count(True)) \
                             .order_by('fecha__month')
-                for i in movimientos:
+                for mov in movimientos:
                     # CATEGORIAS MESES
                     #Utilizamos una fecha cualquiera para retornar solo el mes ;)
-                    mes = datetime.date(1900, i['fecha__month'], 1).strftime('%B').capitalize()
+                    mes = datetime.date(1900, mov['fecha__month'], 1).strftime('%B').capitalize()
                     categorias.append(mes)
                     # SERIES           
-                    val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
-                    val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+                    val_tot_recepcion_series_data.append(mov['tot_recepcion']/1000)          
+                    val_ctd_recepcion_series_data.append(mov['ctd_recepcion'])
                 
                 val_tot_recepcion_series = {
                     'name': 'Toneladas',
@@ -225,7 +226,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 'series': [val_tot_recepcion_series,val_ctd_recepcion_series]
                 }
 
-                print(data)
+                # print(data)
 
             elif action == 'get_graph_5':
                 now = datetime.datetime.now()
@@ -235,7 +236,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     .exclude(anulado=True)\
                                     .annotate(vehiculo_entrada_count=Count('id'),
                                               vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
-                                        vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
+                                              vehiculo_pendiente_count=Count('id', filter=Q(peso_neto=0))) \
                                     .order_by('producto__denominacion')
                 # print(dataset)
 
@@ -287,14 +288,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Panel de administración'
-        context['current_date'] = datetime.datetime.today().strftime("%d/%m/%Y %H:%M:%S")
-        context['current_month'] = datetime.datetime.today().strftime("%B de %Y")
-        context['current_year'] = datetime.datetime.today().strftime("%Y")
-        context['company'] = Empresa.objects.first()
+        context['fecha_actual'] = datetime.datetime.today().strftime("%d/%m/%Y")
+        context['fecha_hora_actual'] = datetime.datetime.today().strftime("%d/%m/%Y %H:%M:%S")
+        context['mes_actual'] = datetime.datetime.today().strftime("%B").capitalize()
+        context['anho_actual'] = datetime.datetime.today().strftime("%Y")
+        context['empresa'] = Empresa.objects.first()
         context['clientes'] = Cliente.objects.all().count()
         context['categorias'] = Categoria.objects.filter().count()
         context['productos'] = Producto.objects.all().count()
-        context['movimiento'] = Movimiento.objects.filter().order_by('-id')[0:10]
+        context['movimientos'] = Movimiento.objects.filter().order_by('-id')[0:10]
+        context['usuario'] = User.objects.filter(id=self.request.user.id).first()
         return context
 
 

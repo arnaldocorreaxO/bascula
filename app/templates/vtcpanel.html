@@ -11,6 +11,13 @@
             font-size: 12px;
             color: black;
         }
+        /* href */
+        a {
+        text-decoration: none;
+        } 
+        a:visited {
+        color: black;
+        }
     </style>
 
     <script src="{% static '/js/graphics/gph_bascula001.js' %}"></script>
@@ -102,18 +109,22 @@
             </div>
         </div>
     {% else %}
+    
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-info"><i class="fas fa-user-friends"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Clientes</span>
-                            <span class="info-box-number">
-                        {{ clientes }}
-                    </span>
+                    <a href="{% url 'cliente_list' %}" class="small-box-footer">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fas fa-user-friends"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Clientes</span>
+                                <span class="info-box-number">
+                                    {{ clientes }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                        <!-- More info <i class="fas fa-arrow-circle-right"></i> -->
+                    </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="info-box">
@@ -121,32 +132,36 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Proveedores</span>
                             <span class="info-box-number">
-                        {{ provider }}
-                    </span>
+                                {{ provider }}
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-warning"><i class="fas fa-truck-loading"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Categorías</span>
-                            <span class="info-box-number">
-                        {{ categorias }}
-                    </span>
+                    <a href="{% url 'categoria_list' %}" class="small-box-footer">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-truck-loading"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Categorías</span>
+                                <span class="info-box-number">
+                                    {{ categorias }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-danger"><i class="fas fa-box"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Productos</span>
-                            <span class="info-box-number">
-                        {{ productos }}
-                    </span>
+                    <a href="{% url 'producto_list' %}" class="small-box-footer">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fas fa-box"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Productos</span>
+                                <span class="info-box-number">
+                                    {{ productos }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -252,15 +267,19 @@
             <script> 
 
                 function init() {
-                    currentYear  = "{{current_year}}";
-                    currentMonth = "{{current_month}}";
-                    currentDate  = "{{current_date}}";
-                    get_graph_1();
-                    get_graph_2(currentDate);
-                    get_graph_3(currentMonth,currentDate);
-                    get_graph_4(currentYear,currentDate);
-                    get_graph_5(currentDate);
-                }
+                    args=[]
+                    args.push("{{usuario.sucursal.denominacion_corta}}");
+                    args.push("{{fecha_hora_actual}}");                    
+                    args.push("{{fecha_actual}}");                    
+                    args.push("{{mes_actual}}");
+                    args.push("{{anho_actual}}");
+                    
+                    get_graph_1(args);
+                    get_graph_2(args);
+                    get_graph_3(args);
+                    get_graph_4(args);
+                    get_graph_5(args);
+                };
 
                 $(function () {
                     init();
