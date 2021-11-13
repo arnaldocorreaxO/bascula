@@ -8,7 +8,7 @@ function get_graph_5(args) {
         dataType: 'json',
     }).done(function (request) {
         if (!request.hasOwnProperty('error')) {
-            console.log(request.series);
+            // console.log(request.series);
             Highcharts.chart('graph_5', {
                 chart: {
                     type: 'bar'
