@@ -12,7 +12,7 @@ class MonedaAdmin(ModeloAdminBase):
 
 class MovimientoAdmin(ModeloAdminBase):
     list_display = ('id','fecha','nro_ticket','cliente','producto','vehiculo','chofer','fec_impresion')
-    search_fields = ['id,cliente__denominacion','producto__denominacion','chofer__nombre',
+    search_fields = ['id','cliente__denominacion','producto__denominacion','chofer__nombre',
                      'chofer__apellido','nro_ticket','vehiculo__matricula']
     readonly_fields = ('fecha', 'nro_ticket','fec_entrada', 'fec_salida',
                        'usu_insercion', 'fec_insercion', 'usu_modificacion', 'fec_modificacion',)
