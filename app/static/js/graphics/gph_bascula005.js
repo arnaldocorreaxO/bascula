@@ -30,10 +30,10 @@ function get_graph_5(args) {
                     }
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    headerFormat:'<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
-                    footerFormat: '</table>',
+                                 '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                    footerFormat:'</table>',
                     shared: true,
                     useHTML: true
                 },
@@ -52,7 +52,7 @@ function get_graph_5(args) {
                             enabled: true,
                             format: '<b>{point.y}',
                             style: {
-                                fontSize: 20 + 'px'
+                                fontSize: 14 + 'px'
                             }
                         }
                     }
