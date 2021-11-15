@@ -13,10 +13,11 @@
         }
         /* href */
         a {
-        text-decoration: none;
+            text-decoration: none;
+            color: inherit;         
         } 
         a:visited {
-        color: black;
+            color: black;
         }
     </style>
 
@@ -183,13 +184,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for m in movimiento %}
+                                    {% for mov in movimientos %}
                                         <tr>              
-                                            <td class="text-center">{{ m.fec_insercion|date:"d/m/Y H:i:s" }}</td>
-                                            <td>{{ m.vehiculo.get_full_name }}</td>
-                                            <td>{{ m.chofer.get_full_name }}</td>
-                                            <td>{{ m.producto }}</td> 
-                                            <td class="text-right">{{ m.peso_neto }}</td>
+                                            <td class="text-center">{{ mov.fec_insercion|date:"d/m/Y H:i:s" }}</td>
+                                            <td>{{ mov.vehiculo.get_full_name }}</td>
+                                            <td>{{ mov.chofer.get_full_name }}</td>
+                                            <td>{{ mov.producto }}</td> 
+                                            <td class="text-right">{{ mov.peso_neto }}</td>
                                             
                                         </tr>
                                     {% endfor %}
