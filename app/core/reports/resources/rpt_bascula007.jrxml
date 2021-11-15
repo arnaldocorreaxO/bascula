@@ -139,7 +139,7 @@ ORDER BY 1,2,3]]>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{cliente}]]></groupExpression>
 	</group>
-	<group name="Group2">
+	<group name="Group2" isReprintHeaderOnEachPage="true" keepTogether="true" preventOrphanFooter="true">
 		<groupExpression><![CDATA[$F{producto}]]></groupExpression>
 		<groupHeader>
 			<band height="57">
@@ -157,7 +157,7 @@ ORDER BY 1,2,3]]>
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="540" y="32" width="39" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
+					<reportElement x="513" y="32" width="59" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -169,10 +169,11 @@ ORDER BY 1,2,3]]>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[TOTAL
-PESO NETO (Ton)]]></text>
+PESO NETO 
+(Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="420" y="32" width="40" height="20" uuid="f30a83f9-9858-4d01-8c6e-c102e57c4184"/>
+					<reportElement x="380" y="32" width="30" height="20" uuid="f30a83f9-9858-4d01-8c6e-c102e57c4184"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -183,7 +184,8 @@ PESO NETO (Ton)]]></text>
 						<font size="5" isBold="true"/>
 					</textElement>
 					<text><![CDATA[CANTIDAD 
-VIAJES X DIA]]></text>
+VIAJES 
+X DIA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="18" width="58" height="10" uuid="86c52a4c-a110-43f8-908a-5b90db041330"/>
@@ -214,7 +216,7 @@ VIAJES X DIA]]></text>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="499" y="32" width="41" height="20" uuid="c750d2e5-d067-4794-9a93-59d62dd85b5e"/>
+					<reportElement x="440" y="32" width="30" height="20" uuid="c750d2e5-d067-4794-9a93-59d62dd85b5e"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -225,7 +227,8 @@ VIAJES X DIA]]></text>
 						<font size="5" isBold="true"/>
 					</textElement>
 					<text><![CDATA[PROMEDIO
-TONEL. X VIAJES]]></text>
+TONEL. 
+X VIAJES]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="68" y="32" width="78" height="20" uuid="1128f071-59f2-45d6-994f-4e18c9729d0c"/>
@@ -284,7 +287,7 @@ PRIMERA SALIDA]]></text>
 ULTIMA SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="380" y="32" width="40" height="20" uuid="08a060c0-3f37-42de-8345-517d483e5f67"/>
+					<reportElement x="410" y="32" width="30" height="20" uuid="08a060c0-3f37-42de-8345-517d483e5f67"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -295,7 +298,8 @@ ULTIMA SALIDA]]></text>
 						<font size="5" isBold="true"/>
 					</textElement>
 					<text><![CDATA[PROMEDIO
-VIAJES X DIA]]></text>
+VIAJES 
+X DIA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="32" width="20" height="20" uuid="4347208d-51b5-49a6-8e30-b3d2032a4c94"/>
@@ -311,7 +315,7 @@ VIAJES X DIA]]></text>
 					<text><![CDATA[N°]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="460" y="32" width="39" height="20" uuid="7eae8136-c86d-4966-8ed5-8e7b10a24317"/>
+					<reportElement x="470" y="32" width="43" height="20" uuid="7eae8136-c86d-4966-8ed5-8e7b10a24317"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -322,14 +326,15 @@ VIAJES X DIA]]></text>
 						<font size="5" isBold="true"/>
 					</textElement>
 					<text><![CDATA[PROMEDIO
-TONEL. X DIA]]></text>
+TONELADAS
+X DIA]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="23">
 				<textField pattern="#,##0.00">
-					<reportElement x="540" y="0" width="39" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="513" y="0" width="59" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -342,7 +347,7 @@ TONEL. X DIA]]></text>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0">
-					<reportElement x="420" y="0" width="40" height="18" uuid="18afd1fd-6855-4ac3-a432-ebd58deeade6"/>
+					<reportElement x="380" y="0" width="30" height="18" uuid="18afd1fd-6855-4ac3-a432-ebd58deeade6"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -355,7 +360,7 @@ TONEL. X DIA]]></text>
 					<textFieldExpression><![CDATA[$V{V_SUM_VIAJES}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement x="499" y="0" width="41" height="18" uuid="512bafe8-4316-4ed4-b4dc-f6dbf55d48c6"/>
+					<reportElement x="440" y="0" width="30" height="18" uuid="512bafe8-4316-4ed4-b4dc-f6dbf55d48c6"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -368,7 +373,7 @@ TONEL. X DIA]]></text>
 					<textFieldExpression><![CDATA[$V{V_AVG_TOT_PESO}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement x="380" y="0" width="40" height="18" uuid="6fdaadc1-67e9-4188-be96-be5fe3241871"/>
+					<reportElement x="410" y="0" width="30" height="18" uuid="6fdaadc1-67e9-4188-be96-be5fe3241871"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -396,7 +401,7 @@ TONEL. X DIA]]></text>
 					<textFieldExpression><![CDATA["TOTALES (" + $F{cliente} + ") - (" + $F{producto} + ") :"]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement x="460" y="0" width="39" height="18" uuid="02643f6e-9a9d-4518-acf8-20e5589e510a"/>
+					<reportElement x="470" y="0" width="43" height="18" uuid="02643f6e-9a9d-4518-acf8-20e5589e510a"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -499,7 +504,7 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="540" y="0" width="39" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ElementGroupHeight" x="513" y="0" width="59" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -509,14 +514,14 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{total_neto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="420" y="0" width="40" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
+				<reportElement x="380" y="0" width="30" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cant_viaje}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="499" y="0" width="41" height="13" uuid="74e6bcab-46f2-4659-b69e-eed74e839549"/>
+				<reportElement x="440" y="0" width="30" height="13" uuid="74e6bcab-46f2-4659-b69e-eed74e839549"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
@@ -609,7 +614,7 @@ TONEL. X DIA]]></text>
 				<text><![CDATA[TOTALES GENERALES:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00">
-				<reportElement x="540" y="4" width="39" height="18" uuid="28f9859b-ae93-43ec-b925-3e1d713a80d2"/>
+				<reportElement x="513" y="4" width="59" height="18" uuid="28f9859b-ae93-43ec-b925-3e1d713a80d2"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -622,7 +627,7 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$V{V_RES_SUM_NETO}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
-				<reportElement x="420" y="4" width="40" height="18" uuid="1e4b0f36-565d-4c00-a790-c1ab5a104df1"/>
+				<reportElement x="380" y="4" width="30" height="18" uuid="1e4b0f36-565d-4c00-a790-c1ab5a104df1"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -635,7 +640,7 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$V{V_RES_SUM_VIAJES}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="499" y="4" width="41" height="18" uuid="4ecf5eb1-4b95-44b7-891f-c0ef2a7505f5"/>
+				<reportElement x="440" y="4" width="30" height="18" uuid="4ecf5eb1-4b95-44b7-891f-c0ef2a7505f5"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -648,7 +653,7 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$V{V_RES_AVG_TOT_PESO}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="380" y="4" width="40" height="18" uuid="2df6441e-0df4-43cb-b980-7e5a751464cc"/>
+				<reportElement x="410" y="4" width="30" height="18" uuid="2df6441e-0df4-43cb-b980-7e5a751464cc"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -661,7 +666,7 @@ TONEL. X DIA]]></text>
 				<textFieldExpression><![CDATA[$V{V_RES_AVG_VIAJES_X_DIA}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="460" y="4" width="39" height="18" uuid="79223d61-8c88-4592-91e4-2524f74a8d18"/>
+				<reportElement x="470" y="4" width="43" height="18" uuid="79223d61-8c88-4592-91e4-2524f74a8d18"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
