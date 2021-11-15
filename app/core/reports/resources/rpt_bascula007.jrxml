@@ -133,7 +133,7 @@ ORDER BY 1,2,3]]>
 	<variable name="V_RES_AVG_TOT_NETO_X_DIA" class="java.lang.Float">
 		<variableExpression><![CDATA[$V{V_RES_SUM_NETO}.floatValue()/$V{V_MAX_REPORT_COUNT}.floatValue()]]></variableExpression>
 	</variable>
-	<variable name="V_MAX_REPORT_COUNT" class="java.lang.Integer" calculation="Highest">
+	<variable name="V_MAX_REPORT_COUNT" class="java.lang.Integer" resetType="Master" calculation="Highest">
 		<variableExpression><![CDATA[$V{V_REPORT_COUNT}]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
@@ -599,7 +599,7 @@ X DIA]]></text>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="40">
+		<band height="41">
 			<staticText>
 				<reportElement x="0" y="4" width="380" height="18" uuid="b6035677-7f9f-4383-bc58-de64497ffc6e"/>
 				<box padding="3">
