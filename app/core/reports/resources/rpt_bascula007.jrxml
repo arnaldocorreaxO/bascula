@@ -112,6 +112,9 @@ ORDER BY 1,2,3]]>
 	<variable name="V_AVG_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Average">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
 	</variable>
+	<variable name="V_AVG_TOT_NETO_X_DIA" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Average">
+		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
+	</variable>
 	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Count">
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
@@ -125,16 +128,13 @@ ORDER BY 1,2,3]]>
 		<variableExpression><![CDATA[$V{V_RES_SUM_NETO}.floatValue()/$V{V_RES_SUM_VIAJES}.floatValue()]]></variableExpression>
 	</variable>
 	<variable name="V_RES_AVG_VIAJES_X_DIA" class="java.lang.Float">
-		<variableExpression><![CDATA[$V{V_RES_SUM_VIAJES}.floatValue()/$V{V_MAX_REPORT_COUNT}.floatValue()]]></variableExpression>
-	</variable>
-	<variable name="V_AVG_TOT_NETO_X_DIA" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Average">
-		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
+		<variableExpression><![CDATA[$V{V_RES_SUM_VIAJES}.floatValue()/$V{V_MAX_GROUP_COUNT}.floatValue()]]></variableExpression>
 	</variable>
 	<variable name="V_RES_AVG_TOT_NETO_X_DIA" class="java.lang.Float">
-		<variableExpression><![CDATA[$V{V_RES_SUM_NETO}.floatValue()/$V{V_MAX_REPORT_COUNT}.floatValue()]]></variableExpression>
+		<variableExpression><![CDATA[$V{V_RES_SUM_NETO}.floatValue()/$V{V_MAX_GROUP_COUNT}.floatValue()]]></variableExpression>
 	</variable>
-	<variable name="V_MAX_REPORT_COUNT" class="java.lang.Integer" resetType="Master" calculation="Highest">
-		<variableExpression><![CDATA[$V{V_REPORT_COUNT}]]></variableExpression>
+	<variable name="V_MAX_GROUP_COUNT" class="java.lang.Integer" resetType="Master" calculation="Highest">
+		<variableExpression><![CDATA[$V{Group2_COUNT}]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{cliente}]]></groupExpression>
@@ -142,7 +142,7 @@ ORDER BY 1,2,3]]>
 	<group name="Group2" isReprintHeaderOnEachPage="true" keepTogether="true" preventOrphanFooter="true">
 		<groupExpression><![CDATA[$F{producto}]]></groupExpression>
 		<groupHeader>
-			<band height="57">
+			<band height="52">
 				<staticText>
 					<reportElement x="20" y="32" width="48" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
@@ -332,7 +332,7 @@ X DIA]]></text>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="23">
+			<band height="18">
 				<textField pattern="#,##0.00">
 					<reportElement x="513" y="0" width="59" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<box>
@@ -491,7 +491,7 @@ X DIA]]></text>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="18" splitType="Stretch">
+		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
 				<reportElement stretchType="ElementGroupHeight" x="20" y="0" width="48" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
@@ -599,7 +599,7 @@ X DIA]]></text>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="41">
+		<band height="45">
 			<staticText>
 				<reportElement x="0" y="4" width="380" height="18" uuid="b6035677-7f9f-4383-bc58-de64497ffc6e"/>
 				<box padding="3">
