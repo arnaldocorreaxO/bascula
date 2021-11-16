@@ -679,14 +679,6 @@ X DIA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_RES_AVG_TOT_NETO_X_DIA}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="100" y="4" width="100" height="30" uuid="1b173b16-944b-49ed-b6f4-64c95efc9dae"/>
-				<textFieldExpression><![CDATA[$V{Group2_COUNT}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="20" width="100" height="30" uuid="d349cd15-a0b5-40db-8fa7-be601d7323d7"/>
-				<textFieldExpression><![CDATA[$V{V_MAX_GROUP_COUNT}]]></textFieldExpression>
-			</textField>
 		</band>
 	</summary>
 </jasperReport>
