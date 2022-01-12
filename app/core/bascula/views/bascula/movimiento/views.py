@@ -284,16 +284,17 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		sucursal_id = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = '%s %s' % ('Salida Bascula Camión',str(self.tipo_salida).capitalize())
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'edit'
-		context['sucursal'] = self.request.user.sucursal.id
+		context['sucursal'] = sucursal_id
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.get(cod__exact='BSC1').puerto
-		context['puerto_bascula2'] = ConfigSerial.objects.get(cod__exact='BSC2').puerto
+		context['puerto_bascula1'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC1').puerto
+		context['puerto_bascula2'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC2').puerto
 		context['tipo_salida'] = self.tipo_salida
 		return context
 
@@ -339,8 +340,9 @@ def leer_puerto_serial(request,puerto):
 	print(buffer)
 	if 'error' in buffer:
 		return JsonResponse({'error': buffer})
-	if buffer:		
-		data = getPeso(config,buffer)
+	if buffer:
+		sucursal_id = request.user.sucursal.id		
+		data = getPeso(sucursal_id,config,buffer)
 	printSeparador()
 	print('Resultado\t:', data)
 	printSeparador()
@@ -361,22 +363,41 @@ def leer_peso_bascula(request):
 				#os.remove("peso.txt")			
 	return JsonResponse({ 'peso': data })          
 
-def getPeso(config,buffer):
-	"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-	if config.cod == 'BSC1': 
-		pos_ini = buffer.find('+') + 1
-		print('Posicion Inicial:', pos_ini)
-		pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
-		print('Posicion Final\t:', pos_fin)
-		return buffer[pos_ini:pos_fin]
-	
-	"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-	if config.cod == 'BSC2': 
-		pos_ini = config.pos_ini
-		print('Posicion Inicial:', pos_ini)
-		pos_fin = config.pos_fin
-		print('Posicion Final\t:', pos_fin)
-		return buffer[pos_ini:pos_fin]
+def getPeso(sucursal_id,config,buffer):
+	# VILLETA
+	if sucursal_id == 1: 
+		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+		if config.cod == 'BSC1': 
+			pos_ini = buffer.find('+') + 1
+			print('Posicion Inicial:', pos_ini)
+			pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
+			print('Posicion Final\t:', pos_fin)
+			return buffer[pos_ini:pos_fin]
+		
+		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+		if config.cod == 'BSC2': 
+			pos_ini = config.pos_ini
+			print('Posicion Inicial:', pos_ini)
+			pos_fin = config.pos_fin
+			print('Posicion Final\t:', pos_fin)
+			return buffer[pos_ini:pos_fin]
+	# VALLEMI
+	elif sucursal_id == 2: 
+		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+		if config.cod == 'BSC1': 
+			pos_ini = buffer.find('+') + 1
+			print('Posicion Inicial:', pos_ini)
+			pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
+			print('Posicion Final\t:', pos_fin)
+			return buffer[pos_ini:pos_fin]
+		
+		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+		if config.cod == 'BSC2': 
+			pos_ini = config.pos_ini
+			print('Posicion Inicial:', pos_ini)
+			pos_fin = config.pos_fin
+			print('Posicion Final\t:', pos_fin)
+			return buffer[pos_ini:pos_fin]
 
 
 '''IMPRESION DE TICKET'''

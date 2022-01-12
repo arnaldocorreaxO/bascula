@@ -33,7 +33,8 @@ class ConfigSerial(ModeloBase):
 		('S','Espacio'),
 		('M','Marca'),	
 	)
-	cod = models.CharField(max_length=15,default=1,unique=True)
+	sucursal = models.ForeignKey(Sucursal,on_delete=models.PROTECT,default=1)
+	cod = models.CharField(max_length=15,default=1)
 	descripcion = models.CharField(max_length=50)
 	puerto = models.CharField(max_length=15)
 	bits_por_segundo = models.SmallIntegerField(choices=TASA_BAUDIOS,default=9600)
@@ -52,6 +53,7 @@ class ConfigSerial(ModeloBase):
 		db_table = 'bascula_config_serial'
 		verbose_name = 'Configuracion Serial'
 		verbose_name_plural = 'Configuracion Serial'
+		unique_together =('sucursal','cod')
 
 #MARCAS
 class MarcaVehiculo(ModeloBase):	
