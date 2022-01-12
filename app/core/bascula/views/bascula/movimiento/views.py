@@ -367,7 +367,8 @@ def getPeso(sucursal_id,config,buffer):
 	# VILLETA
 	if sucursal_id == 1: 
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-		if config.cod == 'BSC1': 
+		# VISOR BALPAR
+		if config.cod == 'BSC1' or config.cod == 'BSC2': 
 			pos_ini = buffer.find('+') + 1
 			print('Posicion Inicial:', pos_ini)
 			pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
@@ -375,7 +376,8 @@ def getPeso(sucursal_id,config,buffer):
 			return buffer[pos_ini:pos_fin]
 		
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-		if config.cod == 'BSC2': 
+		# VISOR TOLEDO DESHABILITADO
+		if config.cod == 'BSC2' and True == False: 
 			pos_ini = config.pos_ini
 			print('Posicion Inicial:', pos_ini)
 			pos_fin = config.pos_fin
@@ -384,6 +386,7 @@ def getPeso(sucursal_id,config,buffer):
 	# VALLEMI
 	elif sucursal_id == 2: 
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+		# VISOR BALPAR 
 		if config.cod == 'BSC1': 
 			pos_ini = buffer.find('+') + 1
 			print('Posicion Inicial:', pos_ini)
@@ -392,6 +395,7 @@ def getPeso(sucursal_id,config,buffer):
 			return buffer[pos_ini:pos_fin]
 		
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+		# VISOR SIPEL ORION
 		if config.cod == 'BSC2': 
 			pos_ini = config.pos_ini
 			print('Posicion Inicial:', pos_ini)
