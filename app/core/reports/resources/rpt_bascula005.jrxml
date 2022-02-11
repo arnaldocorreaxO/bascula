@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA_LOCAL"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -16,28 +16,41 @@
 	<parameter name="P_PRODUCTO_ID" class="java.lang.String"/>
 	<parameter name="P_FECHA_DESDE" class="java.lang.String"/>
 	<parameter name="P_FECHA_HASTA" class="java.lang.String"/>
+	<parameter name="P_HORA_ENT_DESDE" class="java.lang.String"/>
+	<parameter name="P_HORA_ENT_HASTA" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_DESDE" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_HASTA" class="java.lang.String"/>
+	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
+	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  MOV.FECHA AS FECHA,
 		MOV.NRO_TICKET AS NRO_TICKET,
-		CLI.DENOMINACION ||' - '|| CLI.CODIGO AS CLIENTE,
+		TRA.DENOMINACION AS TRANSPORTE,
+		CLI.DENOMINACION AS CLIENTE,
+		DES.DENOMINACION AS DESTINO,
 		PRO.DENOMINACION ||' - '|| PRO.CODIGO AS PRODUCTO,
 		MOV.NRO_REMISION AS NRO_REMISION,
-		VEH.MATRICULA AS NRO_CHAPA,
-		
+		VEH.MATRICULA AS NRO_CHAPA,		
 		MOV.PESO_BRUTO/1000.00 AS PESO_BRUTO,
 		MOV.PESO_TARA/1000.00 AS PESO_TARA,
 		MOV.PESO_NETO/1000.00 AS PESO_NETO
 FROM 
 BASCULA_MOVIMIENTO MOV
 INNER JOIN BASCULA_PRODUCTO PRO ON MOV.PRODUCTO_ID = PRO.ID 
+INNER JOIN BASCULA_TRANSPORTE TRA ON MOV.TRANSPORTE_ID = TRA.ID 
 INNER JOIN BASCULA_CLIENTE CLI ON MOV.CLIENTE_ID = CLI.ID 
+INNER JOIN BASCULA_CLIENTE DES ON MOV.DESTINO_ID = DES.ID 
 INNER JOIN BASCULA_VEHICULO VEH ON MOV.VEHICULO_ID = VEH.ID
-
+AND  (TRA.ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NULL) 
 AND  (CLI.ID IN ($P!{P_CLIENTE_ID}) OR $P{P_CLIENTE_ID}  IS NULL) 
-AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL)
- 
+AND  (DES.ID IN ($P!{P_DESTINO_ID}) OR $P{P_DESTINO_ID}  IS NULL) 
+AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL) 
 AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
+AND  (TO_CHAR(MOV.FEC_ENTRADA,'HH24:MI:SS') >= $P{P_HORA_ENT_DESDE} OR $P{P_HORA_ENT_DESDE} IS NULL)
+AND  (TO_CHAR(MOV.FEC_ENTRADA,'HH24:MI:SS') <= $P{P_HORA_ENT_HASTA} OR $P{P_HORA_ENT_HASTA} IS NULL)
+AND  (TO_CHAR(MOV.FEC_SALIDA,'HH24:MI:SS')  >= $P{P_HORA_SAL_DESDE} OR $P{P_HORA_SAL_DESDE} IS NULL)
+AND  (TO_CHAR(MOV.FEC_SALIDA,'HH24:MI:SS')  <= $P{P_HORA_SAL_HASTA} OR $P{P_HORA_SAL_HASTA} IS NULL)
 AND MOV.PESO_NETO > 0 
 AND MOV.ANULADO = FALSE
 ORDER BY 3,4,1,2]]>
@@ -52,15 +65,26 @@ ORDER BY 3,4,1,2]]>
 		<property name="com.jaspersoft.studio.field.label" value="nro_ticket"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
 	</field>
+	<field name="transporte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="transporte"/>
+		<property name="com.jaspersoft.studio.field.label" value="transporte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_transporte"/>
+	</field>
 	<field name="cliente" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cliente"/>
 		<property name="com.jaspersoft.studio.field.label" value="cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
+	</field>
+	<field name="destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="destino"/>
+		<property name="com.jaspersoft.studio.field.label" value="destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
 	</field>
 	<field name="producto" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="producto"/>
 		<property name="com.jaspersoft.studio.field.label" value="producto"/>
 	</field>
-	<field name="nro_remision" class="java.lang.Long">
+	<field name="nro_remision" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="nro_remision"/>
 		<property name="com.jaspersoft.studio.field.label" value="nro_remision"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
@@ -105,18 +129,18 @@ ORDER BY 3,4,1,2]]>
 		<groupHeader>
 			<band height="23">
 				<staticText>
-					<reportElement x="8" y="13" width="58" height="10" uuid="a94dcc01-39d7-4bee-ae92-e9eccb0d8073"/>
+					<reportElement x="8" y="12" width="58" height="10" uuid="a94dcc01-39d7-4bee-ae92-e9eccb0d8073"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[CLIENTE:]]></text>
+					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="68" y="13" width="410" height="10" uuid="bdc1c39f-2320-4ea2-a5a0-7bf054cc572f"/>
+					<reportElement x="68" y="12" width="188" height="10" uuid="bdc1c39f-2320-4ea2-a5a0-7bf054cc572f"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -144,14 +168,14 @@ ORDER BY 3,4,1,2]]>
 		<groupHeader>
 			<band height="44">
 				<textField>
-					<reportElement x="68" y="5" width="410" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
+					<reportElement x="68" y="4" width="188" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="8" y="5" width="58" height="10" uuid="86c52a4c-a110-43f8-908a-5b90db041330"/>
+					<reportElement x="8" y="4" width="58" height="10" uuid="86c52a4c-a110-43f8-908a-5b90db041330"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
@@ -261,6 +285,34 @@ ORDER BY 3,4,1,2]]>
 					</textElement>
 					<text><![CDATA[N°]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="280" y="4" width="88" height="10" uuid="7cc6d3b6-d6c9-40a8-97e2-2b05ea856543"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESTINO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="370" y="-12" width="182" height="10" uuid="eebdac6a-1895-46d6-aa41-fe14315d3222"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="280" y="-12" width="88" height="10" uuid="2753c34f-e2df-43e7-bf76-ad02ae934ac9"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CLIENTE (REMITENTE):]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="370" y="4" width="182" height="10" uuid="d24e29d2-697f-4992-9a46-6ebedf5eb4d4"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 	</group>

@@ -168,9 +168,19 @@
             <td class="text-left">{{ movimiento.nro_remision }}</td>
         </tr>
         <tr>
-            <td class="float-left">CLIENTE</td>
+            <td class="float-left">REMITENTE</td>
             <td class="float-center">: </td>
             <td class="text-left">{{ movimiento.cliente.get_full_name }}</td>
+        </tr>
+        <tr>
+            <td class="float-left">DESTINO</td>
+            <td class="float-center">: </td>
+            <td class="text-left">{{ movimiento.destino }}</td>
+        </tr>
+        <tr>
+            <td class="float-left">TRANSPORTE</td>
+            <td class="float-center">: </td>
+            <td class="text-left">{{ movimiento.transporte }}</td>
         </tr>
         <tr>
             <td class="float-left">CHAPA</td>

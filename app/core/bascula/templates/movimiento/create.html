@@ -3,7 +3,8 @@
 {% load static %}
 {% block head_form %}
     <script src="{% static 'movimiento/js/form.js' %}"></script>
-    <script src="{% static '/js/select2_cliente_producto.js' %}"></script>
+    <script src="{% static 'movimiento/js/search_select2.js' %}"></script>
+    <!-- <script src="{% static '/js/select2_cliente_producto.js' %}"></script> -->
 {% endblock %}
 
 {% block content %}
@@ -87,45 +88,63 @@
                                    
                                 </div>
                             </div>
-                            <div class="form-row">
+                            
+                            <div class="form-row">  
                                 <div class="form-group col-md-6 mb-0">
                                     <label for="{{ form.vehiculo.id_for_label }}">{{form.vehiculo.label}}*</label>
-                                    <div class="input-group">                                    
+                                    <div class="input-group">
                                         {{ form.vehiculo}}
                                         {% if action == 'add' %}
                                         <div class="input-group-append">
                                             <button class="btn btn-success btn-flat btn-xs btnAddVehiculo" type="button">
-                                                <i class="fas fa-plus"></i>                                                
+                                                <i class="fas fa-plus"></i>
                                             </button>
-                                        </div>                                        
-                                        {% endif %} 
-                                        
+                                        </div>
+                                        {% endif %}
+                        
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6 mb-0">
                                     <label for="{{ form.chofer.id_for_label }}">{{form.chofer.label}}*</label>
-                                    <div class="input-group">                                    
+                                    <div class="input-group">
                                         {{ form.chofer}}
                                         {% if action == 'add' %}
                                         <div class="input-group-append">
                                             <button class="btn btn-success btn-flat btn-xs btnAddChofer" type="button">
-                                                <i class="fas fa-plus"></i>                                                
+                                                <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
-                                        {% endif %} 
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-row">                            
+                                <div class="form-group col-md-12 mb-0">
+                                    <label for="{{ form.transporte.id_for_label }}">{{form.transporte.label}}*</label>
+                                    <div class="input-group">
+                                        {{ form.transporte}}
+                                    </div>
+                                </div>
+                            </div>                         
+                                
                             <div class="form-row">
                                 <div class="form-group col-md-6 mb-0">
-                                    <label for="{{ form.cliente.id_for_label }}">{{form.cliente.label}}*</label>
+                                    <label for="{{ form.cliente.id_for_label }}">{{form.cliente.label}} (Remitente)*</label>
                                     {{ form.cliente}}
                                 </div>
                                 <div class="form-group col-md-6 mb-0">
+                                    <label for="{{ form.destino.id_for_label }}">{{form.destino.label}}*</label>
+                                    {{ form.destino}}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12 mb-0">
                                     <label for="{{ form.producto.id_for_label }}">{{form.producto.label}}*</label>
                                     {{ form.producto}}
                                 </div>
                             </div>
+
                             <div class="form-row">
                                 <div class="form-group col-md-2 mb-0">
                                     <label for="{{ form.nro_mic.id_for_label }}">{{form.nro_mic.label}}</label>

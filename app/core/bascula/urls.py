@@ -1,4 +1,5 @@
 from core.bascula.views.bascula.movimiento.views import *
+from core.bascula.views.bascula.transporte.views import *
 from core.bascula.views.bascula.cliente.views import *
 from core.bascula.views.bascula.categoria.views import *
 from core.bascula.views.bascula.producto.views import *
@@ -20,6 +21,11 @@ urlpatterns = [
     path('movimiento/update/<int:pk>/<tipo_salida>/', MovimientoUpdate.as_view(), name='movimiento_update'),
     path('movimiento/delete/<int:pk>/', MovimientoDelete.as_view(), name='movimiento_delete'),
     path('movimiento/print/<int:pk>/', MovimientoPrint.as_view(), name='movimiento_print'),
+    # TRANSPORTE
+    path('transporte', TransporteList.as_view(), name='transporte_list'),
+    path('transporte/add/', TransporteCreate.as_view(), name='transporte_create'),
+    path('transporte/update/<int:pk>/', TransporteUpdate.as_view(), name='transporte_update'),
+    path('transporte/delete/<int:pk>/', TransporteDelete.as_view(), name='transporte_delete'),
     # CLIENTE
     path('cliente', ClienteList.as_view(), name='cliente_list'),
     path('cliente/add/', ClienteCreate.as_view(), name='cliente_create'),

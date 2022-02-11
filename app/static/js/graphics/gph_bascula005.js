@@ -3,6 +3,8 @@ function get_graph_5(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
+            'sucursal': args[5],
+            'fecha': args[2],
             'action': 'get_graph_5'
         },
         dataType: 'json',
@@ -14,10 +16,10 @@ function get_graph_5(args) {
                     type: 'bar'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Cantidad de Vehículos por Productos </span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Cantidad de Vehículos por Productos '  + args[2] + '</span>'
                 },
                 subtitle: {
-                    text: args[0] + '<br> Actualizado: '+ args[1]
+                    text: args[0] + '<br> Fecha Hora Actualización:: '+ args[1]
                 },
                 exporting: {
                     enabled: true

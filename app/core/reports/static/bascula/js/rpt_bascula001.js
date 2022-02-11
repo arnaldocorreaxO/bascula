@@ -8,8 +8,7 @@ $(function () {
     input_daterange = $('input[name="date_range"]');
     input_timerange_in =  $('input[name="time_range_in"]');
     input_timerange_out =  $('input[name="time_range_out"]');
-    select_asociacion = $('select[name="asociacion"]');   
-
+    
     // RANGO DE FECHAS
     input_daterange
         .daterangepicker({

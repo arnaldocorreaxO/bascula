@@ -80,11 +80,28 @@ class MarcaVehiculo(ModeloBase):
 	# 	self.denominacion = self.denominacion.upper()
 	# 	super(MarcaVehiculo,self).save(*args,**kwargs)
 
+#TRANSPORTES
+class Transporte(ModeloBase):	
+	denominacion = models.CharField(max_length=100,unique=True)
+	
+	def __str__(self):
+		return self.denominacion
+
+	class Meta:
+		# ordering = ['1',]
+		db_table = 'bascula_transporte'
+		verbose_name = 'Transporte'
+		verbose_name_plural = 'Transportes'	
+
+	def clean_denominacion(self):
+		return self.cleaned_data['denominacion'].upper()
+
 
 #VEHICULOS
 class Vehiculo(ModeloBase):
 	matricula = UpperField(max_length=8,unique=True)
 	marca = models.ForeignKey(MarcaVehiculo,on_delete=models.PROTECT)
+	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
 	
 	def toJSON(self):
 		item = model_to_dict(self)
@@ -142,16 +159,20 @@ class Chofer(ModeloBase):
 class Cliente(ModeloBase):	
 	codigo = models.CharField(max_length=10,unique=True)
 	denominacion = models.CharField(max_length=100)
+	ver_en_destino = models.BooleanField(default=False)
 	
 	def toJSON(self):
 		item = model_to_dict(self)
 		return item
 	
 	def __str__(self):
-		return f"{self.codigo} - {self.denominacion}"
+		return self.denominacion
+		#return f"{self.codigo} - {self.denominacion}"
 	
 	def get_full_name(self):
-		return f"{self.codigo}-{self.denominacion}"
+		return self.denominacion
+		# return f"{self.codigo}-{self.denominacion}"
+		
 
 	class Meta:
 		ordering = ['denominacion',]
@@ -187,6 +208,7 @@ class Producto(ModeloBase):
 	
 	def __str__(self):
 		return f"{self.codigo} - {self.denominacion}"
+
 	class Meta:
 		ordering = ['denominacion',]
 		db_table = 'bascula_producto'
@@ -196,8 +218,8 @@ class Producto(ModeloBase):
 #PRODUCTOSCLIENTE
 class ClienteProducto(ModeloBase):	
 	cliente = models.ForeignKey(Cliente,on_delete=models.PROTECT)
-	producto = models.ManyToManyField(Producto, verbose_name='Productos', blank=True)
-	
+	producto = models.ManyToManyField(Producto, verbose_name='Productos', blank=True)	
+
 	def toJSON(self):
 		item = model_to_dict(self)
 		item['cliente'] = self.cliente.get_full_name()
@@ -206,6 +228,7 @@ class ClienteProducto(ModeloBase):
 	
 	def __str__(self):
 		return f"{self.cliente} - {self.producto}"
+		
 
 	class Meta:
 	# ordering = ['1',]
@@ -238,6 +261,9 @@ class Movimiento(ModeloBase):
 	anulado = models.BooleanField(default=False)
 	bascula_entrada = models.SmallIntegerField(null=True,default=1)
 	bascula_salida = models.SmallIntegerField(null=True,blank=True,default=1)
+	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
+	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino')
+	
 
 	def toJSON(self):
 		
@@ -254,7 +280,9 @@ class Movimiento(ModeloBase):
 		item = model_to_dict(self)
 		item['fecha'] = self.fecha.strftime('%d/%m/%Y')
 		item['cliente'] = str(self.cliente)
+		item['cliente_destino'] = f"{str(self.cliente)} - {str(self.destino)}"
 		item['vehiculo'] = str(self.vehiculo)
+		item['transporte_vehiculo'] = f"{str(self.transporte)} - {str(self.vehiculo)}"
 		item['chofer'] = str(self.chofer)
 		item['producto'] = str(self.producto)
 		item['porc_humedad'] = format(self.porc_humedad,'.0f')

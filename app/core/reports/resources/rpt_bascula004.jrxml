@@ -5,7 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULACT"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA_LOCAL"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
 	<parameter name="P_USUARIO" class="java.lang.String"/>
 	<parameter name="P_TITULO1" class="java.lang.String"/>
@@ -19,17 +19,25 @@
 	<parameter name="P_CHOFER_ID" class="java.lang.String"/>
 	<parameter name="P_FECHA_DESDE" class="java.lang.String"/>
 	<parameter name="P_FECHA_HASTA" class="java.lang.String"/>
+	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
+	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  
-CLI.DENOMINACION ||' - '|| CLI.CODIGO AS CLIENTE,
-PRO.ID, PRO.CODIGO, PRO.DENOMINACION, SUM(MOV.PESO_NETO)/1000.00 AS TOTAL,
-COUNT (MOV.FECHA) AS CANT_VIAJE 	
+			TRA.DENOMINACION AS TRANSPORTE,
+			CLI.DENOMINACION AS CLIENTE,
+			DES.DENOMINACION AS DESTINO,
+			PRO.ID, PRO.CODIGO, PRO.DENOMINACION, SUM(MOV.PESO_NETO)/1000.00 AS TOTAL,
+			COUNT (MOV.FECHA) AS CANT_VIAJE 	
 FROM 
 BASCULA_MOVIMIENTO MOV
 INNER JOIN BASCULA_PRODUCTO PRO ON MOV.PRODUCTO_ID = PRO.ID 
+INNER JOIN BASCULA_TRANSPORTE TRA ON MOV.TRANSPORTE_ID = TRA.ID 
 INNER JOIN BASCULA_CLIENTE CLI ON MOV.CLIENTE_ID = CLI.ID 
+INNER JOIN BASCULA_CLIENTE DES ON MOV.DESTINO_ID = DES.ID 
 WHERE 1=1
+AND  (TRA.ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NULL) 
 AND  (CLI.ID IN ($P!{P_CLIENTE_ID}) OR $P{P_CLIENTE_ID}  IS NULL) 
+AND  (DES.ID IN ($P!{P_DESTINO_ID}) OR $P{P_DESTINO_ID}  IS NULL) 
 AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL) 
 AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL)
@@ -38,9 +46,20 @@ AND MOV.ANULADO = FALSE
 GROUP BY 1,2,3,4
 ORDER BY 1,2,3,4]]>
 	</queryString>
+	<field name="transporte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="transporte"/>
+		<property name="com.jaspersoft.studio.field.label" value="transporte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_transporte"/>
+	</field>
 	<field name="cliente" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cliente"/>
 		<property name="com.jaspersoft.studio.field.label" value="cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
+	</field>
+	<field name="destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="destino"/>
+		<property name="com.jaspersoft.studio.field.label" value="destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
 	</field>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -102,14 +121,14 @@ ORDER BY 1,2,3,4]]>
 					<textElement verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[CLIENTE:]]></text>
+					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="80" y="1" width="492" height="18" uuid="8fcc0c9c-5371-4a94-8709-36ee91d2a6c0"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement x="80" y="1" width="99" height="18" uuid="8fcc0c9c-5371-4a94-8709-36ee91d2a6c0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="450" y="21" width="122" height="19" uuid="f475a542-7a57-48d1-b7f6-375b68c447d0"/>
@@ -163,6 +182,34 @@ ORDER BY 1,2,3,4]]>
 					</textElement>
 					<text><![CDATA[CANTIDAD VIAJES]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="180" y="1" width="99" height="18" uuid="fd6eb6e2-412a-4595-88be-7a6536cdc235"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CLIENTE (REMITENTE):]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="279" y="1" width="118" height="18" uuid="3a018f8e-9a44-4879-8bd2-3ee6c505f238"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="397" y="1" width="41" height="18" uuid="94f427fe-6827-4950-b9af-58aa50f3ea80"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESTINO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="438" y="1" width="134" height="18" uuid="2a83a33d-f1f6-4368-951d-e8e053fcd4ef"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>

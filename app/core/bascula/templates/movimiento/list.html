@@ -5,6 +5,7 @@
     <script src="{% static 'lib/bootstrap-daterangepicker-3.0.5/spanish.js' %}"></script>
     <script src="{% static 'lib/bootstrap-daterangepicker-3.0.5/daterangepicker.js' %}"></script>
     <script src="{% static 'movimiento/js/list.js' %}"></script>
+    <script src="{% static 'movimiento/js/search_select2.js' %}"></script>
     <!-- DESHABILITAR BOTON DE IMPRESION| -->
     <style>
         .disabled_print {
@@ -12,18 +13,17 @@
             cursor: default;
         }
     </style>
-
 {% endblock %}
 
 {% block columns %}    
 <th scope="col" style="width: 2%;">ID</th>
 <th scope="col" style="width: 3%;">Ticket</th>
 <th scope="col" style="width: 5%;">Fecha</th>
-<th scope="col" style="width: 15%;">Cliente</th>
-<th scope="col" style="width: 15%;">Vehiculo</th>
+<th scope="col" style="width: 15%;">Cliente<br>Destino</th>
+<th scope="col" style="width: 15%;">Transporte<br>Vehiculo</th>
 <th scope="col" style="width: 20%;">Chofer</th>
 <th scope="col" style="width: 15%;">Producto</th>
-<th scope="col" style="width: 5%;">Tiempo Descarga</th>  
+<th scope="col" style="width: 5%;">Tiempo<br>Descarga</th>  
 <th scope="col" style="width: 5%;">Entrada</th>
 <th scope="col" style="width: 5%;">Salida</th>
 <th scope="col" style="width: 5%;">Neto</th>
@@ -32,7 +32,7 @@
 
 {% block content_list_before %}
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label>Por Cliente:</label>
                 <div class="input-group mb-3">
@@ -40,7 +40,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Por Destino:</label>
+                <div class="input-group mb-3">
+                    {{ form.destino }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
             <div class="form-group">
                 <label>Por Producto:</label>
                 <div class="input-group mb-3">
@@ -52,7 +60,15 @@
  
     
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Por Transporte:</label>
+                <div class="input-group mb-3">
+                    {{ form.transporte }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
             <div class="form-group">
                 <label>Por Vehiculo:</label>
                 <div class="input-group mb-3">
@@ -60,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label>Por Chofer:</label>
                 <div class="input-group mb-3">
@@ -93,6 +109,6 @@
 {% endblock %}
 
 
-{% block javascript_list %}
+<!-- {#% block javascript_list %} -->
 
-{% endblock %}
+<!-- {#% endblock %} -->

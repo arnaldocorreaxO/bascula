@@ -1,5 +1,6 @@
 #SYSTEM
 import json
+import math
 import os
 import datetime
 
@@ -16,6 +17,7 @@ from core.security.mixins import PermissionMixin
 #DJANGO
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -27,6 +29,75 @@ from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
 from weasyprint import CSS, HTML
+
+
+def search_select2(action,request):
+	data = []
+	if action == 'search_vehiculo':		
+		term = request.POST['term']
+		qs = Vehiculo.objects.filter(Q(activo__exact=True) &
+									Q(matricula__icontains=term))[0:10]
+		for i in qs:
+			item = i.toJSON()
+			item['text'] = i.get_full_name()
+			data.append(item)
+
+	elif action == 'search_chofer':
+		term = request.POST['term']
+		qs = Chofer.objects.filter(Q(activo__exact=True) &
+								Q(codigo__icontains=term) |
+								Q(nombre__icontains=term) |
+								Q(apellido__icontains=term))[0:10]
+		for i in qs:
+			item = i.toJSON()
+			item['text'] = i.get_full_name()
+			data.append(item)
+
+	elif action == 'search_cliente':
+		term = request.POST['term']	
+		qs = Cliente.objects.filter(Q(activo__exact=True) &
+									Q(codigo__icontains=term) |
+									Q(denominacion__icontains=term))[0:10]
+		for i in qs:
+			item = i.toJSON()
+			item['text'] = i.get_full_name()
+			data.append(item)
+	
+	elif action == 'search_producto':
+		print(request.POST)
+		if 'cliente[]' in request.POST:
+			cliente = request.POST['cliente[]']
+		else:
+			cliente = request.POST['cliente']	
+	
+		term = request.POST['term']
+		if cliente:
+			qs = ClienteProducto.objects.values('producto__id','producto__denominacion')\
+										.distinct()\
+										.exclude(producto__activo__exact=False)\
+										.filter(Q(cliente__id__in=cliente) &	
+										 Q(producto__denominacion__icontains=term))[0:10]
+			# print(qs.query)
+			for i in qs:
+				# print(i)
+				item={}
+				item['id'] = i['producto__id']	
+				item['text'] = i['producto__denominacion']
+				data.append(item)
+
+		else:
+			qs = Producto.objects.filter(Q(activo__exact=True) &
+										 Q(codigo__icontains=term) |	
+										 Q(denominacion__icontains=term))[0:10]
+
+			for i in qs:
+				item = i.toJSON()
+				print(item)
+				item['text'] = str(i)
+				
+				data.append(item)
+	
+	return data 
 
 """LISTADO DE MOVIMIENTO DE BASCULA"""
 class MovimientoList(PermissionMixin,FormView):	
@@ -47,37 +118,88 @@ class MovimientoList(PermissionMixin,FormView):
 				data =[]
 				start_date = request.POST['start_date']
 				end_date = request.POST['end_date']
+				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None
+				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
 				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
 				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None
 
-				cliente= ",".join(cliente) if cliente!=[''] else None
+				transporte = ",".join(transporte) if transporte!=[''] else None
+				cliente = ",".join(cliente)  if cliente!= [''] else None
+				destino = ",".join(destino)  if destino!=[' '] else None
 				producto = ",".join(producto) if producto!=[''] else None
-				vehiculo= ",".join(vehiculo) if vehiculo!=[''] else None
+				vehiculo = ",".join(vehiculo)  if vehiculo!=[' '] else None
 				chofer = ",".join(chofer) if chofer!=[''] else None
 
-				_where = "1 = 1"
+				_start = request.POST['start']
+				_length = request.POST['length']
+				_search = request.POST['search[value]']
+
+				_where = '1 = 1'
+				id_mov = None
+				nro_ticket = None
+
+				if len(_search):
+					if _search.isnumeric():
+						id_mov = _search
+						nro_ticket = _search
+						_search=''
+				
+				if id_mov:
+					_where += f" AND bascula_movimiento.id = ({id_mov})"
+				if nro_ticket:
+					_where += f" OR bascula_movimiento.nro_ticket = ({nro_ticket})"				
+				if transporte:
+					_where += f" AND bascula_movimiento.transporte_id IN ({transporte})"
 				if cliente:
 					_where += f" AND bascula_movimiento.cliente_id IN ({cliente})"
+				if destino:
+					_where += f" AND bascula_movimiento.destino_id IN ({destino})"
 				if producto:
 					_where += f" AND bascula_movimiento.producto_id IN ({producto})"
 				if chofer:
 					_where += f" AND bascula_movimiento.chofer_id IN ({chofer})"
 				if vehiculo:
 					_where += f" AND bascula_movimiento.vehiculo_id IN ({vehiculo})"
-				# peso_salida__lte=0
-				# qs = Movimiento.objects.filter()\
-				# 					.extra(where=[_where])\
-				# 					.order_by('id')
 				
-				search = Movimiento.objects.filter()
-				if len(start_date) and len(end_date):
-					search = search.filter(fecha__range=[start_date, end_date])\
+				# print(_where)
+					
+				qs = Movimiento.objects\
+									.filter()\
 									.extra(where=[_where])\
 									.order_by('-id')
-				for i in search:
-					data.append(i.toJSON())
+
+				if len(start_date) and len(end_date):
+					qs = qs.filter(fecha__range=(start_date,end_date))
+
+				total = qs.count()
+				# print(qs.query)
+
+				if _start and _length:
+					start = int(_start)
+					length = int(_length)
+					page = math.ceil(start / length) + 1
+					per_page = length
+				
+				if _length== '-1':
+					qs = qs[start:]
+				else:
+					qs = qs[start:start + length]
+
+				position = start + 1
+
+				for i in qs:
+					item = i.toJSON()
+					item['position'] = position
+					data.append(item)
+					position += 1
+
+				data = {'data': data,
+						'page': page,  # [opcional]
+						'per_page': per_page,  # [opcional]
+						'recordsTotal': total,
+						'recordsFiltered': total, }
 			else:	
 				data['error']= 'No ha ingresado a ninguna opción'
 		except Exception as e:
@@ -96,7 +218,7 @@ class MovimientoList(PermissionMixin,FormView):
 
 
 """CREAR MOVIMIENTO DE BASCULA"""
-class MovimientoCreate(PermissionMixin,CreateView):
+class MovimientoCreate(CreateView):
 	model = Movimiento
 	form_class=MovimientoEntradaForm
 	success_url = reverse_lazy('movimiento_list')
@@ -142,8 +264,26 @@ class MovimientoCreate(PermissionMixin,CreateView):
 			action = request.POST['action']			
 			if action == 'add':
 				with transaction.atomic():
-					form = self.get_form()
-					data = form.save()
+					# form = self.get_form()
+					# data = form.save()
+					import datetime
+					movi = Movimiento()
+					movi.sucursal_id = request.POST['sucursal']
+					movi.fecha = datetime.datetime.now()
+					movi.nro_ticket = request.POST['nro_ticket']
+					movi.peso_entrada = request.POST['peso_entrada']
+					movi.vehiculo_id = request.POST['vehiculo']
+					movi.chofer_id = request.POST['chofer']
+					movi.transporte_id = request.POST['transporte']
+					movi.cliente_id = request.POST['cliente']
+					movi.producto_id = request.POST['producto']
+					movi.destino_id = request.POST['destino']
+					movi.nro_mic = request.POST['nro_mic'] if request.POST['nro_mic']!='' else None
+					movi.nro_remision = request.POST['nro_remision']
+					movi.peso_embarque = request.POST['peso_embarque']
+					movi.save()
+					data ={'id':movi.id}
+
 			elif action == 'validate_data':
 				return self.validate_data()				
 			elif action == 'create-vehiculo':
@@ -154,40 +294,48 @@ class MovimientoCreate(PermissionMixin,CreateView):
 				with transaction.atomic():
 					frmChofer = ChoferForm(request.POST)
 					data = frmChofer.save()
-			elif action == 'search_peso_tara_interno':
-				data = {'peso':'0'}
+			elif action == 'search_data_vehiculo':				
+				import datetime
+				data = {}
+				peso_tara = 0
 				if request.POST['id']:
+					sucursal_id = request.POST['sucursal_id']
 					vehiculo = Vehiculo.objects.filter(id=request.POST['id']).first()
-					movimiento = Movimiento.objects.filter(fecha = datetime.datetime.now() ,
-														vehiculo=vehiculo)\
-												.order_by('-id')
+					movimiento = Movimiento.objects.filter(sucursal_id = sucursal_id,
+														   fecha = datetime.datetime.now() ,
+														   vehiculo=vehiculo)\
+													.order_by('-id')
 					if movimiento:
 						peso_tara = movimiento.first().peso_tara
-						if peso_tara > 0:						
-							data = {'peso':peso_tara}				
-							# Retornamos data como diccionario y recuperos directo data['peso']
-							# Si enviamos como lista de diccionarios debemos definir una lista 
-							# data[] y usar append
-							# data.append({'peso':movimiento.first().peso_tara}) y recuperar
-							# data[0]['peso'], pero en este caso solo enviamos una clave y valor 											
-						# print(data)
-						else:
-
+						if not peso_tara > 0:
 							data['error'] = 'Movimiento de Entrada ya está registrado para el vehiculo %s' % (vehiculo)
 
-			elif action == 'search_producto_id':
-				data = [{'id': '', 'text': '------------'}]
-				for i in ClienteProducto.objects.values('producto__id','producto__codigo','producto__denominacion').filter(cliente_id=request.POST['id']):	
-					data.append({'id': i['producto__id'], 'text': i['producto__codigo'] +" - "+ i['producto__denominacion']})
+					data['peso'] = peso_tara
+					data['transporte_id'] = vehiculo.transporte.id
+					# Retornamos data como diccionario y recuperos directo data['peso']
+					# Si enviamos como lista de diccionarios debemos definir una lista 
+					# data[] y usar append
+					# data.append({'peso':movimiento.first().peso_tara}) y recuperar
+					# data[0]['peso'], pero en este caso solo enviamos una clave y valor 											
+					# print(data)
+
+			# elif action == 'search_producto_id':
+			# 	data = [{'id': '', 'text': '------------'}]
+			# 	cliente = request.POST['cliente']				
+			# 	for i in ClienteProducto.objects.values('producto__id','producto__codigo','producto__denominacion').filter(cliente=cliente):	
+			# 		data.append({'id': i['producto__id'], 'text': i['producto__codigo'] +" - "+ i['producto__denominacion']})
 			
 			else:
-				data['error'] = 'No ha ingresado a ninguna opción'
+				# SEARCH SELECT2
+				data = search_select2(action,request)	
+
 		except Exception as e:
 			data['error'] = str(e)
-		# return JsonResponse(data,safe=False)
-		return HttpResponse(json.dumps(data), content_type='application/json')
+		return JsonResponse(data,safe=False)
+		# return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		sucursal_id = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Entrada Bascula'
 		context['entity'] = 'Bascula'
@@ -196,8 +344,8 @@ class MovimientoCreate(PermissionMixin,CreateView):
 		context['sucursal'] = self.request.user.sucursal.id
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.get(cod__exact='BSC1').puerto
-		context['puerto_bascula2'] = ConfigSerial.objects.get(cod__exact='BSC2').puerto
+		context['puerto_bascula1'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC1').puerto
+		context['puerto_bascula2'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC2').puerto
 		return context
 
 
@@ -249,7 +397,6 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		except:
 			pass
 		return JsonResponse(data)	
-
 
 	def post(self, request, *args, **kwargs):
 		data = {}
@@ -377,7 +524,7 @@ def getPeso(sucursal_id,config,buffer):
 		
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
 		# VISOR TOLEDO DESHABILITADO
-		if config.cod == 'BSC2' and True == False: 
+		if config.cod == 'BSC2' and True == False: #Para el simulador habilitar este 
 			pos_ini = config.pos_ini
 			print('Posicion Inicial:', pos_ini)
 			pos_fin = config.pos_fin

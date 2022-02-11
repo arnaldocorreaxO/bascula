@@ -14,10 +14,10 @@ function get_graph_1(args) {
             enabled: false
         },
         title: {
-            text: ''
+            text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento del Día ' + args[2] + '</span>'
         },
         subtitle: {
-            text: args[0] + '<br> Actualizado: '+ args[1]
+            text: args[0] + '<br> Fecha Hora Actualización: '+ args[1]
         },
         accessibility: {
             point: {
@@ -45,6 +45,8 @@ function get_graph_1(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
+            'sucursal': args[5],
+            'fecha': args[2],
             'action': 'get_graph_1'
         },
         dataType: 'json',

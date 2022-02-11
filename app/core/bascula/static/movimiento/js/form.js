@@ -1,245 +1,119 @@
-
-
-// document.addEventListener('DOMContentLoaded', function (e) {
-//     const form = document.getElementById('frmMovimiento');
-//     const fv = FormValidation.formValidation(form, {
-//             locale: 'es_ES',
-//             localization: FormValidation.locales.es_ES,
-//             plugins: {
-//                 trigger: new FormValidation.plugins.Trigger(),
-//                 submitButton: new FormValidation.plugins.SubmitButton(),
-//                 bootstrap: new FormValidation.plugins.Bootstrap(),
-//                 icon: new FormValidation.plugins.Icon({
-//                     valid: 'fa fa-check',
-//                     invalid: 'fa fa-times',
-//                     validating: 'fa fa-refresh',
-//                 }),
-//             },
-//             fields: {
-//                 nro_ticket: {
-//                     validators: {
-//                         notEmpty: {},
-//                         stringLength: {
-//                             min: 1,
-//                         },
-//                         remote: {
-//                             url: pathname,
-//                             data: function () {
-//                                 console.log('validando nro_ticket');
-//                                 return {
-//                                     obj: form.querySelector('[name="nro_ticket"]').value,
-//                                     type: 'nro_ticket',
-//                                     action: 'validate_data'
-//                                 };
-//                             },
-//                             message: 'Nro. de Ticket ya existe',
-//                             method: 'POST'
-//                         }
-//                     }
-//                 },
-//                 // peso_entrada: {
-//                 //     validators: {
-//                 //         notEmpty: {},
-//                 //         stringLength: {
-//                 //             min: 2,
-//                 //         },
-//                 //         remote: {
-//                 //             url: pathname,
-//                 //             data: function () {
-//                 //                 console.log('validando peso entrada');
-//                 //                 return {
-//                 //                     obj: form.querySelector('[name="peso_entrada"]').value,
-//                 //                     type: 'peso_entrada',
-//                 //                     action: 'validate_data'
-//                 //                 };
-//                 //             },
-//                 //             message: 'Peso de entrada no puede ser cero',
-//                 //             method: 'POST'
-//                 //         }
-//                 //     }
-//                 // },
-//                 vehiculo: {
-//                     validators: {
-//                         notEmpty: {},
-//                         stringLength: {
-//                             // min: 1,
-//                         },
-//                         remote: {
-//                             url: pathname,
-//                             data: function () {
-//                                 console.log('validando vehiculo');
-//                                 return {
-//                                     obj: form.querySelector('[name="vehiculo"]').value,
-//                                     type: 'vehiculo',
-//                                     action: 'validate_data'
-//                                 };
-//                             },
-//                             message: 'Debe especificar un vehiculo',
-//                             method: 'POST'
-//                         }
-//                     }
-//                 },
-//                 chofer: {
-//                     validators: {
-//                         notEmpty: {},
-//                         stringLength: {
-//                             // min: 1,
-//                         },
-//                         remote: {
-//                             url: pathname,
-//                             data: function () {
-//                                 console.log('validando chofer');
-//                                 return {
-//                                     obj: form.querySelector('[name="chofer"]').value,
-//                                     type: 'chofer',
-//                                     action: 'validate_data'
-//                                 };
-//                             },
-//                             message: 'Debe especificar un chofer',
-//                             method: 'POST'
-//                         }
-//                     }
-//                 },
-//                 cliente: {
-//                     validators: {
-//                         notEmpty: {},
-//                         stringLength: {
-//                             // min: 1,
-//                         },
-//                         remote: {
-//                             url: pathname,
-//                             data: function () {
-//                                 console.log('validando cliente');
-//                                 return {
-//                                     obj: form.querySelector('[name="cliente"]').value,
-//                                     type: 'cliente',
-//                                     action: 'validate_data'
-//                                 };
-//                             },
-//                             message: 'Debe especificar un cliente',
-//                             method: 'POST'
-//                         }
-//                     }
-//                 },
-//                 producto: {
-//                     validators: {
-//                         notEmpty: {},
-//                         stringLength: {
-//                             // min: 1,
-//                         },
-//                         remote: {
-//                             url: pathname,
-//                             data: function () {
-//                                 console.log('validando producto');
-//                                 return {
-//                                     obj: form.querySelector('[name="producto"]').value,
-//                                     type: 'producto',
-//                                     action: 'validate_data'
-//                                 };
-//                             },
-//                             message: 'Debe especificar un producto',
-//                             method: 'POST'
-//                         }
-//                     }
-//                 },
-//             },
-//         }
-//     )
-//         .on('core.element.validated', function (e) {
-//             if (e.valid) {
-//                 const groupEle = FormValidation.utils.closest(e.element, '.form-group');
-//                 if (groupEle) {
-//                     FormValidation.utils.classSet(groupEle, {
-//                         'has-success': false,
-//                     });
-//                 }
-//                 FormValidation.utils.classSet(e.element, {
-//                     'is-valid': false,
-//                 });
-//             }
-//             const iconPlugin = fv.getPlugin('icon');
-//             const iconElement = iconPlugin && iconPlugin.icons.has(e.element) ? iconPlugin.icons.get(e.element) : null;
-//             iconElement && (iconElement.style.display = 'none');
-//         })
-//         .on('core.validator.validated', function (e) {
-//             if (!e.result.valid) {
-//                 const messages = [].slice.call(form.querySelectorAll('[data-field="' + e.field + '"][data-validator]'));
-//                 messages.forEach((messageEle) => {
-//                     const validator = messageEle.getAttribute('data-validator');
-//                     messageEle.style.display = validator === e.validator ? 'block' : 'none';
-//                 });
-//             }
-//         })
-//         .on('core.form.valid', function () {
-//             submit_form_movimiento();
-//         });
-// });
-
 $(function () {
 
     var action = $('input[name="action"]').val();
     var peso_entrada = $('input[name="peso_entrada"]');
-    var peso_salida = $('input[name="peso_salida"]');
+    var peso_salida = $('input[name="peso_salida"]');   
 
-    /*HABILITA EDICION DE PESO PARA VILLETA INTERNO */
-    var select_cliente = $('select[name="cliente"]');
-    select_cliente.change(function () {
-        if (action == 'add') {
-            if (select_cliente.val() == 1) {
-                // peso_entrada.prop('readonly', false);
-            } else {
-                peso_entrada.val(0);
-                // peso_entrada.prop('readonly', true);
-            }
-        }
-    });
+    if (action == 'add') {
+        var sucursal_id = $('input[name="sucursal"]').val();
+        var select_vehiculo = $('select[name="vehiculo"]');
+        var select_transporte = $('select[name="transporte"]');
 
-    //VEHICULO
-    $('.btnAddVehiculo').on('click', function () {
-        $('#modalVehiculo').modal('show');
-    });
+        // BUSCAMOS TRANSPORTE RELACIONADO AL VEHICULO
+        select_vehiculo.on('change', function () {
+            $.ajax({
+                // csrftoken ver functions.js
+                headers: { "X-CSRFToken": csrftoken },
+                // url: window.location.pathname,
+                url: '/bascula/movimiento/add/',
+                type: 'POST',
+                data: {
+                    'action': 'search_data_vehiculo',
+                    'sucursal_id': sucursal_id,
+                    'id': $(this).val()
+                },
+                dataType: 'json',
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    transporte = data['transporte_id']
+                    $('#id_transporte').val(transporte).change();
+                    $('#id_peso_entrada').val(0);
+                    // SOLO INTERNO 
+                    if (transporte == 1) {
+                        $('#id_peso_entrada').val(parseInt(data['peso']));
 
-    $('#modalVehiculo').on('hidden.bs.modal', function (e) {
-        $('#frmVehiculo').trigger('reset');
-    })
+                    };
+                    return false;
 
-    //SUBMIT VEHICULO
-    $('#frmVehiculo').on('submit', function (e) {
-        e.preventDefault();
-        var parameters = new FormData(this);
-        parameters.append('action', 'create-vehiculo');
-        submit_formdata_with_ajax('Notificación',
-            '¿Estas seguro de crear al siguiente Vehiculo?', window.location.pathname, parameters, function (response) {
-                // console.log(response);
-                var newOption = new Option(response.full_name, response.id, false, true);
-                $('select[name="vehiculo"]').append(newOption).trigger('change');
-                $('#modalVehiculo').modal('hide');
+                };
+                $('#id_vehiculo').val('').change();
+                $('#id_transporte').val('').change();
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+                //select_producto.html(options);
             });
-    });
 
-    //CHOFER
+        });
 
-    $('.btnAddChofer').on('click', function () {
-        $('#modalChofer').modal('show');
-    });
+        select_vehiculo.on('change', function () {
+            select_transporte.change();
+        });
 
-    $('#modalChofer').on('hidden.bs.modal', function (e) {
-        $('#frmChofer').trigger('reset');
-    })
+        // TRANSPORTE INTERNO REMITENTE Y DESTINO IGUALES 
+        select_transporte.on('change', function () {
+            console.log($(this).val());
+            if ($(this).val() == 1) {
+                if (sucursal_id == 1){
+                    $('#id_cliente').val(1).change();
+                    $('#id_destino').val(1).change();
+               }else{
+                    $('#id_cliente').val(2).change();
+                    $('#id_destino').val(2).change();
+               };
+               return false;
+            };
+            $('#id_cliente').val('').change();
+            $('#id_destino').val('').change();
+        });
 
-    //SUBMIT Chofer
-    $('#frmChofer').on('submit', function (e) {
-        e.preventDefault();
-        var parameters = new FormData(this);
-        parameters.append('action', 'create-chofer');
-        submit_formdata_with_ajax('Notificación',
-            '¿Estas seguro de crear al siguiente Chofer?', window.location.pathname, parameters, function (response) {
-                // console.log(response);
-                var newOption = new Option(response.full_name, response.id, false, true);
-                $('select[name="chofer"]').append(newOption).trigger('change');
-                $('#modalChofer').modal('hide');
-            });
-    });
+        $('.btnAddVehiculo').on('click', function () {
+            $('#modalVehiculo').modal('show');
+        });
+
+        $('#modalVehiculo').on('hidden.bs.modal', function (e) {
+            $('#frmVehiculo').trigger('reset');
+        })
+
+        //SUBMIT VEHICULO
+        $('#frmVehiculo').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            parameters.append('action', 'create-vehiculo');
+            submit_formdata_with_ajax('Notificación',
+                '¿Estas seguro de crear al siguiente Vehiculo?', window.location.pathname, parameters, function (response) {
+                    // console.log(response);
+                    var newOption = new Option(response.full_name, response.id, false, true);
+                    $('select[name="vehiculo"]').append(newOption).trigger('change');
+                    $('#modalVehiculo').modal('hide');
+                });
+        });
+
+        //CHOFER
+
+        $('.btnAddChofer').on('click', function () {
+            $('#modalChofer').modal('show');
+        });
+
+        $('#modalChofer').on('hidden.bs.modal', function (e) {
+            $('#frmChofer').trigger('reset');
+        })
+
+        //SUBMIT Chofer
+        $('#frmChofer').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            parameters.append('action', 'create-chofer');
+            submit_formdata_with_ajax('Notificación',
+                '¿Estas seguro de crear al siguiente Chofer?', window.location.pathname, parameters, function (response) {
+                    // console.log(response);
+                    var newOption = new Option(response.full_name, response.id, false, true);
+                    $('select[name="chofer"]').append(newOption).trigger('change');
+                    $('#modalChofer').modal('hide');
+                });
+        });
+    };
 
     //////////////////////////////
     // CAPTURAR PESO DE BASCULA
@@ -263,14 +137,6 @@ $(function () {
             }
         });
     });
-
-
-    // IMPLEMENTACION DE SELECT2
-    $('.select2').select2({
-        theme: "bootstrap4",
-        language: 'es'
-    });
-
 
     // HABILITA BOTON SAVE
     setInterval(validarCampos, 500);
@@ -302,8 +168,7 @@ $(function () {
 
     $('#frmMovimiento').on('submit', function (e) {
         e.preventDefault();
-        var parameters = new FormData(this);
-
+        // var parameters = new FormData(this);
         if (action == 'add') {
             if (peso_entrada.val() <= 0) {
                 message_error('Peso entrada es Cero');
@@ -359,5 +224,4 @@ $(function () {
         }
 
     });
-
 });

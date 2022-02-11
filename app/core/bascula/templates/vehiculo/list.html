@@ -4,7 +4,7 @@
     <th>ID</th>
      <th>Chapa</th>
      <th>Marca</th>
-    <!-- <th>Inventariado</th> -->
+     <th>Transporte</th>    
     <th class="text-center">Opciones</th>
 {% endblock %}
 
@@ -14,6 +14,7 @@
             <td>{{ i.id }}</td>
              <td>{{ i.matricula }}</td>
              <td>{{ i.marca }}</td>
+             <td>{{ i.transporte }}</td>
             <!-- <td class="text-center">
                 {% if i.inventoried %}
                     <span class="badge badge-success">Si</span>

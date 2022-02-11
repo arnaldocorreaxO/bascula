@@ -138,6 +138,9 @@ class Sucursal(ModeloBase):
     def __str__(self):
         return '{}'.format(self.denominacion)
     
+    def get_short_name(self):
+        return '{}'.format(self.denominacion_corta)
+    
     class Meta:
         # ordering = ['1',]
         db_table = 'base_sucursal'

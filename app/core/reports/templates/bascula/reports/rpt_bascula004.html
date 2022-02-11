@@ -11,19 +11,53 @@
 
 {% block params_report %}
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="form-group">
-            <label>Por Cliente</label>
+            <label>Por Cliente (Remitente)</label>
             <div class="input-group mb-3">
                 {{ form.cliente }}
             </div>
         </div>
+    </div>    
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Destino</label>
+            <div class="input-group mb-3">
+                {{ form.destino }}
+            </div>
+        </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="form-group">
             <label>Por Producto</label>
             <div class="input-group mb-3">
                 {{ form.producto }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Transporte</label>
+            <div class="input-group mb-3">
+                {{ form.transporte }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Vehiculo</label>
+            <div class="input-group mb-3">
+                {{ form.vehiculo }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Chofer</label>
+            <div class="input-group mb-3">
+                {{ form.chofer }}
             </div>
         </div>
     </div>

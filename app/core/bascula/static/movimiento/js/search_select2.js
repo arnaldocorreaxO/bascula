@@ -1,0 +1,120 @@
+$(function (){
+    //VEHICULO
+    var select_vehiculo = $('select[name="vehiculo"]');
+    select_vehiculo.select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: '/bascula/movimiento/add/',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'search_vehiculo'
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+
+            },
+        },
+        // placeholder: 'Buscar por N°. Chapa',
+        minimumInputLength: 1,
+    });
+    //CHOFER
+    var select_chofer = $('select[name="chofer"]');
+    select_chofer.select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: '/bascula/movimiento/add/',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'search_chofer'
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+
+            },
+        },
+        // placeholder: 'Buscar por CI o Chofer ',
+        minimumInputLength: 1,
+    });
+    //CLIENTE
+    var select_cliente = $('select[name="cliente"]');
+    select_cliente.select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: '/bascula/movimiento/add/',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'search_cliente'
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+
+            },
+        },
+        // placeholder: 'Buscar por Cliente ',
+        minimumInputLength: 1,
+    });
+    //PRODUCTO
+    var select_producto = $('select[name="producto"]');
+    select_producto.select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: '/bascula/movimiento/add/',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'search_producto',
+                    cliente: select_cliente.val()
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+
+            },
+        },
+        // placeholder: 'Buscar por Cliente ',
+        minimumInputLength: 1,
+    });
+
+});

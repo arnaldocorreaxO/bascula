@@ -5,32 +5,13 @@ from django.db.models import Max
 from django.forms import ModelForm
 from core.base.forms import readonly_fields
 
-from core.bascula.models import (Categoria, ClienteProducto, Movimiento, Chofer, Vehiculo, 
+from core.bascula.models import (Categoria, ClienteProducto, Movimiento, Chofer, Transporte, Vehiculo, 
                                  Cliente,Producto,MarcaVehiculo)
-
-
 
 ''' 
 ====================
 ===   SHEARCH    ===
 ==================== '''
-# class SearchForm(forms.ModelForm):
-#     # Extra Fields
-#     date_range = forms.CharField(widget=forms.TextInput(attrs={
-#         'class': 'form-control',
-#         'autocomplete': 'off'
-#     }))
-
-#     class Meta:
-#         model = Movimiento
-#         fields = '__all__'
-#         widgets = {
-#             'cliente': forms.Select(attrs={'class': 'form-control select2', }),
-#             'producto': forms.Select(attrs={'class': 'form-control select2', }),
-#             'vehiculo': forms.Select(attrs={'class': 'form-control select2', }),
-#             'chofer': forms.Select(attrs={'class': 'form-control select2', }),
-#             # 'tipo_voto': forms.Select(attrs={'class': 'form-control select2', }),
-#         }
 
 class SearchForm(forms.Form):
     # Extra Fields
@@ -39,15 +20,50 @@ class SearchForm(forms.Form):
         'autocomplete': 'off'
     }))
 
-    cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'),empty_label="(Todos)")
-    producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
-    vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.filter(activo__exact=True).order_by('matricula'), empty_label="(Todos)")
-    chofer = forms.ModelChoiceField(queryset=Chofer.objects.filter(activo__exact=True).order_by('nombre','apellido'), empty_label="(Todos)")
+    # cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'),empty_label="(Todos)")
+    transporte = forms.ModelChoiceField(queryset=Transporte.objects.filter(activo=True),empty_label="(Todos)")
+    cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo=True),empty_label="(Todos)")
+    destino = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo=True,ver_en_destino=True),empty_label="(Todos)")
+    # producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
+    producto = forms.ModelChoiceField(queryset=Producto.objects.none(), empty_label="(Todos)")
+    # vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.filter(activo__exact=True).order_by('matricula'), empty_label="(Todos)")
+    vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.none(), empty_label="(Todos)")
+    # chofer = forms.ModelChoiceField(queryset=Chofer.objects.filter(activo__exact=True).order_by('nombre','apellido'), empty_label="(Todos)")
+    chofer = forms.ModelChoiceField(queryset=Chofer.objects.none(), empty_label="(Todos)")
    
+    transporte.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     cliente.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
+    destino.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     producto.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     chofer.widget.attrs.update({'class': 'form-control select2','multiple':'true'})  
+
+''' 
+====================
+=== TRANSPORTE   ===
+==================== '''
+class TransporteForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+    class Meta:
+        model = Transporte
+        fields = '__all__'
+        exclude = readonly_fields
+        widgets = {
+            'denominacion': forms.TextInput(attrs={'placeholder': 'Ingrese denominacion Transporte'}),
+        }
+
+    def save(self, commit=True):
+        data = {}
+        try:
+            if self.is_valid():
+                super().save()
+            else:
+                data['error'] = self.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 ''' 
 ====================
@@ -160,7 +176,10 @@ class ProductoForm(ModelForm):
         return data
     
 
-"""FORMULARIO DE VEHICULO"""
+''' 
+====================
+===   VEHICULO   ===
+==================== '''
 class VehiculoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -192,7 +211,10 @@ class VehiculoForm(ModelForm):
             data['error'] = str(e)
         return data
 
-"""FORMULARIO DE CHOFER"""
+''' 
+====================
+===   CHOFER     ===
+==================== '''
 class ChoferForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -214,8 +236,10 @@ class ChoferForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-
-"""FORMULARIO DE CLIENTE PRODUCTO"""
+''' 
+============================
+===   CLIENTE PRODUCTO   ===
+============================ '''
 class ClienteProductoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -248,11 +272,20 @@ class ClienteProductoForm(ModelForm):
         return data
 
 
-"""FORMULARIO PARA MOVIMIENTO DE ENTRADA"""
+''' 
+==============================
+===   MOVIMIENTO ENTRADA   ===
+============================== '''
 class MovimientoEntradaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['vehiculo'].queryset = Vehiculo.objects.none()
+        self.fields['vehiculo'].queryset = Vehiculo.objects.none()
+        self.fields['chofer'].queryset = Chofer.objects.none()
+        self.fields['cliente'].queryset = Cliente.objects.exclude(activo=False).order_by('id')[:5]
+        self.fields['producto'].queryset = Producto.objects.none()
+        self.fields['destino'].queryset = Cliente.objects.filter(activo=True,ver_en_destino=True)
+        qs = Cliente.objects.exclude(activo=False,ver_en_destino=False)
+        print(qs.query)
         # '''MAX NRO. TICKET'''
         # max_nro_ticket = Movimiento.objects.aggregate(Max('nro_ticket'))['nro_ticket__max']
         # if max_nro_ticket is None:
@@ -260,21 +293,27 @@ class MovimientoEntradaForm(ModelForm):
 
         # '''VALORES INICIALES'''
         self.initial['fecha'] = datetime.date.today
-        self.initial['nro_ticket'] = 0
-        
-        '''ATRIBUTOS'''
-        for form in self.visible_fields():
-            pass
-            # form.field.widget.attrs['readonly'] = 'readonly'
-            # form.field.widget.attrs['class'] = 'form-control'
-            # form.field.widget.attrs['autocomplete'] = 'off'
+        self.initial['nro_ticket'] = 0     
        
     class Meta:
         model = Movimiento
         fields =['fecha','nro_ticket','vehiculo','chofer',
                  'nro_mic','nro_remision','peso_embarque',
-                 'cliente','producto','peso_entrada','sucursal']
+                 'cliente','producto','peso_entrada',
+                 'transporte','destino','sucursal']
         widgets = {
+            'fecha': forms.TextInput(attrs={
+                'readonly': True,                
+                }
+            ),
+            'nro_ticket': forms.TextInput(attrs={
+                'readonly': True,                
+                }
+            ),
+            'peso_entrada': forms.TextInput(attrs={
+                'readonly': True,                
+                }
+            ),
             'vehiculo': forms.Select(attrs={
                 'class': 'custom-select select2',
                 'style': 'width: 90%'
@@ -289,24 +328,22 @@ class MovimientoEntradaForm(ModelForm):
                 'class': 'custom-select select2',
                 'style': 'width: 100%'
                 }
-            ),
+            ),            
             'producto': forms.Select(attrs={
                 'class': 'custom-select select2',
                 'style': 'width: 100%'
                 }
             ),
-            'fecha': forms.TextInput(attrs={
-                'readonly': True,                
+            'transporte': forms.Select(attrs={
+                'class': 'custom-select select2',
+                'style': 'width: 100%'
                 }
             ),
-            'nro_ticket': forms.TextInput(attrs={
-                'readonly': True,                
+            'destino': forms.Select(attrs={
+                'class': 'custom-select select2',
+                'style': 'width: 100%'
                 }
-            ),
-            'peso_entrada': forms.TextInput(attrs={
-                'readonly': True,                
-                }
-            ),
+            ),            
         }
 
     def save(self, commit=True):
@@ -323,13 +360,22 @@ class MovimientoEntradaForm(ModelForm):
         return data
 
 
-"""FORMULARIO PARA MOVIMIENTO DE SALIDA"""  
+''' 
+==============================
+===   MOVIMIENTO SALIDA    ===
+============================== ''' 
 class MovimientoSalidaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        print((self.instance.vehiculo_id))
         max_nro_ticket = Movimiento.objects.aggregate(Max('nro_ticket'))['nro_ticket__max']
         if max_nro_ticket is None:
             max_nro_ticket = 0  
+
+        self.fields['vehiculo'].queryset = Vehiculo.objects.filter(id=self.instance.vehiculo_id)
+        self.fields['chofer'].queryset = Chofer.objects.filter(id=self.instance.chofer_id)
+        self.fields['cliente'].queryset = Cliente.objects.filter(id=self.instance.cliente_id)
+        self.fields['producto'].queryset = Producto.objects.filter(id=self.instance.producto_id)
 
         '''VALORES INICIALES'''
         # self.initial['fecha'] = datetime.date.today
@@ -344,8 +390,23 @@ class MovimientoSalidaForm(ModelForm):
         model = Movimiento
         fields =['fecha','nro_ticket','vehiculo','chofer',
                  'nro_mic','nro_remision','peso_embarque',
-                 'cliente','producto','peso_entrada','peso_salida','sucursal']
+                 'cliente','producto','peso_entrada','peso_salida',
+                 'transporte','destino','sucursal']
         widgets = {
+            'fecha': forms.TextInput(attrs={
+                'readonly': True,                
+                }
+            ),
+            'nro_ticket': forms.TextInput(attrs={
+                'readonly': True,
+                }
+            ),
+            'transporte': forms.Select(attrs={
+                'class': 'custom-select',
+                'style': 'width: 100%',
+                'disabled': True,
+                }
+            ),
             'vehiculo': forms.Select(attrs={
                 'class': 'custom-select',
                 'style': 'width: 100%',
@@ -370,14 +431,13 @@ class MovimientoSalidaForm(ModelForm):
                'disabled': True,
                 }
             ),
-            'fecha': forms.TextInput(attrs={
-                'readonly': True,                
+            'destino': forms.Select(attrs={
+                'class': 'custom-select',
+                'style': 'width: 100%',
+               'disabled': True,
                 }
             ),
-            'nro_ticket': forms.TextInput(attrs={
-                'readonly': True,
-                }
-            ),
+            
             'peso_entrada': forms.TextInput(attrs={
                 'readonly': True,
                 'type': 'hidden',                

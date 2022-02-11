@@ -27,7 +27,10 @@ class MovimientoAdmin(ModeloAdminBase):
 
 # REGISTRO DE MODELOS
 admin.site.register(ConfigSerial, ConfigSerialModelAdmin)
+admin.site.register(Transporte, ModeloAdminBase)
 admin.site.register(MarcaVehiculo, ModeloAdminBase)
+admin.site.register(Vehiculo, ModeloAdminBase)
+admin.site.register(Chofer, ModeloAdminBase)
 admin.site.register(Cliente, ModeloAdminBase)
 admin.site.register(Categoria, ModeloAdminBase)
 admin.site.register(Producto, ModeloAdminBase)

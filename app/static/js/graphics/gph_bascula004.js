@@ -3,6 +3,8 @@ function get_graph_4(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
+            'sucursal': args[5],
+            'fecha': args[2],
             'action': 'get_graph_4'
         },
         dataType: 'json',
@@ -16,7 +18,7 @@ function get_graph_4(args) {
                     text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento Clinker Año ' + args[4] + '</span>'
                 },
                 subtitle: {
-                    text: args[0] + '<br> Actualizado: '+ args[1]
+                    text: args[0] + '<br> Fecha Hora Actualización: '+ args[1]
                 },
                 exporting: {
                     enabled: true
