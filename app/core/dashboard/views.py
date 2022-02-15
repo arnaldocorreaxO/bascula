@@ -135,12 +135,21 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 
                 now = fecha
                 month = now.month
-                year = now.year
+                year = now.year    
 
+                # Envia Vallemi recibe Villeta
+                cliente_id = 2 #Vallemi
+                destino_id = 1 #Villeta
+                
                 movimientos = Movimiento.objects\
                             .values('fecha') \
-                            .filter(sucursal=sucursal,producto=2, fecha__month=month, fecha__year=year,peso_neto__gt=0)\
-                            .exclude(cliente=1)\
+                            .filter( sucursal=sucursal,
+                                     cliente=cliente_id,
+                                     destino=destino_id,
+                                     producto=2, 
+                                     fecha__month=month, 
+                                     fecha__year=year,
+                                     peso_neto__gt=0)\
                             .exclude(anulado=True)\
                             .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
                                       ctd_recepcion=Count(True)) \
@@ -308,6 +317,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        usu_sucursal = self.usuario.sucursal.id
         context['title'] = 'Panel de administración'
         context['fecha_actual'] = datetime.datetime.today().strftime("%d/%m/%Y")
         context['fecha_hora_actual'] = datetime.datetime.today().strftime("%d/%m/%Y %H:%M:%S")
@@ -317,7 +327,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['clientes'] = Cliente.objects.all().count()
         context['categorias'] = Categoria.objects.filter().count()
         context['productos'] = Producto.objects.all().count()
-        context['movimientos'] = Movimiento.objects.filter(sucursal=self.usuario.sucursal.id).order_by('-id')[0:10]   
+        context['movimientos'] = Movimiento.objects.filter(sucursal=usu_sucursal).order_by('-id')[0:10]   
         context['usuario'] = self.usuario
         context['form'] = DashboardForm()
         return context

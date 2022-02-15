@@ -27,7 +27,7 @@ class ClienteProductoList(PermissionMixin, ListView):
 			if action == 'search':
 				data =[]
 								
-				search = ClienteProducto.objects.all()
+				search = ClienteProducto.objects.filter(sucursal=self.request.user.sucursal.id)
 				for i in search:
 					data.append(i.toJSON())
 			else:	
@@ -86,6 +86,7 @@ class ClienteProductoCreate(PermissionMixin, CreateView):
 		context['list_url'] = self.success_url
 		context['title'] = 'Nuevo registro de un ClienteProducto'
 		context['action'] = 'add'
+		context['usu_sucursal'] = self.request.user.sucursal.id
 		return context
 
 
@@ -133,6 +134,7 @@ class ClienteProductoUpdate(PermissionMixin, UpdateView):
 		context['list_url'] = self.success_url
 		context['title'] = 'Edición de Cliente Producto'
 		context['action'] = 'edit'
+		context['usu_sucursal'] = self.request.user.sucursal.id
 		return context
 
 

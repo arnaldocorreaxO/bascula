@@ -70,31 +70,39 @@ def search_select2(action,request):
 		else:
 			cliente = request.POST['cliente']	
 	
-		term = request.POST['term']
-		if cliente:
-			qs = ClienteProducto.objects.values('producto__id','producto__denominacion')\
-										.distinct()\
-										.exclude(producto__activo__exact=False)\
-										.filter(Q(cliente__id__in=cliente) &	
-										 Q(producto__denominacion__icontains=term))[0:10]
-			# print(qs.query)
-			for i in qs:
-				# print(i)
-				item={}
-				item['id'] = i['producto__id']	
-				item['text'] = i['producto__denominacion']
-				data.append(item)
+		term = request.POST['term']	
 
+		if cliente:
+			qs = ClienteProducto.objects.filter(cliente__id__exact=cliente,
+												producto__denominacion__icontains=term)\
+										.distinct()
+			# print(qs.query)
+			for rows in qs:			
+				row = rows.toJSON()				
+				producto = row['producto']				
+				# print(row)
+				for p in producto:
+					item={}
+					# print(p.items())
+					for k,v in p.items():
+						# print(term)
+						# print(v)
+						if k =='denominacion':
+							if term.upper() in v:				
+								item['id'] = p['id']
+								item['text'] = p['denominacion']
+								# print(k,':',v)
+								data.append(item)
+								# print(data)
 		else:
 			qs = Producto.objects.filter(Q(activo__exact=True) &
 										 Q(codigo__icontains=term) |	
 										 Q(denominacion__icontains=term))[0:10]
-
+			print(qs.query)
 			for i in qs:
 				item = i.toJSON()
 				print(item)
-				item['text'] = str(i)
-				
+				item['text'] = str(i)				
 				data.append(item)
 	
 	return data 
@@ -114,6 +122,7 @@ class MovimientoList(PermissionMixin,FormView):
 		data ={}		
 		try:
 			action = request.POST['action']
+			suc_usuario = self.request.user.sucursal.id
 			if action == 'search':
 				data =[]
 				start_date = request.POST['start_date']
@@ -163,16 +172,21 @@ class MovimientoList(PermissionMixin,FormView):
 				if vehiculo:
 					_where += f" AND bascula_movimiento.vehiculo_id IN ({vehiculo})"
 				
-				# print(_where)
-					
-				qs = Movimiento.objects\
-									.filter()\
-									.extra(where=[_where])\
-									.order_by('-id')
-
 				if len(start_date) and len(end_date):
-					qs = qs.filter(fecha__range=(start_date,end_date))
+					qs = Movimiento.objects.filter(sucursal=suc_usuario,fecha__range=(start_date,end_date))
+				else:
+					qs = Movimiento.objects.filter(sucursal=suc_usuario)
 
+				# print(_where)
+				if not _search:
+					qs = qs.filter()\
+					.extra(where=[_where])\
+					.order_by('-id')
+				else:
+					qs = qs.filter( Q(chofer__nombre__icontains=_search)|
+									Q(chofer__apellido__icontains=_search)|
+									Q(vehiculo__matricula__icontains=_search)|
+									Q(producto__denominacion__icontains=_search))
 				total = qs.count()
 				# print(qs.query)
 
@@ -268,7 +282,7 @@ class MovimientoCreate(CreateView):
 					# data = form.save()
 					import datetime
 					movi = Movimiento()
-					movi.sucursal_id = request.POST['sucursal']
+					movi.sucursal_id = request.POST['suc_usuario']
 					movi.fecha = datetime.datetime.now()
 					movi.nro_ticket = request.POST['nro_ticket']
 					movi.peso_entrada = request.POST['peso_entrada']
@@ -299,9 +313,9 @@ class MovimientoCreate(CreateView):
 				data = {}
 				peso_tara = 0
 				if request.POST['id']:
-					sucursal_id = request.POST['sucursal_id']
+					suc_usuario = request.POST['suc_usuario']
 					vehiculo = Vehiculo.objects.filter(id=request.POST['id']).first()
-					movimiento = Movimiento.objects.filter(sucursal_id = sucursal_id,
+					movimiento = Movimiento.objects.filter(sucursal = suc_usuario,
 														   fecha = datetime.datetime.now() ,
 														   vehiculo=vehiculo)\
 													.order_by('-id')
@@ -335,17 +349,17 @@ class MovimientoCreate(CreateView):
 		# return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
-		sucursal_id = self.request.user.sucursal.id
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Entrada Bascula'
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'add'
-		context['sucursal'] = self.request.user.sucursal.id
+		context['suc_usuario'] = suc_usuario
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC1').puerto
-		context['puerto_bascula2'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC2').puerto
+		context['puerto_bascula1'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
+		context['puerto_bascula2'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
 		return context
 
 
@@ -410,18 +424,21 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 					# movimiento.nro_ticket = max_nro_ticket + 1
 					form = self.get_form()
 					data = form.save()
-					movimiento = self.get_object()
-					if movimiento.peso_entrada > movimiento.peso_salida:
-						movimiento.peso_neto = movimiento.peso_entrada - movimiento.peso_salida
-						movimiento.peso_bruto = movimiento.peso_entrada
-						movimiento.peso_tara = movimiento.peso_salida
-					else:
-						movimiento.peso_neto = movimiento.peso_salida - movimiento.peso_entrada
-						movimiento.peso_bruto = movimiento.peso_salida
-						movimiento.peso_tara = movimiento.peso_entrada
-				
-				movimiento.fec_salida = movimiento.fec_modificacion
-				movimiento.save()
+					movi = self.get_object()
+					if movi.peso_salida > 0:
+						if movi.peso_entrada > movi.peso_salida:
+							movi.peso_neto = movi.peso_entrada - movi.peso_salida
+							movi.peso_bruto = movi.peso_entrada
+							movi.peso_tara = movi.peso_salida
+							movi.tip_movimiento = 'E'
+						else:
+							movi.peso_neto = movi.peso_salida - movi.peso_entrada
+							movi.peso_bruto = movi.peso_salida
+							movi.peso_tara = movi.peso_entrada
+							movi.tip_movimiento = 'S'
+					
+					movi.fec_salida = movi.fec_modificacion
+					movi.save()
 			elif action == 'validate_data':
 				return self.validate_data()
 			else:
@@ -431,17 +448,17 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
-		sucursal_id = self.request.user.sucursal.id
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = '%s %s' % ('Salida Bascula Camión',str(self.tipo_salida).capitalize())
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'edit'
-		context['sucursal'] = sucursal_id
+		context['suc_usuario'] = suc_usuario
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC1').puerto
-		context['puerto_bascula2'] = ConfigSerial.objects.get(sucursal=sucursal_id,cod__exact='BSC2').puerto
+		context['puerto_bascula1'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
+		context['puerto_bascula2'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
 		context['tipo_salida'] = self.tipo_salida
 		return context
 
@@ -488,8 +505,8 @@ def leer_puerto_serial(request,puerto):
 	if 'error' in buffer:
 		return JsonResponse({'error': buffer})
 	if buffer:
-		sucursal_id = request.user.sucursal.id		
-		data = getPeso(sucursal_id,config,buffer)
+		suc_usuario = request.user.sucursal.id		
+		data = getPeso(suc_usuario,config,buffer)
 	printSeparador()
 	print('Resultado\t:', data)
 	printSeparador()
@@ -510,9 +527,9 @@ def leer_peso_bascula(request):
 				#os.remove("peso.txt")			
 	return JsonResponse({ 'peso': data })          
 
-def getPeso(sucursal_id,config,buffer):
+def getPeso(suc_usuario,config,buffer):
 	# VILLETA
-	if sucursal_id == 1: 
+	if suc_usuario == 1: 
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
 		# VISOR BALPAR
 		if config.cod == 'BSC1' or config.cod == 'BSC2': 
@@ -531,13 +548,13 @@ def getPeso(sucursal_id,config,buffer):
 			print('Posicion Final\t:', pos_fin)
 			return buffer[pos_ini:pos_fin]
 	# VALLEMI
-	elif sucursal_id == 2: 
+	elif suc_usuario == 2: 
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-		# VISOR BALPAR 
+		# VISOR SIPEL ORION
 		if config.cod == 'BSC1': 
-			pos_ini = buffer.find('+') + 1
+			pos_ini = config.pos_ini
 			print('Posicion Inicial:', pos_ini)
-			pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
+			pos_fin = config.pos_fin
 			print('Posicion Final\t:', pos_fin)
 			return buffer[pos_ini:pos_fin]
 		

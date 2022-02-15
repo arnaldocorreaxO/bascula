@@ -199,6 +199,12 @@
         </tr>
         </tbody>
     </table>
+    <!-- Sentido de Carga  -->
+    {% if movimiento.tip_movimiento == 'E' %}
+        <p class="producto">INGRESO DE CARGA </p>
+    {% else %}
+        <p class="producto">EGRESO DE CARGA </p>
+    {% endif %}
 
     <p class="producto" > {{ movimiento.producto.denominacion }}</p>
     

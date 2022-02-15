@@ -29,9 +29,10 @@
             <div class="card-body" style="display: block;">
                 <div class="container-fluid">
                     <input type="hidden" name="action" id="action" value="{{ action }}">
+                    <input type="hidden" name="suc_usuario" id="suc_usuario" value="{{ suc_usuario}}">
                     {% csrf_token %}
                     {# Forms Visible #}
-                    <!-- {{ form.as_p}} -->
+                    <!-- {#{ form.as_p}} -->
                     {% for field in form.visible_fields %}
                         <div class="form-group">
                             <label>{{ field.label }}:</label>

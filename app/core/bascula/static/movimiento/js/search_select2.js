@@ -4,7 +4,7 @@ $(function (){
     select_vehiculo.select2({
         theme: "bootstrap4",
         language: 'es',
-        allowClear: true,
+        // allowClear: true,
         ajax: {
             delay: 250,
             type: 'POST',
@@ -25,7 +25,7 @@ $(function (){
 
             },
         },
-        // placeholder: 'Buscar por N°. Chapa',
+        // placeholder: 'Filtrar por N°. Chapa',
         minimumInputLength: 1,
     });
     //CHOFER
@@ -33,7 +33,7 @@ $(function (){
     select_chofer.select2({
         theme: "bootstrap4",
         language: 'es',
-        allowClear: true,
+        // allowClear: true,
         ajax: {
             delay: 250,
             type: 'POST',
@@ -54,7 +54,7 @@ $(function (){
 
             },
         },
-        // placeholder: 'Buscar por CI o Chofer ',
+        // placeholder: 'Filtrar por CI o Chofer ',
         minimumInputLength: 1,
     });
     //CLIENTE
@@ -62,7 +62,7 @@ $(function (){
     select_cliente.select2({
         theme: "bootstrap4",
         language: 'es',
-        allowClear: true,
+        // allowClear: true,
         ajax: {
             delay: 250,
             type: 'POST',
@@ -83,7 +83,7 @@ $(function (){
 
             },
         },
-        // placeholder: 'Buscar por Cliente ',
+        // placeholder: 'Filtrar por Cliente ',
         minimumInputLength: 1,
     });
     //PRODUCTO
@@ -91,7 +91,7 @@ $(function (){
     select_producto.select2({
         theme: "bootstrap4",
         language: 'es',
-        allowClear: true,
+        // allowClear: true,
         ajax: {
             delay: 250,
             type: 'POST',
@@ -113,7 +113,7 @@ $(function (){
 
             },
         },
-        // placeholder: 'Buscar por Cliente ',
+        // placeholder: 'Filtrar por Nombre Cliente ',
         minimumInputLength: 1,
     });
 

@@ -1,44 +1,41 @@
-
-
-
 document.addEventListener('DOMContentLoaded', function (e) {
     const form = document.getElementById('frmForm');
     const fv = FormValidation.formValidation(form, {
-            locale: 'es_ES',
-            localization: FormValidation.locales.es_ES,
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-                bootstrap: new FormValidation.plugins.Bootstrap(),
-                icon: new FormValidation.plugins.Icon({
-                    valid: 'fa fa-check',
-                    invalid: 'fa fa-times',
-                    validating: 'fa fa-refresh',
-                }),
-            },
-            fields: {
-                denominacion: {
-                    validators: {
-                        notEmpty: {},
-                        stringLength: {
-                            min: 2,
+        locale: 'es_ES',
+        localization: FormValidation.locales.es_ES,
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            bootstrap: new FormValidation.plugins.Bootstrap(),
+            icon: new FormValidation.plugins.Icon({
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh',
+            }),
+        },
+        fields: {
+            denominacion: {
+                validators: {
+                    notEmpty: {},
+                    stringLength: {
+                        min: 2,
+                    },
+                    remote: {
+                        url: pathname,
+                        data: function () {
+                            return {
+                                obj: form.querySelector('[name="denominacion"]').value,
+                                type: 'denominacion',
+                                action: 'validate_data'
+                            };
                         },
-                        remote: {
-                            url: pathname,
-                            data: function () {
-                                return {
-                                    obj: form.querySelector('[name="denominacion"]').value,
-                                    type: 'denominacion',
-                                    action: 'validate_data'
-                                };
-                            },
-                            message: 'El nombre ya se encuentra registrado',
-                            method: 'POST'
-                        }
+                        message: 'El nombre ya se encuentra registrado',
+                        method: 'POST'
                     }
                 }
-            },
-        }
+            }
+        },
+    }
     )
         .on('core.element.validated', function (e) {
             if (e.valid) {
@@ -68,4 +65,20 @@ document.addEventListener('DOMContentLoaded', function (e) {
         .on('core.form.valid', function () {
             submit_formdata_with_ajax_form(fv);
         });
+});
+
+
+$(document).ready(function () {
+
+    $(function () {
+        var action = $('#action').val();
+        var usu_sucursal = $('#usu_sucursal').val();       
+        
+        // console.log(usu_sucursal);
+
+        if (action == 'add') {
+            var sucursal = $('select[name="sucursal"]');
+            sucursal.val(usu_sucursal).change();
+        };
+    });
 });

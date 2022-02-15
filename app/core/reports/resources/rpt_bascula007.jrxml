@@ -109,7 +109,7 @@ ORDER BY 1,2,3,4,5]]>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group4" calculation="Sum">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -118,7 +118,7 @@ ORDER BY 1,2,3,4,5]]>
 	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[(($P{P_FECHA_HASTA} != null && $P{P_FECHA_HASTA}.length() == 10) ? $P{P_FECHA_HASTA}.substring(8,10)+"/"+$P{P_FECHA_HASTA}.substring(5,7)+"/"+$P{P_FECHA_HASTA}.substring(0,4) : "")]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
+	<variable name="V_SUM_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group4" calculation="Sum">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
 	</variable>
 	<variable name="V_AVG_DET_PESO" class="java.lang.Float" resetType="None">
@@ -127,13 +127,13 @@ ORDER BY 1,2,3,4,5]]>
 	<variable name="V_AVG_TOT_PESO" class="java.lang.Float" resetType="None">
 		<variableExpression><![CDATA[$V{V_SUM_NETO}.floatValue()/$V{V_SUM_VIAJES}.floatValue()]]></variableExpression>
 	</variable>
-	<variable name="V_AVG_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Average">
+	<variable name="V_AVG_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group4" calculation="Average">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
 	</variable>
-	<variable name="V_AVG_TOT_NETO_X_DIA" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Average">
+	<variable name="V_AVG_TOT_NETO_X_DIA" class="java.math.BigDecimal" resetType="Group" resetGroup="Group4" calculation="Average">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
 	</variable>
-	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Count">
+	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group4" calculation="Count">
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
 	<variable name="V_RES_SUM_VIAJES" class="java.math.BigDecimal" calculation="Sum">
@@ -155,10 +155,16 @@ ORDER BY 1,2,3,4,5]]>
 	<variable name="V_MAX_GROUP_COUNT" class="java.lang.Integer" resetType="None" calculation="Highest">
 		<variableExpression><![CDATA[$V{Group2_COUNT}]]></variableExpression>
 	</variable>
-	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{transporte}]]></groupExpression>
+	</group>
+	<group name="Group2">
 		<groupExpression><![CDATA[$F{cliente}]]></groupExpression>
 	</group>
-	<group name="Group2" isReprintHeaderOnEachPage="true" keepTogether="true" preventOrphanFooter="true">
+	<group name="Group3">
+		<groupExpression><![CDATA[$F{destino}]]></groupExpression>
+	</group>
+	<group name="Group4" isReprintHeaderOnEachPage="true" keepTogether="true" preventOrphanFooter="true">
 		<groupExpression><![CDATA[$F{producto}]]></groupExpression>
 		<groupHeader>
 			<band height="46">
@@ -538,10 +544,10 @@ X DIA]]></text>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="13" splitType="Stretch">
+		<band height="13" splitType="Prevent">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="20" y="0" width="48" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ContainerHeight" x="20" y="0" width="48" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -551,7 +557,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="513" y="0" width="59" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ContainerHeight" x="513" y="0" width="59" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -561,21 +567,21 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{total_neto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="30" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
+				<reportElement stretchType="ContainerHeight" x="380" y="0" width="30" height="13" uuid="18ac5953-16dc-4780-963a-73c741c6ab66"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cant_viaje}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="440" y="0" width="30" height="13" uuid="74e6bcab-46f2-4659-b69e-eed74e839549"/>
+				<reportElement stretchType="ContainerHeight" x="440" y="0" width="30" height="13" uuid="74e6bcab-46f2-4659-b69e-eed74e839549"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_AVG_DET_PESO}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ElementGroupHeight" x="68" y="0" width="78" height="13" uuid="851aa097-10f5-4d73-8fa8-f812ffe1574d">
+				<reportElement stretchType="ContainerHeight" x="68" y="0" width="78" height="13" uuid="851aa097-10f5-4d73-8fa8-f812ffe1574d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -585,7 +591,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_hora_min_entrada}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ElementGroupHeight" x="146" y="0" width="78" height="13" uuid="35bab4a7-75cf-4f57-b91f-1fa5c018eab6">
+				<reportElement stretchType="ContainerHeight" x="146" y="0" width="78" height="13" uuid="35bab4a7-75cf-4f57-b91f-1fa5c018eab6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -595,7 +601,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_hora_max_entrada}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ElementGroupHeight" x="224" y="0" width="78" height="13" uuid="1ff98144-e5d3-4808-8a50-26b26dfa134e">
+				<reportElement stretchType="ContainerHeight" x="224" y="0" width="78" height="13" uuid="1ff98144-e5d3-4808-8a50-26b26dfa134e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -605,7 +611,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_hora_min_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ElementGroupHeight" x="302" y="0" width="78" height="13" uuid="cd8ad12d-5c63-43df-82c0-ea8a7d6f2066">
+				<reportElement stretchType="ContainerHeight" x="302" y="0" width="78" height="13" uuid="cd8ad12d-5c63-43df-82c0-ea8a7d6f2066">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -615,7 +621,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_hora_max_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="20" height="13" uuid="85139fb4-f85c-4342-b1b8-e86fe964b5a4">
+				<reportElement stretchType="ContainerHeight" x="0" y="0" width="20" height="13" uuid="85139fb4-f85c-4342-b1b8-e86fe964b5a4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -627,7 +633,7 @@ X DIA]]></text>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="19" splitType="Stretch">
+		<band height="19" splitType="Prevent">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 			<textField>
 				<reportElement x="0" y="0" width="286" height="19" uuid="275a3616-58ed-4958-9b99-f3d77a862f28"/>
@@ -636,7 +642,7 @@ X DIA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Group" evaluationGroup="Group1">
+			<textField evaluationTime="Group" evaluationGroup="Group3">
 				<reportElement x="286" y="0" width="286" height="19" uuid="f5c1ac6e-b1b6-4ca7-81b8-5984e8581551"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>

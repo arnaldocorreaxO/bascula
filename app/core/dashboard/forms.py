@@ -20,7 +20,7 @@ class DashboardForm(forms.Form):
     }))
 
     sucursal = SucursalModelChoiceField(queryset=Sucursal.objects.filter(
-        activo__exact=True).order_by('denominacion_corta'), empty_label="(Todos)")
+        activo__exact=True).order_by('denominacion_corta'), empty_label=None)
     
     #Widgets
     sucursal.widget.attrs.update(

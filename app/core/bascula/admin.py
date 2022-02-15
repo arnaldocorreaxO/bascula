@@ -6,7 +6,7 @@ from core.bascula.models import *
 
 
 class ConfigSerialModelAdmin(ModeloAdminBase):
-    list_display = ('cod', '__str__', 'descripcion',)
+    list_display = ('cod','sucursal', '__str__', 'descripcion',)
 
 class MonedaAdmin(ModeloAdminBase):
     list_display = ('cod_moneda', 'denominacion',

@@ -68,7 +68,7 @@ $(function () {
 
     /*ESTABLECER LA SUCURSAL ACTUAL EN EL DASHBOARD */
     // anho_actual = $('input[name="anho_actual"]').val(); 
-    input_sucursal = $('input[name="sucursal_id"]');
+    input_sucursal = $('input[name="usu_sucursal"]');
     select_sucursal = $('select[name="sucursal"]');
 
     /*AL CAMBIAR LA SUCURSAL*/

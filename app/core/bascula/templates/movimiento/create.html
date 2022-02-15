@@ -33,7 +33,9 @@
                         <div class="card-body">
 
                             <input type="hidden" id="action" name="action" value="{{ action }}">
-                            <input type="hidden" id="sucursal_id" name="sucursal" value="{{ sucursal }}">
+                            <input type="hidden" id="suc_usuario" name="suc_usuario" value="{{ suc_usuario }}">
+                            <!-- Este utilizamos para el form del UpdateView -->
+                            <input type="hidden" id="id_sucursal" name="sucursal" value="{{ suc_usuario }}"> 
                             <input type="hidden" id="tipo_salida_id" name="tipo_salida" value="{{ tipo_salida }}">
                             
                             {% if form.errors %}
@@ -74,13 +76,16 @@
                                             {{ form.peso_salida|add_class:'form-control'|attr:'autocomplete:off'}}
                                         {% endif %} 
                                         <div class="input-group-append">
+                                            {% if puerto_bascula1 %}
                                             <button class="btn btn-info btn-flat btn-xs btnBascula mx-1" type="button" value="{{puerto_bascula1}}">
                                                 <i class="fas fa-download"></i> Bascula 1                                                
                                             </button>
-                                            
+                                            {% endif %}
+                                            {% if puerto_bascula2 %}
                                             <button class="btn btn-dark btn-xs btnBascula" type="button" value="{{puerto_bascula2}}">
                                                 <i class="fas fa-download"></i> Bascula 2                                                
                                             </button>
+                                            {% endif %}
                                         </div>
                                     </div>                                  
                                 </div>

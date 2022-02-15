@@ -5,7 +5,7 @@ $(function () {
     var peso_salida = $('input[name="peso_salida"]');   
 
     if (action == 'add') {
-        var sucursal_id = $('input[name="sucursal"]').val();
+        var suc_usuario = $('#suc_usuario').val();
         var select_vehiculo = $('select[name="vehiculo"]');
         var select_transporte = $('select[name="transporte"]');
 
@@ -19,7 +19,7 @@ $(function () {
                 type: 'POST',
                 data: {
                     'action': 'search_data_vehiculo',
-                    'sucursal_id': sucursal_id,
+                    'suc_usuario': suc_usuario,
                     'id': $(this).val()
                 },
                 dataType: 'json',
@@ -55,7 +55,7 @@ $(function () {
         select_transporte.on('change', function () {
             console.log($(this).val());
             if ($(this).val() == 1) {
-                if (sucursal_id == 1){
+                if (suc_usuario == 1){
                     $('#id_cliente').val(1).change();
                     $('#id_destino').val(1).change();
                }else{

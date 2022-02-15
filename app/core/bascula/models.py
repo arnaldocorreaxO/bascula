@@ -140,6 +140,9 @@ class Chofer(ModeloBase):
 	def get_full_name(self):
 		return f"{format(self.codigo,',.0f').replace(',','.')} - {self.nombre} {self.apellido}"
 	
+	def get_full_name2(self):
+		return f"{format(self.codigo,',.0f').replace(',','.')} <br> {self.nombre} {self.apellido}"
+	
 	def get_name(self):
 		return f"{self.nombre} {self.apellido}"
 	
@@ -216,7 +219,8 @@ class Producto(ModeloBase):
 		verbose_name_plural = 'productos'
 
 #PRODUCTOSCLIENTE
-class ClienteProducto(ModeloBase):	
+class ClienteProducto(ModeloBase):
+	sucursal = models.ForeignKey(Sucursal,on_delete=models.PROTECT)	
 	cliente = models.ForeignKey(Cliente,on_delete=models.PROTECT)
 	producto = models.ManyToManyField(Producto, verbose_name='Productos', blank=True)	
 
@@ -235,6 +239,7 @@ class ClienteProducto(ModeloBase):
 		db_table = 'bascula_cliente_producto'
 		verbose_name = 'Cliente Producto'
 		verbose_name_plural = 'Clientes Productos'
+		unique_together=('sucursal','cliente')
 
 
 #MOVIMIENTO DE BASCULA PESAJES
@@ -263,10 +268,10 @@ class Movimiento(ModeloBase):
 	bascula_salida = models.SmallIntegerField(null=True,blank=True,default=1)
 	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
 	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino')
+	tip_movimiento = models.CharField(max_length=1) #E = Entrada #S = Salida
 	
 
-	def toJSON(self):
-		
+	def toJSON(self):		
 		fec_entrada = format(self.fec_entrada,"%Y-%m-%d %H:%M:%S")
 		fec_salida = format(self.fec_salida,"%Y-%m-%d %H:%M:%S") if self.fec_salida else None
 
@@ -280,10 +285,10 @@ class Movimiento(ModeloBase):
 		item = model_to_dict(self)
 		item['fecha'] = self.fecha.strftime('%d/%m/%Y')
 		item['cliente'] = str(self.cliente)
-		item['cliente_destino'] = f"{str(self.cliente)} - {str(self.destino)}"
+		item['cliente_destino'] = f"{str(self.cliente)}/<br> {str(self.destino)}"
 		item['vehiculo'] = str(self.vehiculo)
-		item['transporte_vehiculo'] = f"{str(self.transporte)} - {str(self.vehiculo)}"
-		item['chofer'] = str(self.chofer)
+		item['transporte_vehiculo'] = f"{str(self.transporte)}/<br> {str(self.vehiculo)}"
+		item['chofer'] = self.chofer.get_full_name2()
 		item['producto'] = str(self.producto)
 		item['porc_humedad'] = format(self.porc_humedad,'.0f')
 		item['nro_remision'] = format(self.nro_remision,'.0f')

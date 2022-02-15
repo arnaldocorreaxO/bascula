@@ -2,7 +2,7 @@ var tblData;
 var input_daterange;
 var columns = [];
 
-var movimiento = {
+movimiento = {
     list: function (all) {
         /*Cuando el objecto select es multiple retorna un array []
         Si utilizamos select_cliente.val()            retorna la variable cliente[]=[''] Ej. cadena vacía
@@ -198,11 +198,8 @@ $(function () {
             movimiento.list(false);
         });
 
-    // initTable();
-    // getData(false);
-
     $('.btnFilter').on('click', function () {
-        // getData(false);
+        console.log('elpiro');
         movimiento.list(false);
     });
 
@@ -277,6 +274,9 @@ $(function () {
         })
     });
 
-    movimiento.list(false);
+    
+    $(document).ready(function () {
+        movimiento.list(false);
+    });
 
 });
