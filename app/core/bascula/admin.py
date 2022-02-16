@@ -23,7 +23,7 @@ class MovimientoAdmin(ModeloAdminBase):
     # Consume muchos recursos (tarda mucho la consulta)
     list_editable = ['fec_impresion']
     list_filter = ['cliente', 'producto', 'vehiculo', 'chofer', 'fecha']
-    list_per_page = 10
+    list_per_page = 5
 
 # REGISTRO DE MODELOS
 admin.site.register(ConfigSerial, ConfigSerialModelAdmin)

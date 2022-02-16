@@ -26,7 +26,7 @@
         }
 
         p {
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .content {
@@ -55,7 +55,6 @@
             margin-bottom: 5px;
             /* letter-spacing: 0.5px; */
         }
-
 
         .ticket_titulo2 {
             font-size: 12px;
@@ -96,14 +95,26 @@
             margin-bottom: 5px;
         }
 
-
-
         .xo {
             font-size: 6px;
             /* font-weight: bold; */
             /* text-transform: uppercase; */
             text-align: center;
             margin-bottom: 5px;
+        }
+        .font11 {
+            font-size: 11px;
+            /* font-weight: bold; */
+            /* text-transform: uppercase; */
+            /* text-align: center; */
+            /* margin-bottom: 5px; */
+        }
+
+        .espacioMas{   
+         letter-spacing: 15px;   
+        }
+        .espacioPeso{   
+         letter-spacing: 3px;   
         }
 
         .table {
@@ -129,7 +140,7 @@
 <div class="content">
    <!-- <p class="salto"></p> -->
     <p class="ticket_titulo1">
-        {{ movimiento.sucursal.empresa}} <br>
+        {{ movimiento.sucursal.empresa}}
     </p>
     <p class="ticket_titulo2 border-dotted">
         {{ movimiento.sucursal}} <br>
@@ -143,7 +154,7 @@
         N°: {{ movimiento.nro_ticket|stringformat:"i" }}
     </p>   
 
-    <table class="table table-borderless table-sm" style="margin-top: 0">
+    <table class="table table-borderless table-sm" style="margin-top: 0;margin-bottom: 1">
         <thead>
         <tr>
             <th style="width: 32%;"></th>
@@ -207,16 +218,29 @@
         </tr>        
         </tbody>
     </table>
-    <!-- Sentido de Carga  -->
-    {% if movimiento.tip_movimiento == 'E' %}
-        <p class="producto">INGRESO DE CARGA </p>
-    {% else %}
-        <p class="producto">EGRESO DE CARGA </p>
-    {% endif %}
-
-    <p class="producto" > {{ movimiento.producto.denominacion }}</p>
     
-    <p class="linea border-dotted">ENTRADA</p>
+    <table class="table table-borderless table-sm" style="margin-top: 0">
+        <thead>
+            <tr>
+                <th style="width: 100%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- Sentido de Carga  -->
+                {% if movimiento.tip_movimiento == 'E' %}
+                <td class="text-center">INGRESO DE CARGA </td>
+                {% else %}
+                <td class="text-center">EGRESO DE CARGA </td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td class="producto">{{ movimiento.producto.denominacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p class="linea border-dotted espacioMas">ENTRADA</p>
     <table class="table table-borderless table-sm" style="margin-top: 0">
         <thead>
         <tr>
@@ -232,19 +256,19 @@
             <td class="text-left">{{ movimiento.usu_insercion.get_full_name }}</td>
         </tr>
         <tr>
-            <td class="float-left">FECHA HORA</td>
+            <td class="float-left font11">FECHA HORA</td>
             <td class="float-center">: </td>
             <td class="text-left">{{ movimiento.fec_insercion|date:"d/m/Y H:i:s" }}</td>
         </tr>
         <tr>
             <td class="float-left ticket_peso">PESO</td>
             <td class="float-center ticket_peso">: </td>
-            <td class="text-left ticket_peso">{{ movimiento.peso_entrada }} kg</td>
+            <td class="text-left ticket_peso espacioPeso">{{ movimiento.peso_entrada }} kg</td>
         </tr>       
         </tbody>
     </table>
 
-    <p class="linea border-dotted">SALIDA</p>
+    <p class="linea border-dotted espacioMas">SALIDA</p>
 
     <table class="table table-borderless table-sm" style="margin-top: 0">
         <thead>
@@ -261,24 +285,25 @@
             <td class="text-left">{{ movimiento.usu_modificacion.get_full_name }}</td>
         </tr>
         <tr>
-            <td class="float-left">FECHA HORA</td>
+            <td class="float-left font11">FECHA HORA</td>
             <td class="float-center">: </td>
             <td class="text-left">{{ movimiento.fec_salida|date:"d/m/Y H:i:s" }}</td>
         </tr>
         <tr>
-            <td class="float-left ticket_peso"><b>TARA</b></td>
-            <td class="float-center ticket_peso"><b>: </b></td>
-            <td class="text-left ticket_peso">{{ movimiento.peso_tara }} kg</td>
+            <!-- <td class="float-left ticket_peso"><b>TARA</b></td> -->
+            <td class="float-left ticket_peso">TARA</td>
+            <td class="float-center ticket_peso">:</td>
+            <td class="text-left ticket_peso espacioPeso">{{ movimiento.peso_tara }} kg</td>
         </tr>
         <tr>
-            <td class="float-left ticket_peso"><b>BRUTO</b></td>
-            <td class="float-center ticket_peso"><b>:</b></td>
-            <td class="text-left ticket_peso">{{ movimiento.peso_bruto }} kg TP </td>
+            <td class="float-left ticket_peso">BRUTO</td>
+            <td class="float-center ticket_peso">:</td>
+            <td class="text-left ticket_peso espacioPeso">{{ movimiento.peso_bruto }} kg TP </td>
         </tr>
         <tr>
             <td class="float-left ticket_peso"><b>NETO</b></td>
             <td class="float-center ticket_peso"><b>:</b></td>
-            <td class="text-left ticket_peso">{{ movimiento.peso_neto }} kg L </td>
+            <td class="text-left ticket_peso espacioPeso">{{ movimiento.peso_neto }} kg L </td>
         </tr>
         </tbody>
     </table>
