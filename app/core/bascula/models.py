@@ -269,6 +269,7 @@ class Movimiento(ModeloBase):
 	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
 	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino')
 	tip_movimiento = models.CharField(max_length=1) #E = Entrada #S = Salida
+	referencia = models.CharField(max_length=25,null=True,blank=True)
 	
 
 	def toJSON(self):		

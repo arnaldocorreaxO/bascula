@@ -167,6 +167,18 @@
             <td class="float-center">:</td>
             <td class="text-left">{{ movimiento.nro_remision }}</td>
         </tr>
+        {% if movimiento.referencia %}
+        <tr>
+            <td class="float-left">REFERENCIA</td>
+            <td class="float-center">:</td>
+            <td class="text-left">{{ movimiento.referencia }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td class="float-left">TRANSPORTE</td>
+            <td class="float-center">: </td>
+            <td class="text-left">{{ movimiento.transporte }}</td>
+        </tr>
         <tr>
             <td class="float-left">REMITENTE</td>
             <td class="float-center">: </td>
@@ -177,11 +189,7 @@
             <td class="float-center">: </td>
             <td class="text-left">{{ movimiento.destino }}</td>
         </tr>
-        <tr>
-            <td class="float-left">TRANSPORTE</td>
-            <td class="float-center">: </td>
-            <td class="text-left">{{ movimiento.transporte }}</td>
-        </tr>
+        
         <tr>
             <td class="float-left">CHAPA</td>
             <td class="float-center">: </td>
@@ -196,7 +204,7 @@
             <td class="float-left">CHOFER</td>
             <td class="float-center">:</td>
             <td class="text-left">{{ movimiento.chofer.get_name }}</td>
-        </tr>
+        </tr>        
         </tbody>
     </table>
     <!-- Sentido de Carga  -->

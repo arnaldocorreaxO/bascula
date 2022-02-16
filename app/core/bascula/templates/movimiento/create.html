@@ -53,7 +53,6 @@
                             </div>
                             {% endif %}
 
-
                             <div class="form-row">
                                 <div class="form-group col-md-3 mb-0">
                                     <label for="{{ form.fecha.id_for_label }}">{{form.fecha.label}}*</label>
@@ -151,15 +150,19 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-2 mb-0">
+                                <div class="form-group col-md-3 mb-0">
                                     <label for="{{ form.nro_mic.id_for_label }}">{{form.nro_mic.label}}</label>
                                     {{ form.nro_mic|add_class:'form-control'|attr:'autocomplete:off'}}
                                 </div>
-                                <div class="form-group col-md-4 mb-0">
+                                <div class="form-group col-md-3 mb-0">
                                     <label for="{{ form.nro_remision.id_for_label }}">{{form.nro_remision.label}}</label>
                                     {{ form.nro_remision|add_class:'form-control'|attr:'autocomplete:off'}}
                                 </div>
-                                <div class="form-group col-md-6 mb-0">
+                                <div class="form-group col-md-3 mb-0">
+                                    <label for="{{ form.referencia.id_for_label }}">{{form.referencia.label}}</label>
+                                    {{ form.referencia|add_class:'form-control'|attr:'autocomplete:off'}}
+                                </div>
+                                <div class="form-group col-md-3 mb-0">
                                     <label for="{{ form.peso_embarque.id_for_label }}">{{form.peso_embarque.label}}</label>
                                     {{ form.peso_embarque|add_class:'form-control'|attr:'autocomplete:off'}}
                                 </div>

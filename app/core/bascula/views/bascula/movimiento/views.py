@@ -282,8 +282,8 @@ class MovimientoCreate(CreateView):
 					# data = form.save()
 					import datetime
 					movi = Movimiento()
-					movi.sucursal_id = request.POST['suc_usuario']
 					movi.fecha = datetime.datetime.now()
+					movi.sucursal_id = request.POST['suc_usuario']					
 					movi.nro_ticket = request.POST['nro_ticket']
 					movi.peso_entrada = request.POST['peso_entrada']
 					movi.vehiculo_id = request.POST['vehiculo']
@@ -295,6 +295,7 @@ class MovimientoCreate(CreateView):
 					movi.nro_mic = request.POST['nro_mic'] if request.POST['nro_mic']!='' else None
 					movi.nro_remision = request.POST['nro_remision']
 					movi.peso_embarque = request.POST['peso_embarque']
+					movi.referencia = request.POST['referencia']
 					movi.save()
 					data ={'id':movi.id}
 

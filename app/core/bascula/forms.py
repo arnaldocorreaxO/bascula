@@ -174,7 +174,6 @@ class ProductoForm(ModelForm):
 		except Exception as e:
 			data['error'] = str(e)
 		return data
-	
 
 ''' 
 ====================
@@ -305,7 +304,7 @@ class MovimientoEntradaForm(ModelForm):
 		fields =['fecha','nro_ticket','vehiculo','chofer',
 				 'nro_mic','nro_remision','peso_embarque',
 				 'cliente','producto','peso_entrada',
-				 'transporte','destino','sucursal']
+				 'transporte','destino','sucursal','referencia']
 		widgets = {
 			'fecha': forms.TextInput(attrs={
 				'readonly': True,                
@@ -407,7 +406,7 @@ class MovimientoSalidaForm(ModelForm):
 		fields =['fecha','nro_ticket','vehiculo','chofer',
 				 'nro_mic','nro_remision','peso_embarque',
 				 'cliente','producto','peso_entrada','peso_salida',
-				 'transporte','destino','sucursal']
+				 'transporte','destino','sucursal','referencia']
 		widgets = {
 			'fecha': forms.TextInput(attrs={
 				'readonly': True,                
@@ -472,6 +471,10 @@ class MovimientoSalidaForm(ModelForm):
 				}
 			),
 			'peso_embarque': forms.TextInput(attrs={
+				'readonly': True,                
+				}
+			),
+			'referencia': forms.TextInput(attrs={
 				'readonly': True,                
 				}
 			),
