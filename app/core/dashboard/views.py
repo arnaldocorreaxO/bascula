@@ -95,9 +95,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
                 for i in movi:
                     # CATEGORIAS DENOMINACION DE LOS PRODUCTOS + CLIENTES + TRANSPORTE
-                    categorias.append(i['producto__denominacion']   + ' - ' +\
-                                      i['cliente__denominacion']    + ' - ' +\
-                                      i['transporte__denominacion'] + ' - ')
+                    categorias.append(i['producto__denominacion']   + ' <br> ' +\
+                                      i['transporte__denominacion']    + ' <br> ' +\
+                                      i['cliente__denominacion'] + ' <br> ')
                      # SERIES           
                     val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
                     val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
@@ -279,10 +279,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 vehiculo_pendiente_series_data = list()
 
                 for row in qs:
+                    text_denom = row['transporte__denominacion']
+                    if text_denom == 'DEL PROVEEDOR':
+                        text_denom = row['cliente__denominacion']                    
+
                     categorias.append(
-                        '%s - %s \n- %s' % ( row['producto__denominacion'],
-                                             row['transporte__denominacion'],
-                                             row['cliente__denominacion']))
+                        '%s <br> %s' % (row['producto__denominacion'],
+                                        text_denom
+                                        ))
                     vehiculo_entrada_series_data.append(
                         row['vehiculo_entrada_count'])
                     vehiculo_salida_series_data.append(
