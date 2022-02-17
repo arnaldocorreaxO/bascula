@@ -32,6 +32,7 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
 				fecha_hasta = date_range[13:].strip()					
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None			
@@ -44,7 +45,9 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR CLIENTE Y PRODUCTO'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -65,9 +68,11 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Reporte de Movimiento de Bascula agrupado por Cliente y Producto'
-		context['action'] = 'report'
+		context['action'] = 'report' 
+		context['suc_usuario'] = suc_usuario
 		return context
 
 '''REPORTE 002'''
@@ -89,6 +94,7 @@ class RptBascula002ReportView(ModuleMixin, FormView):
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
 				fecha_hasta = date_range[13:].strip()				
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None	
@@ -101,7 +107,9 @@ class RptBascula002ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR VEHICULO Y PRODUCTO'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -127,9 +135,11 @@ class RptBascula002ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Reporte de Movimiento de Bascula agrupado por Vehiculo y Producto'
 		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
 		return context
 
 '''REPORTE 003'''
@@ -151,6 +161,7 @@ class RptBascula003ReportView(ModuleMixin, FormView):
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
 				fecha_hasta = date_range[13:].strip()				
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
@@ -163,7 +174,9 @@ class RptBascula003ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'MOVIMIENTO DE PRODUCTOS POR CLIENTE Y PRODUCTO'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -184,9 +197,11 @@ class RptBascula003ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Reporte de Movimiento de Bascula agrupado por Cliente y Producto en Toneladas'
 		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
 		return context
 
 '''REPORTE 004'''
@@ -208,6 +223,7 @@ class RptBascula004ReportView(ModuleMixin, FormView):
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
 				fecha_hasta = date_range[13:].strip()				
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
@@ -220,7 +236,9 @@ class RptBascula004ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -241,9 +259,11 @@ class RptBascula004ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Reporte de Total de Productos por Clientes'
 		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
 		return context
 
 '''REPORTE 005'''		
@@ -265,6 +285,7 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
 				fecha_hasta = date_range[13:].strip()				
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
@@ -277,7 +298,9 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'INFORME DE TOTAL DE PRODUCTOS POR CLIENTES'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -298,9 +321,11 @@ class RptBascula005ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Reporte de Total de Productos por Clientes'
 		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
 		return context
 
 '''REPORTE 006'''
@@ -333,9 +358,9 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				# Rango de Hora de Salida			
 				time_range_out = request.POST['time_range_out']
 				hora_sal_desde = time_range_out[:8].strip()
-				hora_sal_hasta = time_range_out[10:].strip()				
+				hora_sal_hasta = time_range_out[10:].strip()			
 		
-			
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
@@ -348,7 +373,9 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
 				report.params['P_TITULO3'] = 'INFORME DIARIO TOTALES POR CLIENTES Y PRODUCTOS'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
 				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
@@ -373,7 +400,9 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Resumen de Totales por Clientes y Productos'
 		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
 		return context

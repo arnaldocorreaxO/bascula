@@ -41,7 +41,8 @@ function load() {
     // console.log(anho_actual);
 
     get_graph_1(args);
-    get_graph_2(args);
+    get_graph_2_1(args);
+    get_graph_2_2(args);
     get_graph_3(args);
     get_graph_4(args);
     get_graph_5(args);

@@ -266,11 +266,10 @@ class Movimiento(ModeloBase):
 	anulado = models.BooleanField(default=False)
 	bascula_entrada = models.SmallIntegerField(null=True,default=1)
 	bascula_salida = models.SmallIntegerField(null=True,blank=True,default=1)
-	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
-	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino')
-	tip_movimiento = models.CharField(max_length=1) #E = Entrada #S = Salida
-	referencia = models.CharField(max_length=25,null=True,blank=True)
-	
+	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT,null=True)
+	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino',null=True)
+	tip_movimiento = models.CharField(max_length=1,default='E') #E = Entrada #S = Salida
+	referencia = models.CharField(max_length=25,null=True,blank=True)	
 
 	def toJSON(self):		
 		fec_entrada = format(self.fec_entrada,"%Y-%m-%d %H:%M:%S")
@@ -315,8 +314,4 @@ class Movimiento(ModeloBase):
 		verbose_name_plural = 'movimientos'
 		permissions = (
             ('habilita_peso_manual', 'Puede ingresar peso en forma manual'),		
-        )
-
-
-
-	
+        )	

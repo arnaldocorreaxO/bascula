@@ -70,28 +70,33 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                     'data': info,
                 }
             elif action == 'get_graph_2':
+                filtrar = request.POST['filtrar']
                 data = []
                 categorias=[]
                 val_tot_recepcion_series=[]
                 val_tot_recepcion_series_data=[]
                 val_ctd_recepcion_series=[]
                 val_ctd_recepcion_series_data=[]
-
                 # now = datetime.datetime.now()
                 now = fecha
-
-                movimientos = Movimiento.objects\
+                
+                movi = Movimiento.objects\
                             .values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
                             .filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
                             .exclude(anulado=True)\
                             .annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
                                       ctd_recepcion=Count(True)) \
                             .order_by('-tot_recepcion')
-                for i in movimientos:
+                
+                if filtrar =='true':
+                    # Filtar producto clinker que no sea interno
+                    movi = movi.filter(producto__exact=2)\
+                               .exclude(transporte__exact=1)
 
-                    # CATEGORIAS DENOMINACION DE LOS PRODUCTOS + CLIENTES
-                    categorias.append(i['producto__denominacion'] + ' - ' +\
-                                      i['cliente__denominacion'] + ' - ' +\
+                for i in movi:
+                    # CATEGORIAS DENOMINACION DE LOS PRODUCTOS + CLIENTES + TRANSPORTE
+                    categorias.append(i['producto__denominacion']   + ' - ' +\
+                                      i['cliente__denominacion']    + ' - ' +\
                                       i['transporte__denominacion'] + ' - ')
                      # SERIES           
                     val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
@@ -275,9 +280,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
                 for row in qs:
                     categorias.append(
-                        '%s - %s \n- %s' % (row['producto__denominacion'], 
-                                         row['cliente__denominacion'],
-                                         row['transporte__denominacion']))
+                        '%s - %s \n- %s' % ( row['producto__denominacion'],
+                                             row['transporte__denominacion'],
+                                             row['cliente__denominacion']))
                     vehiculo_entrada_series_data.append(
                         row['vehiculo_entrada_count'])
                     vehiculo_salida_series_data.append(

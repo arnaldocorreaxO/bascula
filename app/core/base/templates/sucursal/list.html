@@ -4,6 +4,7 @@
     <th>ID</th>
      <th>Denominación</th>
      <th>Denominación Corta</th>    
+     <th>Denominación Puesto</th>    
     <th class="text-center">Opciones</th>
 {% endblock %}
 
@@ -13,13 +14,7 @@
             <td>{{ i.id }}</td>
              <td>{{ i.denominacion }}</td>
              <td>{{ i.denominacion_corta }}</td>
-            <!-- <td class="text-center">
-                {% if i.inventoried %}
-                    <span class="badge badge-success">Si</span>
-                {% else %}
-                    <span class="badge badge-warning">No</span>
-                {% endif %}
-            </td> -->
+             <td>{{ i.denominacion_puesto }}</td>
             <td class="text-center">
                 <a href="{% url 'sucursal_update' i.id %}" data-toggle="tooltip" title="Editar registro"
                    class="btn btn-warning btn-xs btn-flat">

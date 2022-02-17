@@ -1,16 +1,18 @@
-function get_graph_2(args) {
+function get_graph_2_1(args) {
     $.ajax({
         url: window.location.pathname,
         type: 'POST',
         data: {
+            'action': 'get_graph_2',
             'sucursal': args[5],
             'fecha': args[2],
-            'action': 'get_graph_2'
+            'filtrar':'false' /*Todos los productos menos Clinker */
+            
         },
         dataType: 'json',
     }).done(function (request) {
         if (!request.hasOwnProperty('error')) {
-            Highcharts.chart('graph_2', {
+            Highcharts.chart('graph_2_1', {
                 chart: {
                     type: 'column'
                 },

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PG_BASCULA_LOCAL"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -20,8 +20,11 @@
 	<parameter name="P_VEHICULO_ID" class="java.lang.String"/>
 	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
 	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
+	<parameter name="P_SUCURSAL_ID" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT  MOV.FECHA AS FECHA,
+		<![CDATA[SELECT  
+		SUC.DENOMINACION AS SUCURSAL,
+		MOV.FECHA AS FECHA,
 		MOV.NRO_TICKET AS NRO_TICKET,
 		TRA.DENOMINACION AS TRANSPORTE,
 		CLI.DENOMINACION  AS CLIENTE,
@@ -31,9 +34,11 @@
 		MOV.PESO_BRUTO AS PESO_BRUTO,
 		MOV.PESO_TARA AS PESO_TARA,
 		MOV.PESO_NETO AS PESO_NETO,
-		DES.DENOMINACION AS DESTINO
+		DES.DENOMINACION AS DESTINO,
+		MOV.REFERENCIA AS REFERENCIA
 FROM 
 BASCULA_MOVIMIENTO MOV
+INNER JOIN BASE_SUCURSAL SUC ON MOV.SUCURSAL_ID = SUC.ID 
 INNER JOIN BASCULA_PRODUCTO PRO ON MOV.PRODUCTO_ID = PRO.ID 
 INNER JOIN BASCULA_CLIENTE CLI ON MOV.CLIENTE_ID = CLI.ID 
 INNER JOIN BASCULA_CLIENTE DES ON MOV.DESTINO_ID = DES.ID 
@@ -41,6 +46,8 @@ INNER JOIN BASCULA_CHOFER CHO ON MOV.CHOFER_ID = CHO.ID
 INNER JOIN BASCULA_VEHICULO VEH ON MOV.VEHICULO_ID = VEH.ID
 INNER JOIN BASCULA_TRANSPORTE TRA ON MOV.TRANSPORTE_ID = TRA.ID
 INNER JOIN BASCULA_MARCA_VEHICULO MAR ON VEH.MARCA_ID = MAR.ID
+WHERE 1=1
+AND  (SUC.ID IN ($P!{P_SUCURSAL_ID}) OR $P{P_SUCURSAL_ID}  IS NULL) 
 AND  (CLI.ID IN ($P!{P_CLIENTE_ID}) OR $P{P_CLIENTE_ID}  IS NULL) 
 AND  (DES.ID IN ($P!{P_DESTINO_ID}) OR $P{P_DESTINO_ID}  IS NULL) 
 AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL) 
@@ -51,8 +58,13 @@ AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
 AND MOV.PESO_NETO > 0 
 AND MOV.ANULADO = FALSE
-ORDER BY 3,4,5,1,2]]>
+ORDER BY 1,4,5,6,2,3]]>
 	</queryString>
+	<field name="sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="base_sucursal"/>
+	</field>
 	<field name="fecha" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
 		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
@@ -71,6 +83,7 @@ ORDER BY 3,4,5,1,2]]>
 	<field name="cliente" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cliente"/>
 		<property name="com.jaspersoft.studio.field.label" value="cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
 	</field>
 	<field name="producto" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="producto"/>
@@ -104,10 +117,15 @@ ORDER BY 3,4,5,1,2]]>
 		<property name="com.jaspersoft.studio.field.label" value="destino"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_cliente"/>
 	</field>
+	<field name="referencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="referencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="referencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bascula_movimiento"/>
+	</field>
 	<variable name="V_HOY" class="java.util.Date" resetType="None">
 		<variableExpression><![CDATA[NOW( )]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO" class="java.lang.Float" resetType="Group" resetGroup="Group2" calculation="Sum">
+	<variable name="V_SUM_NETO" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
@@ -116,32 +134,29 @@ ORDER BY 3,4,5,1,2]]>
 	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[(($P{P_FECHA_HASTA} != null && $P{P_FECHA_HASTA}.length() == 10) ? $P{P_FECHA_HASTA}.substring(8,10)+"/"+$P{P_FECHA_HASTA}.substring(5,7)+"/"+$P{P_FECHA_HASTA}.substring(0,4) : "")]]></variableExpression>
 	</variable>
-	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Count">
+	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
-	<group name="Group1">
-		<groupExpression><![CDATA[$F{transporte}]]></groupExpression>
-	</group>
-	<group name="Group2" isReprintHeaderOnEachPage="true" keepTogether="true">
-		<groupExpression><![CDATA[$F{producto}]]></groupExpression>
+	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
 		<groupHeader>
-			<band height="52">
+			<band height="60">
 				<textField>
-					<reportElement x="70" y="19" width="210" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
+					<reportElement x="60" y="27" width="212" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="10" y="19" width="58" height="10" uuid="86c52a4c-a110-43f8-908a-5b90db041330"/>
+					<reportElement x="0" y="27" width="58" height="10" uuid="86c52a4c-a110-43f8-908a-5b90db041330"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="32" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="30" y="40" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -154,7 +169,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="70" y="32" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="70" y="40" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -167,7 +182,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="120" y="32" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="120" y="40" width="90" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -180,7 +195,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[VEHICULO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="230" y="32" width="182" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="210" y="40" width="170" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -193,7 +208,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[CHOFER]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="466" y="32" width="54" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
+					<reportElement x="482" y="40" width="46" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -206,7 +221,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[BRUTO (kg)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="412" y="32" width="54" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
+					<reportElement x="436" y="40" width="46" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -219,7 +234,7 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[TARA (kg)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="520" y="32" width="54" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
+					<reportElement x="528" y="40" width="46" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -232,21 +247,21 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[NETO (kg)]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="70" y="6" width="210" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
+					<reportElement x="60" y="15" width="212" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="10" y="6" width="58" height="10" uuid="1f1da2a7-2a43-4bbf-9972-6fc2f750fca1"/>
+					<reportElement x="0" y="15" width="58" height="10" uuid="1f1da2a7-2a43-4bbf-9972-6fc2f750fca1"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="32" width="30" height="20" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
+					<reportElement x="0" y="40" width="30" height="20" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -259,33 +274,60 @@ ORDER BY 3,4,5,1,2]]>
 					<text><![CDATA[N°]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="282" y="7" width="88" height="10" uuid="a18d4991-3ecd-4722-9a0a-1c16b22dae69"/>
+					<reportElement x="282" y="15" width="81" height="10" uuid="a18d4991-3ecd-4722-9a0a-1c16b22dae69"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[CLIENTE (REMITENTE):]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="370" y="7" width="182" height="10" uuid="1c20b8c2-9b11-4406-b1ee-382b2a9123dc"/>
+					<reportElement x="363" y="15" width="209" height="10" uuid="1c20b8c2-9b11-4406-b1ee-382b2a9123dc"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="370" y="20" width="182" height="10" uuid="5fd9f1dc-4657-42e9-8e65-41691c6e2bbf"/>
+					<reportElement x="363" y="27" width="209" height="10" uuid="5fd9f1dc-4657-42e9-8e65-41691c6e2bbf"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="282" y="20" width="88" height="10" uuid="1005f6d0-759b-4539-94d8-c81b5497f590"/>
+					<reportElement x="282" y="27" width="81" height="10" uuid="1005f6d0-759b-4539-94d8-c81b5497f590"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DESTINO:]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="380" y="40" width="56" height="20" uuid="199e606d-66eb-40ef-ba05-4384dc863b99"/>
+					<box padding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REFERENCIA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="3" width="58" height="10" uuid="20b6a3dc-0e01-4a18-a181-6556c6c143af"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SUCURSAL:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="60" y="3" width="212" height="10" uuid="e6a92713-c3a7-4905-b098-51315b3bacd6"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -387,7 +429,7 @@ ORDER BY 3,4,5,1,2]]>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="120" y="0" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="120" y="0" width="90" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -397,7 +439,7 @@ ORDER BY 3,4,5,1,2]]>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="230" y="0" width="182" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ElementGroupHeight" x="210" y="0" width="170" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -407,7 +449,7 @@ ORDER BY 3,4,5,1,2]]>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="466" y="0" width="54" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
+				<reportElement stretchType="ElementGroupHeight" x="482" y="0" width="46" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -417,7 +459,7 @@ ORDER BY 3,4,5,1,2]]>
 				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="false">
-				<reportElement stretchType="ElementGroupHeight" x="412" y="0" width="54" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+				<reportElement stretchType="ElementGroupHeight" x="436" y="0" width="46" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -427,7 +469,7 @@ ORDER BY 3,4,5,1,2]]>
 				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="520" y="0" width="54" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ElementGroupHeight" x="528" y="0" width="46" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -442,6 +484,16 @@ ORDER BY 3,4,5,1,2]]>
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="380" y="0" width="56" height="13" uuid="279fd65c-71e0-480e-ab59-4c3814ac8e7f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

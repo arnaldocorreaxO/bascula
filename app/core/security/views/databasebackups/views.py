@@ -84,11 +84,13 @@ class DatabaseBackupsCreateView(PermissionMixin, TemplateView):
         file = ''
         data = {}
         try:
-            db_name = connection.settings_dict['NAME']
+            pg_host = connection.settings_dict['HOST']
+            pg_port = connection.settings_dict['PORT']
+            pg_db   = connection.settings_dict['NAME']
             data_now = '{0:%Y_%m_%d_%H_%M_%S}'.format(datetime.now())
             name_backup = "{}_{}.backup".format('backup', data_now)
             file = os.path.join(settings.BASE_DIR, name_backup)
-            script = 'pg_dump -h localhost -p 5432 -U postgres -F c -b -v -f "{}" {}'.format(file, db_name)
+            script = 'pg_dump -h {} -p {} -U postgres -F c -b -v -f "{}" {}'.format(pg_host,pg_port,file, pg_db)
             subprocess.call(script, shell=True)
             # file = os.path.join(settings.BASE_DIR, name_backup)
             db = DatabaseBackups()

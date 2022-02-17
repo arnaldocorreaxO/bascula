@@ -48,4 +48,11 @@ $(function () {
         }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
+
+
+         // #SUCURSAL POR DEFECTO 
+    var sucursal_id = $('input[name="suc_usuario"]').val();   
+    var select_sucursal = $('select[name="sucursal"]'); 
+    select_sucursal.val(sucursal_id).change();
+    // getData('all');
 });

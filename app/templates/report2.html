@@ -23,6 +23,7 @@
             <div class="card-body" style="display: block;">
                 <div class="container-fluid">
                     <input type="hidden" name="action" id="action" value="{{ action }}">
+                    <input type="hidden" name="suc_usuario" id="suc_usuario" value="{{ suc_usuario}}">
                     <input type="hidden" name="tipo" id="tipo" value="pdf">
                     {% csrf_token %}
                     {# Forms Visible #}
