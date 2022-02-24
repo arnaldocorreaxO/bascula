@@ -232,7 +232,7 @@ class MovimientoList(PermissionMixin,FormView):
 
 
 """CREAR MOVIMIENTO DE BASCULA"""
-class MovimientoCreate(CreateView):
+class MovimientoCreate(PermissionMixin,CreateView):
 	model = Movimiento
 	form_class=MovimientoEntradaForm
 	success_url = reverse_lazy('movimiento_list')
@@ -299,7 +299,7 @@ class MovimientoCreate(CreateView):
 					movi.referencia = request.POST['referencia']
 					movi.movimiento_padre = request.POST['movimiento_padre'] if request.POST['movimiento_padre']!='' else None
 					movi.save()
-					data ={'id':movi.id}
+					data = {'id':movi.id}
 
 			elif action == 'validate_data':
 				return self.validate_data()				
@@ -413,13 +413,14 @@ class MovimientoCreate(CreateView):
 
 
 """ACTUALIZAR MOVIMIENTO DE BASCULA"""
-class MovimientoUpdate(PermissionRequiredMixin,UpdateView):
+class MovimientoUpdate(PermissionMixin,UpdateView):
 	model = Movimiento
 	form_class=MovimientoSalidaForm
 	success_url = reverse_lazy('movimiento_list')
 	template_name = 'movimiento/create.html'
 	permission_required = 'change_movimiento'
 	
+	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		self.tipo_salida = kwargs['tipo_salida']
