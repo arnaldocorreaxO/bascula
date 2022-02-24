@@ -405,8 +405,10 @@ class MovimientoCreate(CreateView):
 		context['suc_usuario'] = suc_usuario
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
-		context['puerto_bascula2'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
+		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
+		context['puerto_bascula1'] = config['puerto'] if config else None
+		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
+		context['puerto_bascula2'] = config['puerto'] if config else None	
 		return context
 
 
@@ -517,8 +519,10 @@ class MovimientoUpdate(PermissionRequiredMixin,UpdateView):
 		context['suc_usuario'] = suc_usuario
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
-		context['puerto_bascula1'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
-		context['puerto_bascula2'] = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
+		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
+		context['puerto_bascula1'] = config['puerto'] if config else None
+		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
+		context['puerto_bascula2'] = config['puerto'] if config else None	
 		context['tipo_salida'] = self.tipo_salida
 		return context
 
