@@ -1,4 +1,5 @@
 import datetime
+from pickle import TRUE
 
 from core.base.models import ModeloBase, Sucursal
 from dateutil.relativedelta import relativedelta
@@ -101,7 +102,7 @@ class Transporte(ModeloBase):
 class Vehiculo(ModeloBase):
 	matricula = UpperField(max_length=8,unique=True)
 	marca = models.ForeignKey(MarcaVehiculo,on_delete=models.PROTECT)
-	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT)
+	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT,null=TRUE)
 	
 	def toJSON(self):
 		item = model_to_dict(self)
