@@ -469,6 +469,7 @@ class MovimientoUpdate(PermissionRequiredMixin,UpdateView):
 				with transaction.atomic():
 					# form = self.get_form()
 					# data = form.save()
+					import datetime
 					movi = self.get_object()
 					nro_ticket =request.POST['nro_ticket']
 					peso_salida = int(request.POST['peso_salida'])
@@ -496,7 +497,8 @@ class MovimientoUpdate(PermissionRequiredMixin,UpdateView):
 					# 		movi.tip_movimiento = 'S'
 					movi.nro_ticket = nro_ticket
 					movi.peso_salida = peso_salida					
-					movi.fec_salida = movi.fec_modificacion
+					# movi.fec_salida = movi.fec_modificacion
+					movi.fec_salida = datetime.datetime.now()
 					movi.save()
 					data['id'] = movi.id
 					
