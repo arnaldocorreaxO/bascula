@@ -1,4 +1,4 @@
-$(function (){
+function search_select2(){
     //VEHICULO
     var select_vehiculo = $('select[name="vehiculo"]');
     select_vehiculo.select2({
@@ -117,4 +117,8 @@ $(function (){
         minimumInputLength: 1,
     });
 
+};
+
+$(function () {
+    search_select2();
 });

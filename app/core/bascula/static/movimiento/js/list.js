@@ -150,12 +150,14 @@ movimiento = {
                         if (row.peso_salida == 0) {
                             buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" id="btnSalida" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a> ';
                         }
-                        btnClass = "btn btn-secondary btn-flat disabled_print"
-                        if (!row.fec_impresion) {
-                            btnClass = "btn btn-dark btn-flat"
+                        else {
+                            btnClass = "btn btn-secondary btn-flat disabled_print"
+                            if (!row.fec_impresion) {
+                                btnClass = "btn btn-dark btn-flat"
+                            }
+                            // alert(btnClass)
+                            buttons += '<a href="/bascula/movimiento/print/' + row.id + '/" id="btnPrint" target="_blank"  class="' + btnClass + '" data-toggle="tooltip" title="Imprimir Ticket Báscula"><i class="fas fa-print"></i></a>';
                         }
-                        // alert(btnClass)
-                        buttons += '<a href="/bascula/movimiento/print/' + row.id + '/" id="btnPrint" target="_blank"  class="' + btnClass + '" data-toggle="tooltip" title="Imprimir Ticket Báscula"><i class="fas fa-print"></i></a>';
                         return buttons;
                     }
                 },

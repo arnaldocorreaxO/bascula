@@ -269,7 +269,9 @@ class Movimiento(ModeloBase):
 	transporte = models.ForeignKey(Transporte,on_delete=models.PROTECT,null=True)
 	destino = models.ForeignKey(Cliente,on_delete=models.PROTECT,related_name='destino',null=True)
 	tip_movimiento = models.CharField(max_length=1,default='E') #E = Entrada #S = Salida
-	referencia = models.CharField(max_length=25,null=True,blank=True)	
+	referencia = models.CharField(max_length=25,null=True,blank=True)
+	# movimiento_padre = models.ForeignKey('self',verbose_name='Movimiento Asociado', on_delete=models.PROTECT,blank=True, null=True,related_name='movimiento_hijo')	
+	movimiento_padre = models.IntegerField(verbose_name='Movimiento Asociado',null=True,blank=True)
 
 	def toJSON(self):		
 		fec_entrada = format(self.fec_entrada,"%Y-%m-%d %H:%M:%S")
@@ -284,11 +286,15 @@ class Movimiento(ModeloBase):
 
 		item = model_to_dict(self)
 		item['fecha'] = self.fecha.strftime('%d/%m/%Y')
+		item['cliente_id'] = self.cliente.id
 		item['cliente'] = str(self.cliente)
 		item['cliente_destino'] = f"{str(self.cliente)}/<br> {str(self.destino)}"
+		item['vehiculo_id'] = self.vehiculo.id
 		item['vehiculo'] = str(self.vehiculo)
 		item['transporte_vehiculo'] = f"{str(self.transporte)}/<br> {str(self.vehiculo)}"
+		item['chofer_id'] = self.chofer.id
 		item['chofer'] = self.chofer.get_full_name2()
+		item['producto_id'] = self.producto.id
 		item['producto'] = str(self.producto)
 		item['porc_humedad'] = format(self.porc_humedad,'.0f')
 		item['nro_remision'] = format(self.nro_remision,'.0f')
@@ -305,7 +311,11 @@ class Movimiento(ModeloBase):
 		return item
 	
 	def __str__(self):
-		return str(self.nro_ticket)
+		return f"{self.nro_ticket} - \
+				 {self.vehiculo.matricula} - \
+				 {self.chofer} - \
+				 {self.transporte} - \
+				 {self.cliente}"
 
 	class Meta:
 	# ordering = ['1',]

@@ -173,6 +173,13 @@
             <td class="float-center">:</td>
             <td class="text-left">{{ movimiento.id }}</td>
         </tr>
+        {% if movimiento.movimiento_padre %}
+        <tr>
+            <td class="float-left">ID MOV ASO</td>
+            <td class="float-center">:</td>
+            <td class="text-left">{{ movimiento.movimiento_padre }}</td>
+        </tr>
+        {% endif %}
         <tr>
             <td class="float-left">REMISION</td>
             <td class="float-center">:</td>

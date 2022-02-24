@@ -14,12 +14,12 @@ class MonedaAdmin(ModeloAdminBase):
     search_fields = ('denominacion',)
 
 class MovimientoAdmin(ModeloAdminBase):
-    list_display = ('id', 'fecha', 'nro_ticket', 'cliente',
-                    'producto', 'vehiculo', 'chofer', 'fec_impresion')
+    list_display = ('id', 'fecha', 'nro_ticket','producto', 'fec_impresion')
     search_fields = ['id', 'cliente__denominacion', 'producto__denominacion', 'chofer__nombre',
                      'chofer__apellido', 'nro_ticket', 'vehiculo__matricula']
     readonly_fields = ('fecha', 'nro_ticket', 'fec_entrada', 'fec_salida',
                        'usu_insercion', 'fec_insercion', 'usu_modificacion', 'fec_modificacion',)
+    # fields = ('nro_ticket','fecha','vehiculo','chofer','transporte','cliente','destino')
     # Consume muchos recursos (tarda mucho la consulta)
     list_editable = ['fec_impresion']
     list_filter = ['cliente', 'producto', 'vehiculo', 'chofer', 'fecha']
@@ -35,3 +35,4 @@ admin.site.register(Cliente, ModeloAdminBase)
 admin.site.register(Categoria, ModeloAdminBase)
 admin.site.register(Producto, ModeloAdminBase)
 admin.site.register(Movimiento, MovimientoAdmin)
+# admin.site.register(Movimiento, admin.ModelAdmin)

@@ -98,10 +98,10 @@ def search_select2(action,request):
 			qs = Producto.objects.filter(Q(activo__exact=True) &
 										 Q(codigo__icontains=term) |	
 										 Q(denominacion__icontains=term))[0:10]
-			print(qs.query)
+			# print(qs.query)
 			for i in qs:
 				item = i.toJSON()
-				print(item)
+				# print(item)
 				item['text'] = str(i)				
 				data.append(item)
 	
@@ -270,10 +270,11 @@ class MovimientoCreate(CreateView):
 					data['valid'] = False
 		except:
 			pass
-		return JsonResponse(data)
+		return JsonResponse(data)	
 
 	def post(self, request, *args, **kwargs):
 		data = {}
+		# print(request.method)
 		try:
 			action = request.POST['action']			
 			if action == 'add':
@@ -292,10 +293,11 @@ class MovimientoCreate(CreateView):
 					movi.cliente_id = request.POST['cliente']
 					movi.producto_id = request.POST['producto']
 					movi.destino_id = request.POST['destino']
-					movi.nro_mic = request.POST['nro_mic'] if request.POST['nro_mic']!='' else None
+					movi.nro_mic = request.POST['nro_mic'] if request.POST['nro_mic']!='' else None					
 					movi.nro_remision = request.POST['nro_remision']
 					movi.peso_embarque = request.POST['peso_embarque']
 					movi.referencia = request.POST['referencia']
+					movi.movimiento_padre = request.POST['movimiento_padre'] if request.POST['movimiento_padre']!='' else None
 					movi.save()
 					data ={'id':movi.id}
 
@@ -309,6 +311,49 @@ class MovimientoCreate(CreateView):
 				with transaction.atomic():
 					frmChofer = ChoferForm(request.POST)
 					data = frmChofer.save()
+			elif action == 'search_data_movi_asociado':				
+				import datetime
+				data = {}
+				if request.POST['id']:
+					suc_usuario = request.POST['suc_usuario']
+					movi = Movimiento.objects.filter(id=request.POST['id']).first()
+					if movi:
+						# MOVIMIENTO ASOCIADO					
+						data['movi_asoc'] = movi.toJSON()
+						
+						# VEHICULO
+						data_options = [{'id': '', 'text': '------------'}]	
+						qs = Vehiculo.objects.filter(id=movi.vehiculo_id)		
+						for i in qs:
+							data_options.append({'id': i.id, 'text': str(i)})
+						# print(data_options)
+						data['vehiculo_options'] = data_options
+						
+						# CHOFER
+						data_options = [{'id': '', 'text': '------------'}]	
+						qs = Chofer.objects.filter(id=movi.chofer_id)		
+						for i in qs:
+							data_options.append({'id': i.id, 'text': str(i)})
+						# print(data_options)
+						data['chofer_options'] = data_options
+						
+						# CLIENTE
+						data_options = [{'id': '', 'text': '------------'}]	
+						qs = Cliente.objects.filter(id=movi.cliente_id)		
+						for i in qs:
+							data_options.append({'id': i.id, 'text': str(i)})
+						# print(data_options)
+						data['cliente_options'] = data_options
+						
+						# PRODUCTO
+						data_options = [{'id': '', 'text': '------------'}]	
+						qs = Producto.objects.filter(id=movi.producto_id)		
+						for i in qs:
+							data_options.append({'id': i.id, 'text': str(i)})
+						# print(data_options)
+						data['producto_options'] = data_options
+
+
 			elif action == 'search_data_vehiculo':				
 				import datetime
 				data = {}
@@ -353,6 +398,7 @@ class MovimientoCreate(CreateView):
 		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Entrada Bascula'
+		context['form'] = MovimientoEntradaForm(user=self.request.user)
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'add'
@@ -365,7 +411,7 @@ class MovimientoCreate(CreateView):
 
 
 """ACTUALIZAR MOVIMIENTO DE BASCULA"""
-class MovimientoUpdate(PermissionMixin,UpdateView):
+class MovimientoUpdate(PermissionRequiredMixin,UpdateView):
 	model = Movimiento
 	form_class=MovimientoSalidaForm
 	success_url = reverse_lazy('movimiento_list')
@@ -416,30 +462,42 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 	def post(self, request, *args, **kwargs):
 		data = {}
 		try:
-			action = request.POST['action']
+			action = request.POST['action']	
 			if action == 'edit':
-				with transaction.atomic():					
-					# max_nro_ticket = Movimiento.objects.aggregate(Max('nro_ticket'))['nro_ticket__max']
-					# if max_nro_ticket is None:
-					# 	max_nro_ticket = 0
-					# movimiento.nro_ticket = max_nro_ticket + 1
-					form = self.get_form()
-					data = form.save()
+				with transaction.atomic():
+					# form = self.get_form()
+					# data = form.save()
 					movi = self.get_object()
-					if movi.peso_salida > 0:
-						if movi.peso_entrada > movi.peso_salida:
-							movi.peso_neto = movi.peso_entrada - movi.peso_salida
+					nro_ticket =request.POST['nro_ticket']
+					peso_salida = int(request.POST['peso_salida'])
+					if peso_salida > 0:
+						if movi.peso_entrada > peso_salida:
+							movi.peso_neto = movi.peso_entrada - peso_salida
 							movi.peso_bruto = movi.peso_entrada
-							movi.peso_tara = movi.peso_salida
+							movi.peso_tara = peso_salida
 							movi.tip_movimiento = 'E'
 						else:
-							movi.peso_neto = movi.peso_salida - movi.peso_entrada
-							movi.peso_bruto = movi.peso_salida
+							movi.peso_neto = peso_salida - movi.peso_entrada
+							movi.peso_bruto = peso_salida
 							movi.peso_tara = movi.peso_entrada
 							movi.tip_movimiento = 'S'
-					
+					# if movi.peso_salida > 0:
+					# 	if movi.peso_entrada > movi.peso_salida:
+					# 		movi.peso_neto = movi.peso_entrada - movi.peso_salida
+					# 		movi.peso_bruto = movi.peso_entrada
+					# 		movi.peso_tara = movi.peso_salida
+					# 		movi.tip_movimiento = 'E'
+					# 	else:
+					# 		movi.peso_neto = movi.peso_salida - movi.peso_entrada
+					# 		movi.peso_bruto = movi.peso_salida
+					# 		movi.peso_tara = movi.peso_entrada
+					# 		movi.tip_movimiento = 'S'
+					movi.nro_ticket = nro_ticket
+					movi.peso_salida = peso_salida					
 					movi.fec_salida = movi.fec_modificacion
 					movi.save()
+					data['id'] = movi.id
+					
 			elif action == 'validate_data':
 				return self.validate_data()
 			else:
@@ -452,6 +510,7 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		suc_usuario = self.request.user.sucursal.id
 		context = super().get_context_data(**kwargs)
 		context['title'] = '%s %s' % ('Salida Bascula Camión',str(self.tipo_salida).capitalize())
+		# context['form'] = MovimientoSalidaForm(user=self.request.user)
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'edit'

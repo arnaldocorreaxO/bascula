@@ -3,8 +3,7 @@
 {% load static %}
 {% block head_form %}
     <script src="{% static 'movimiento/js/form.js' %}"></script>
-    <script src="{% static 'movimiento/js/search_select2.js' %}"></script>
-    <!-- <script src="{% static '/js/select2_cliente_producto.js' %}"></script> -->
+    <script src="{% static 'movimiento/js/search_select2.js' %}"></script>    
 {% endblock %}
 
 {% block content %}
@@ -92,7 +91,14 @@
                                    
                                 </div>
                             </div>
-                            
+                            <div class="form-row">
+                                <div class="form-group col-md-12 mb-0">
+                                    <label for="{{ form.movimiento_padre.id_for_label }}">{{form.movimiento_padre.label}}</label>
+                                    <div class="input-group">
+                                        {{ form.movimiento_padre}}
+                                    </div>
+                                </div>
+                            </div>                            
                             <div class="form-row">  
                                 <div class="form-group col-md-6 mb-0">
                                     <label for="{{ form.vehiculo.id_for_label }}">{{form.vehiculo.label}}*</label>
