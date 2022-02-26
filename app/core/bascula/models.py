@@ -107,6 +107,8 @@ class Vehiculo(ModeloBase):
 	def toJSON(self):
 		item = model_to_dict(self)
 		item['full_name'] = self.get_full_name()
+		item['marca'] = str(self.marca)
+		item['transporte'] = str(self.transporte)
 		return item
 	
 	def __str__(self):
@@ -133,6 +135,7 @@ class Chofer(ModeloBase):
 	def toJSON(self):
 		item = model_to_dict(self)
 		item['full_name'] = self.get_full_name()
+		item['codigo'] = format(self.codigo,',.0f').replace(',','.')
 		return item
 	
 	def __str__(self):

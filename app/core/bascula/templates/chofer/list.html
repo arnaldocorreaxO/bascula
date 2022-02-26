@@ -1,5 +1,10 @@
 {% extends 'list.html' %}
 
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'chofer/js/list.js' %}"></script>    
+{% endblock %}
+
 {% block columns %}
     <th>ID</th>
      <th>CI</th>
@@ -8,32 +13,3 @@
     <!-- <th>Inventariado</th> -->
     <th class="text-center">Opciones</th>
 {% endblock %}
-
-{% block rows %}
-    {% for i in object_list %}
-        <tr>
-            <td>{{ i.id }}</td>
-             <td>{{ i.codigo }}</td>
-             <td>{{ i.nombre }}</td>
-             <td>{{ i.apellido }}</td>
-            <!-- <td class="text-center">
-                {% if i.inventoried %}
-                    <span class="badge badge-success">Si</span>
-                {% else %}
-                    <span class="badge badge-warning">No</span>
-                {% endif %}
-            </td> -->
-            <td class="text-center">
-                <a href="{% url 'chofer_update' i.id %}" data-toggle="tooltip" title="Editar registro"
-                   class="btn btn-warning btn-xs btn-flat">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'chofer_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro"
-                   class="btn btn-danger btn-xs btn-flat">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </td>
-        </tr>
-    {% endfor %}
-{% endblock %}
-

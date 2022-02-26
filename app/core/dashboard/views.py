@@ -222,7 +222,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                             .filter(sucursal=sucursal,
                                     cliente=cliente_id,
                                     destino=destino_id,
-                                    producto=2,
                                     producto=2, fecha__year=year, peso_neto__gt=0)\
                             .exclude(cliente=1)\
                             .exclude(anulado=True)\
