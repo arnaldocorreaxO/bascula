@@ -7,6 +7,7 @@ import datetime
 from config import settings
 from core.bascula.forms import (ChoferForm, MovimientoEntradaForm,
 								MovimientoSalidaForm, SearchForm, VehiculoForm)
+from core.bascula.views.bascula.vehiculo.views import VehiculoList
 #LOCALS
 from core.views import printSeparador
 from core.bascula.models import Chofer, Cliente, ClienteProducto, ConfigSerial, Movimiento, Producto, Vehiculo
@@ -31,9 +32,45 @@ from django.views.generic.edit import FormView
 from weasyprint import CSS, HTML
 
 
-def search_select2(action,request):
+def search_select2(self,request,*args,**kwargs):
 	data = []
-	if action == 'search_vehiculo':		
+	action = request.POST['action']
+	if action == 'search_movi_asociado':		
+		term = request.POST['term']
+		'''MOVIMIENTO ASOCIADO'''
+		suc_envio = 1  # Villeta
+		suc_destino = 2  # Vallemi
+		# print(self.request.user.sucursal.id)
+		# print(term)
+		if self.request.user.sucursal.id == 1:  # Usuario de Villeta
+			suc_envio = 2  # Vallemi
+			suc_destino = 1  # Villeta
+		
+		_where = '1=1'
+		_where += f" AND bascula_movimiento.sucursal_id = {suc_envio} \
+					 AND bascula_movimiento.destino_id = {suc_destino} \
+					 AND bascula_movimiento.id NOT IN \
+					(SELECT movimiento_padre FROM bascula_movimiento\
+					 WHERE movimiento_padre is NOT NULL)"
+		qs = Movimiento.objects.extra(where=[_where])
+		# print(qs)
+		if len(term):
+			if term.isnumeric():
+				qs = qs.filter(Q(nro_ticket__exact=term) |
+							   Q(chofer__codigo__exact=term))
+			else:
+				qs = qs.filter(	Q(vehiculo__matricula__icontains=term) |
+								Q(chofer__nombre__icontains=term) |
+								Q(chofer__apellido__icontains=term))\
+					.exclude(anulado=True)\
+					.order_by('id')
+		# print(qs.query)
+		for i in qs[0:10]:
+			item = i.toJSON()
+			item['text'] = str(i)
+			data.append(item)
+	
+	elif action == 'search_vehiculo':		
 		term = request.POST['term']
 		qs = Vehiculo.objects.filter(Q(activo__exact=True) &
 									Q(matricula__icontains=term))[0:10]
@@ -302,15 +339,18 @@ class MovimientoCreate(PermissionMixin,CreateView):
 					data = {'id':movi.id}
 
 			elif action == 'validate_data':
-				return self.validate_data()				
+				return self.validate_data()		
+
 			elif action == 'create-vehiculo':
 				with transaction.atomic():
 					frmVehiculo = VehiculoForm(request.POST)
 					data = frmVehiculo.save()
+
 			elif action == 'create-chofer':
 				with transaction.atomic():
 					frmChofer = ChoferForm(request.POST)
 					data = frmChofer.save()
+
 			elif action == 'search_data_movi_asociado':				
 				import datetime
 				data = {}
@@ -360,10 +400,12 @@ class MovimientoCreate(PermissionMixin,CreateView):
 				peso_tara = 0
 				if request.POST['id']:
 					suc_usuario = request.POST['suc_usuario']
+					movi_aso_sel = request.POST['movi_aso_sel']
 					vehiculo = Vehiculo.objects.filter(id=request.POST['id']).first()
 					movimiento = Movimiento.objects.filter(sucursal = suc_usuario,
 														   fecha = datetime.datetime.now() ,
-														   vehiculo=vehiculo)\
+														   vehiculo = vehiculo)\
+													.exclude(anulado=True)\
 													.order_by('-id')
 					if movimiento:
 						peso_tara = movimiento.first().peso_tara
@@ -379,15 +421,28 @@ class MovimientoCreate(PermissionMixin,CreateView):
 					# data[0]['peso'], pero en este caso solo enviamos una clave y valor 											
 					# print(data)
 
-			# elif action == 'search_producto_id':
-			# 	data = [{'id': '', 'text': '------------'}]
-			# 	cliente = request.POST['cliente']				
-			# 	for i in ClienteProducto.objects.values('producto__id','producto__codigo','producto__denominacion').filter(cliente=cliente):	
-			# 		data.append({'id': i['producto__id'], 'text': i['producto__codigo'] +" - "+ i['producto__denominacion']})
-			
+					'''MOVIMIENTO ASOCIADO'''
+					print(movi_aso_sel)
+					if not movi_aso_sel:
+						suc_envio   = 1 #Villeta
+						suc_destino = 2 #Vallemi		
+						if suc_usuario == '1': #Usuario de Villeta 
+							suc_envio   = 2 #Vallemi
+							suc_destino = 1 #Villeta						
+
+						
+						movi_aso = Movimiento.objects.filter(sucursal_id = suc_envio,
+															destino = suc_destino,
+															vehiculo=vehiculo)\
+														.exclude(anulado=True)\
+														.order_by('-id').first()
+						print(movi_aso)
+						if movi_aso:						
+							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi_aso)
+					print(data)
 			else:
 				# SEARCH SELECT2
-				data = search_select2(action,request)	
+				data = search_select2(self, request, *args, **kwargs)	
 
 		except Exception as e:
 			data['error'] = str(e)

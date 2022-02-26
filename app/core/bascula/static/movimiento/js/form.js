@@ -102,6 +102,7 @@ $(function () {
                 data: {
                     'action': 'search_data_vehiculo',
                     'suc_usuario': suc_usuario,
+                    'movi_aso_sel': select_movi_asociado.val(),
                     'id': $(this).val()
                 },
                 dataType: 'json',

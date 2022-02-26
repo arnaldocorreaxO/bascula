@@ -1,4 +1,33 @@
 function search_select2(){
+    //MOVIMIENTO ASOCIADO
+    var select_movimiento_padre = $('select[name="movimiento_padre"]');
+    select_movimiento_padre.select2({
+        theme: "bootstrap4",
+        language: 'es',
+        // allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: '/bascula/movimiento/add/',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'search_movi_asociado'
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+
+            },
+        },
+        // placeholder: 'Filtrar por N°. Chapa',
+        minimumInputLength: 1,
+    });
     //VEHICULO
     var select_vehiculo = $('select[name="vehiculo"]');
     select_vehiculo.select2({

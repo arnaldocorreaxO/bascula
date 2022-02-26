@@ -291,24 +291,24 @@ class MovimientoEntradaForm(ModelForm):
 		self.fields['producto'].queryset = Producto.objects.none()
 		self.fields['destino'].queryset = Cliente.objects.filter(activo=True,ver_en_destino=True)
 		movimiento_padre=None
-		if usuario:
-			qs = Movimiento.objects.filter(activo=True,
-										   destino_id=usuario.sucursal.id)\
-									.exclude(sucursal=usuario.sucursal.id)
+		# if usuario:
+		# 	qs = Movimiento.objects.filter(activo=True,
+		# 								   destino_id=usuario.sucursal.id)\
+		# 							.exclude(sucursal=usuario.sucursal.id)
 
-			_where = '1=1'
-			_where += f" AND bascula_movimiento.id NOT IN \
-						(SELECT movimiento_padre FROM bascula_movimiento\
-						WHERE movimiento_padre is NOT NULL)"
+		# 	_where = '1=1'
+		# 	_where += f" AND bascula_movimiento.id NOT IN \
+		# 				(SELECT movimiento_padre FROM bascula_movimiento\
+		# 				WHERE movimiento_padre is NOT NULL)"
 
-			qs = qs.extra(where=[_where])
+		# 	qs = qs.extra(where=[_where])[:5]
 
-			# print(qs.query)
+		# 	# print(qs.query)
 
-			movimiento_padre = forms.ModelChoiceField(queryset=qs, empty_label="(Sin movimiento asociado)")
-			self.fields['movimiento_padre'] = movimiento_padre
-			movimiento_padre.widget.attrs.update({'class': 'form-control select2'})
-
+		movimiento_padre = forms.ModelChoiceField(queryset=Movimiento.objects.none(), empty_label="(Sin movimiento asociado)")
+		self.fields['movimiento_padre'] = movimiento_padre
+			# movimiento_padre.widget.attrs.update({'class': 'form-control select2'})
+		# self.fields['movimiento_padre'].queryset = 
 		self.fields['movimiento_padre'].required = False
 		self.fields['movimiento_padre'].label = 'Movimiento Asociado'
 
