@@ -1,7 +1,7 @@
 
-function get_graph_1(args) {
+function get_graph_1_1(args) {
 
-    var graph_1 = Highcharts.chart('graph_1', {
+    var graph_1 = Highcharts.chart('graph_1_1', {
         chart: {
             type: 'pie',
             options3d: {
@@ -47,7 +47,7 @@ function get_graph_1(args) {
         data: {
             'sucursal': args[5],
             'fecha': args[2],
-            'action': 'get_graph_1'
+            'action': 'get_graph_1_1'
         },
         dataType: 'json',
     }).done(function (request) {

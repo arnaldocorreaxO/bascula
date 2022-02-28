@@ -26,7 +26,8 @@
     
     <script src="{% static '/js/functions.js' %}"></script>
     <script src="{% static '/js/dashboard.js' %}"></script>
-    <script src="{% static '/js/graphics/gph_bascula001.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula001_1.js' %}"></script>
+    <script src="{% static '/js/graphics/gph_bascula001_2.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula002_1.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula002_2.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula003.js' %}"></script>
@@ -232,13 +233,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="card">
                         <div class="card-header">
                             <!-- <h3 class="card-title"><i class="fas fa-industry"></i> Movimientos del Día {#{ current_date }}</h3> -->
                         </div>
                         <div class="card-body p-0">
-                            <div id="graph_1" style="height: 64vh;"></div>
+                            <div id="graph_1_1" style="height: 64vh;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <!-- <h3 class="card-title"><i class="fas fa-industry"></i> Movimientos del Día {#{ current_date }}</h3> -->
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="graph_1_2" style="height: 64vh;"></div>
                         </div>
                     </div>
                 </div>

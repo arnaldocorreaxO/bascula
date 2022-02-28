@@ -121,7 +121,7 @@ $(function () {
                 };
                 $('#id_vehiculo').val('').change();
                 $('#id_transporte').val('').change();
-                message_error(data.error);
+                message_warning(data.error);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
@@ -136,15 +136,10 @@ $(function () {
 
         // TRANSPORTE INTERNO REMITENTE Y DESTINO IGUALES 
         select_transporte.on('change', function () {
-            // console.log($(this).val());
-            if ($(this).val() == 1) {
-                if (suc_usuario == 1) {
-                    $('#id_cliente').val(1).change();
-                    $('#id_destino').val(1).change();
-                } else {
-                    $('#id_cliente').val(2).change();
-                    $('#id_destino').val(2).change();
-                };
+            // suc_usuario 1 Villeta 2 Vallemi
+            if ($(this).val() == 1) {                
+                $('#id_cliente').val(suc_usuario).change();
+                $('#id_destino').val(suc_usuario).change();
                 return false;
             };
 

@@ -101,7 +101,7 @@ def search_select2(self,request,*args,**kwargs):
 			data.append(item)
 	
 	elif action == 'search_producto':
-		print(request.POST)
+		# print(request.POST)
 		if 'cliente[]' in request.POST:
 			cliente = request.POST['cliente[]']
 		else:
@@ -110,7 +110,8 @@ def search_select2(self,request,*args,**kwargs):
 		term = request.POST['term']	
 
 		if cliente:
-			qs = ClienteProducto.objects.filter(cliente__id__exact=cliente,
+			qs = ClienteProducto.objects.filter(sucursal__id__exact = self.request.user.sucursal.id,
+												cliente__id__exact=cliente,
 												producto__denominacion__icontains=term)\
 										.distinct()
 			# print(qs.query)
@@ -422,7 +423,7 @@ class MovimientoCreate(PermissionMixin,CreateView):
 					# print(data)
 
 					'''MOVIMIENTO ASOCIADO'''
-					print(movi_aso_sel)
+					# print(movi_aso_sel)
 					if not movi_aso_sel:
 						suc_envio   = 1 #Villeta
 						suc_destino = 2 #Vallemi		
@@ -436,10 +437,10 @@ class MovimientoCreate(PermissionMixin,CreateView):
 															vehiculo=vehiculo)\
 														.exclude(anulado=True)\
 														.order_by('-id').first()
-						print(movi_aso)
+						# print(movi_aso)
 						if movi_aso:						
 							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi_aso)
-					print(data)
+					# print(data)
 			else:
 				# SEARCH SELECT2
 				data = search_select2(self, request, *args, **kwargs)	
