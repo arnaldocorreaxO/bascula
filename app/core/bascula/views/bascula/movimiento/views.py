@@ -64,7 +64,7 @@ def search_select2(self,request,*args,**kwargs):
 								Q(chofer__apellido__icontains=term))\
 					.exclude(anulado=True)\
 					.order_by('id')
-		# print(qs.query)
+		print(qs.query)
 		for i in qs[0:10]:
 			item = i.toJSON()
 			item['text'] = str(i)
@@ -434,6 +434,7 @@ class MovimientoCreate(PermissionMixin,CreateView):
 						
 						movi_aso = Movimiento.objects.filter(sucursal_id = suc_envio,
 															destino = suc_destino,
+															movimiento_padre__isnull=True,
 															vehiculo=vehiculo)\
 														.exclude(anulado=True)\
 														.order_by('-id').first()
