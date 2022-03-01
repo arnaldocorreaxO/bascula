@@ -438,7 +438,7 @@ class MovimientoSalidaForm(ModelForm):
 						}
 			),
 			'nro_ticket': forms.TextInput(attrs={
-				# 'readonly': True,
+				'readonly': True,
 						}
 			),		
 			'vehiculo': forms.Select(attrs={

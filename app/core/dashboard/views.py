@@ -90,6 +90,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				_where += f" AND bascula_movimiento.sucursal_id = {suc_envio} \
 				AND bascula_movimiento.destino_id = {suc_destino} \
 				AND bascula_movimiento.fecha <= '{fecha}' \
+				AND bascula_movimiento.peso_neto > 0 \
 				AND bascula_movimiento.id NOT IN \
 				(SELECT movimiento_padre FROM bascula_movimiento\
 				WHERE movimiento_padre is NOT NULL)"
