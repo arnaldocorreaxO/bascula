@@ -17,11 +17,11 @@ class UserForm(ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus nombres'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus apellidos'}),
-            'username': forms.TextInput(attrs={'placeholder': 'Ingrese un username'}),
+            'username': forms.TextInput(attrs={'placeholder': 'Ingrese un nombre de usuario'}),
             'dni': forms.TextInput(attrs={'placeholder': 'Ingrese su número de cedula'}),
             'sucursal': forms.Select(attrs={'class': 'select2', 'style': 'width:100%'}),
             'email': forms.TextInput(attrs={'placeholder': 'Ingrese su correo electrónico'}),
-            'password': forms.PasswordInput(render_value=True, attrs={'placeholder': 'Ingrese un password'}),
+            'password': forms.PasswordInput(render_value=True, attrs={'placeholder': 'Ingrese una contraseña'}),
             'groups': forms.SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple', 'style': 'width:100%'}),
             
         }
@@ -71,7 +71,7 @@ class ProfileForm(ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus nombres'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus apellidos'}),
-            'username': forms.TextInput(attrs={'placeholder': 'Ingrese un username'}),
+            'username': forms.TextInput(attrs={'placeholder': 'Ingrese un nombre de usuario'}),
             'dni': forms.TextInput(attrs={'placeholder': 'Ingrese su número de cedula'}),
             'email': forms.TextInput(attrs={'placeholder': 'Ingrese su correo electrónico'}),
         }

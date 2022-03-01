@@ -139,7 +139,7 @@ $(function () {
         // TRANSPORTE INTERNO REMITENTE Y DESTINO IGUALES 
         select_transporte.on('change', function () {
             // suc_usuario 1 Villeta 2 Vallemi
-            if ($(this).val() == 1) {                
+            if ($(this).val() == 1) {
                 $('#id_cliente').val(suc_usuario).change();
                 $('#id_destino').val(suc_usuario).change();
                 return false;
@@ -151,178 +151,201 @@ $(function () {
             };
 
         });
-        // // DESTINO NO PUEDE SER 
-        // select_destino.on('change', function () {
-        //     // suc_usuario 1 Villeta 2 Vallemi
 
-        //     if ($(this).val() == 1) {                
-        //         $('#id_cliente').val(suc_usuario).change();
-        //         $('#id_destino').val(suc_usuario).change();
-        //         return false;
-        //     };
+        // DESTINO NO PUEDE SER 
+        select_destino.on('change', function () {
+            /**************************
+            SUCURSAL USUARIO 
+            1 = CIP. VILLETA
+            2 = FAB. VALLEMI
+            DESTINO
+            1 = CIP. VILLETA
+            2 = FAB. VALLEMI
+            TRANSPORTE
+            1 = INTERNO
+            2 = DEL PROVEEDOR
+            ****************************/
+            if ($(this).val()) {
+                // console.log(select_transporte.val())
+                // /*PARA VILLETA*/
+                // if (suc_usuario == 1) {
+                //     if ($(this).val() == 1) {
+                //         if (select_transporte.val() != 3 && select_transporte.val() != 4) {
+                //             // $('#id_destino').val('').change();
+                //             message_warning('El destino ingresado no corresponde al transporte seleccionado');
+                //             return false;
+                //         };
 
-        //     if (!select_movi_asociado.val().length > 0) {
-        //         $('#id_cliente').val('').change();
-        //         $('#id_destino').val('').change();
-        //     };
+                //     };
+                // };
+                /*PARA VALLEMI*/
+                if (suc_usuario == 2) {
+                    if ($(this).val() == 2) {
+                        if (select_transporte.val() != 1 && select_transporte.val() != 2) {
+                            $('#id_destino').val('').change();
+                            message_warning('El destino ingresado no corresponde al transporte seleccionado');
+                            return false;
+                        };
 
-        // });
-    };
-
-    $('.btnAddVehiculo').on('click', function () {
-        $('#modalVehiculo').modal('show');
-    });
-
-    $('#modalVehiculo').on('hidden.bs.modal', function (e) {
-        $('#frmVehiculo').trigger('reset');
-    })
-
-    //SUBMIT VEHICULO
-    $('#frmVehiculo').on('submit', function (e) {
-        e.preventDefault();
-        var parameters = new FormData(this);
-        parameters.append('action', 'create-vehiculo');
-        submit_formdata_with_ajax('Notificación',
-            '¿Estas seguro de crear al siguiente Vehiculo?', window.location.pathname, parameters, function (response) {
-                // console.log(response);
-                var newOption = new Option(response.full_name, response.id, false, true);
-                $('select[name="vehiculo"]').append(newOption).trigger('change');
-                $('#modalVehiculo').modal('hide');
-            });
-    });
-
-    //CHOFER
-
-    $('.btnAddChofer').on('click', function () {
-        $('#modalChofer').modal('show');
-    });
-
-    $('#modalChofer').on('hidden.bs.modal', function (e) {
-        $('#frmChofer').trigger('reset');
-    })
-
-    //SUBMIT Chofer
-    $('#frmChofer').on('submit', function (e) {
-        e.preventDefault();
-        var parameters = new FormData(this);
-        parameters.append('action', 'create-chofer');
-        submit_formdata_with_ajax('Notificación',
-            '¿Estas seguro de crear al siguiente Chofer?', window.location.pathname, parameters, function (response) {
-                // console.log(response);
-                var newOption = new Option(response.full_name, response.id, false, true);
-                $('select[name="chofer"]').append(newOption).trigger('change');
-                $('#modalChofer').modal('hide');
-            });
-    });
-
-
-    //////////////////////////////
-    // CAPTURAR PESO DE BASCULA
-    //////////////////////////////
-    $('.btnBascula').on('click', function (e) {
-        e.preventDefault();
-        var url = "/bascula/ajax_puerto_serial/" + this.value + "/";
-        var parameters = {}
-        submit_formdata_with_ajax('Notificación', '¿Capturar Peso de Bascula?', url, parameters, function (data) {
-            var peso = data['peso'];
-            peso = peso == "" ? 0 : peso;
-            if (action == 'add') {
-                peso_entrada.val(parseInt(peso));
-            } else {
-                peso_salida.val(parseInt(peso));
+                    };
+                };
             };
+        });
 
-            if (peso == 0) {
-                message_error('Peso capturado no válido: [ ' + peso + ' ]');
-                return false;
+    };
+        $('.btnAddVehiculo').on('click', function () {
+            $('#modalVehiculo').modal('show');
+        });
+
+        $('#modalVehiculo').on('hidden.bs.modal', function (e) {
+            $('#frmVehiculo').trigger('reset');
+        });
+
+        //SUBMIT VEHICULO
+        $('#frmVehiculo').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            parameters.append('action', 'create-vehiculo');
+            submit_formdata_with_ajax('Notificación',
+                '¿Estas seguro de crear al siguiente Vehiculo?', window.location.pathname, parameters, function (response) {
+                    // console.log(response);
+                    var newOption = new Option(response.full_name, response.id, false, true);
+                    $('select[name="vehiculo"]').append(newOption).trigger('change');
+                    $('#modalVehiculo').modal('hide');
+                });
+        });
+
+        //CHOFER
+
+        $('.btnAddChofer').on('click', function () {
+            $('#modalChofer').modal('show');
+        });
+
+        $('#modalChofer').on('hidden.bs.modal', function (e) {
+            $('#frmChofer').trigger('reset');
+        })
+
+        //SUBMIT Chofer
+        $('#frmChofer').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            parameters.append('action', 'create-chofer');
+            submit_formdata_with_ajax('Notificación',
+                '¿Estas seguro de crear al siguiente Chofer?', window.location.pathname, parameters, function (response) {
+                    // console.log(response);
+                    var newOption = new Option(response.full_name, response.id, false, true);
+                    $('select[name="chofer"]').append(newOption).trigger('change');
+                    $('#modalChofer').modal('hide');
+                });
+        });
+
+
+        //////////////////////////////
+        // CAPTURAR PESO DE BASCULA
+        //////////////////////////////
+        $('.btnBascula').on('click', function (e) {
+            e.preventDefault();
+            var url = "/bascula/ajax_puerto_serial/" + this.value + "/";
+            var parameters = {}
+            submit_formdata_with_ajax('Notificación', '¿Capturar Peso de Bascula?', url, parameters, function (data) {
+                var peso = data['peso'];
+                peso = peso == "" ? 0 : peso;
+                if (action == 'add') {
+                    peso_entrada.val(parseInt(peso));
+                } else {
+                    peso_salida.val(parseInt(peso));
+                };
+
+                if (peso == 0) {
+                    message_error('Peso capturado no válido: [ ' + peso + ' ]');
+                    return false;
+                };
+            });
+        });
+
+        // HABILITA BOTON SAVE
+        setInterval(validarCampos, 500);
+
+        function validarCampos() {
+            if (action == 'add') {
+                if (peso_entrada.val() == 0) { //si el input es cero
+                    $('#btnGuardar').attr('disabled', 'disabled');
+                    $('.btnBascula').removeAttr("disabled");
+                }
+                else { // si tiene un valor diferente a cero
+                    $('#btnGuardar').removeAttr("disabled");
+                    $('.btnBascula').attr('disabled', 'disabled');
+                }
             }
+            else {
+                if (peso_salida.val() == 0) { //si el input es cero
+                    $('#btnGuardar').attr('disabled', 'disabled');
+                }
+                else { // si tiene un valor diferente a cero
+                    $('#btnGuardar').removeAttr("disabled");
+                };
+            };
+        };
+
+        ///////////////////////////
+        //    EVENTO SUBMIT     
+        ////////////////////////
+
+        $('#frmMovimiento').on('submit', function (e) {
+            e.preventDefault();
+            // var parameters = new FormData(this);
+            if (action == 'add') {
+                if (peso_entrada.val() <= 0) {
+                    message_error('Peso entrada es Cero');
+                    return false;
+                }
+            }
+            else {
+                // Tipo Salida Vehiculo (lleno / vacio)
+                var tipo_salida = $('input[name="tipo_salida"]');
+                // alert(tipo_salida.val());
+                if (peso_salida.val() <= 0) {
+                    message_warning('Peso Salida es Cero');
+                    return false;
+                };
+                if (peso_entrada.val() == peso_salida.val()) {
+                    message_warning('Peso Entrada y Salida son iguales');
+                    return false;
+                };
+
+                if (tipo_salida.val() == 'lleno' && (Number(peso_entrada.val()) > Number(peso_salida.val()))) {
+                    message_warning('Peso Salida (lleno) es menor a Peso Entrada (vacio) ');
+                    return false;
+                };
+
+                if (tipo_salida.val() == 'vacio' && (Number(peso_entrada.val()) < Number(peso_salida.val()))) {
+                    message_warning('Peso Salida (vacío) es mayor a Peso Entrada (lleno)');
+                    return false;
+                };
+
+            };
+            $('select').prop('disabled', false);
+            var parameters = new FormData(this);
+            parameters.append('action', action);
+
+            submit_formdata_with_ajax('Notificación',
+                '¿Estas seguro de realizar la siguiente acción?',
+                window.location.pathname,
+                parameters,
+                function (request) {
+                    if (action != 'add') {
+                        dialog_action('Notificación', '¿Desea Imprimir el Comprobante?', function () {
+                            window.open('/bascula/movimiento/print/' + request.id + '/', '_blank');
+                            location.href = '/bascula/movimiento';
+                        }, function () {
+                            location.href = '/bascula/movimiento';
+                        });
+                    } else {
+                        location.href = '/bascula/movimiento';
+                    };
+                });
+            if (action != 'add') {
+                $('select').prop('disabled', true);
+            };
         });
     });
-
-    // HABILITA BOTON SAVE
-    setInterval(validarCampos, 500);
-
-    function validarCampos() {
-        if (action == 'add') {
-            if (peso_entrada.val() == 0) { //si el input es cero
-                $('#btnGuardar').attr('disabled', 'disabled');
-                $('.btnBascula').removeAttr("disabled");
-            }
-            else { // si tiene un valor diferente a cero
-                $('#btnGuardar').removeAttr("disabled");
-                $('.btnBascula').attr('disabled', 'disabled');
-            }
-        }
-        else {
-            if (peso_salida.val() == 0) { //si el input es cero
-                $('#btnGuardar').attr('disabled', 'disabled');
-            }
-            else { // si tiene un valor diferente a cero
-                $('#btnGuardar').removeAttr("disabled");
-            }
-        }
-    };
-
-    ///////////////////////////
-    //    EVENTO SUBMIT     
-    ////////////////////////
-
-    $('#frmMovimiento').on('submit', function (e) {
-        e.preventDefault();
-        // var parameters = new FormData(this);
-        if (action == 'add') {
-            if (peso_entrada.val() <= 0) {
-                message_error('Peso entrada es Cero');
-                return false;
-            }
-        }
-        else {
-            // Tipo Salida Vehiculo (lleno / vacio)
-            var tipo_salida = $('input[name="tipo_salida"]');
-            // alert(tipo_salida.val());
-            if (peso_salida.val() <= 0) {
-                message_warning('Peso Salida es Cero');
-                return false;
-            };
-            if (peso_entrada.val() == peso_salida.val()) {
-                message_warning('Peso Entrada y Salida son iguales');
-                return false;
-            };
-
-            if (tipo_salida.val() == 'lleno' && (Number(peso_entrada.val()) > Number(peso_salida.val()))) {
-                message_warning('Peso Salida (lleno) es menor a Peso Entrada (vacio) ');
-                return false;
-            };
-
-            if (tipo_salida.val() == 'vacio' && (Number(peso_entrada.val()) < Number(peso_salida.val()))) {
-                message_warning('Peso Salida (vacío) es mayor a Peso Entrada (lleno)');
-                return false;
-            };
-
-        };
-        $('select').prop('disabled', false);
-        var parameters = new FormData(this);
-        parameters.append('action', action);
-
-        submit_formdata_with_ajax('Notificación',
-            '¿Estas seguro de realizar la siguiente acción?',
-            window.location.pathname,
-            parameters,
-            function (request) {
-                if (action != 'add') {
-                    dialog_action('Notificación', '¿Desea Imprimir el Comprobante?', function () {
-                        window.open('/bascula/movimiento/print/' + request.id + '/', '_blank');
-                        location.href = '/bascula/movimiento';
-                    }, function () {
-                        location.href = '/bascula/movimiento';
-                    });
-                } else {
-                    location.href = '/bascula/movimiento';
-                }
-            });
-        if (action != 'add') {
-            $('select').prop('disabled', true);
-        }
-
-    });
-});

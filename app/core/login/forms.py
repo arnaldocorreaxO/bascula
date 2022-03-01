@@ -5,7 +5,7 @@ from core.user.models import User
 
 class ResetPasswordForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Ingrese un username',
+        'placeholder': 'Ingrese su nombre de usuario',
         'class': 'form-control',
         'autocomplete': 'off'
     }))
@@ -14,7 +14,7 @@ class ResetPasswordForm(forms.Form):
         cleaned = super().clean()
         users = User.objects.filter(username=cleaned['username'])
         if not users.exists():
-            raise forms.ValidationError('El username no existe')
+            raise forms.ValidationError('El usuario no existe')
             #self._errors['error'] = self._errors.get('error', self.error_class())
             #self._errors['error'].append('El username no existe')
         return cleaned
@@ -26,12 +26,12 @@ class ResetPasswordForm(forms.Form):
 
 class ChangePasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Ingrese un password',
+        'placeholder': 'Ingrese su contraseña',
         'class': 'form-control',
         'autocomplete': 'off'
     }))
     confirmPassword = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Repita el password',
+        'placeholder': 'Repita la contraseña',
         'class': 'form-control',
         'autocomplete': 'off'
     }))
