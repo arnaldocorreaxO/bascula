@@ -70,7 +70,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 					'data': info,
 				}
 			elif action == 'get_graph_1_2':
-				info = []				
+				info = []
+				data = []
+				categorias=[]
+				val_tot_toneladas_series=[]
+				val_tot_toneladas_series_data=[]
+				val_ctd_viajes_series=[]
+				val_ctd_viajes_series_data=[]				
 				'''MOVIMIENTO ASOCIADO'''
 				suc_envio = 1  # Villeta
 				suc_destino = 2  # Vallemi
@@ -89,16 +95,48 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				WHERE movimiento_padre is NOT NULL)"
 
 				qs = Movimiento.objects.extra(where=[_where])
-				print(_where)
-				for i in qs.values('transporte__denominacion') \
-					.filter()\
-					.annotate(tot_vehiculos=Count(True)) \
-						.order_by('-tot_vehiculos'):
 				
-					info.append({'name': i['transporte__denominacion'],	'data': [float(i['tot_vehiculos']), ]})
-				data = info
-				print(sucursal)
-				print(data)
+				movi = qs.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
+                                    .filter()\
+                                    .annotate(tot_toneladas=Sum('peso_neto', output_field=FloatField()),
+                                              ctd_viajes=Count(True)) \
+                                    .order_by('-tot_toneladas')
+				for i in movi:
+					categorias.append(i['producto__denominacion']   + ' <br> ' +\
+									  i['transporte__denominacion']    + ' <br> ' +\
+									  i['cliente__denominacion'] + ' <br> ')
+				
+					# SERIES           
+					val_tot_toneladas_series_data.append(i['tot_toneladas']/1000)          
+					val_ctd_viajes_series_data.append(i['ctd_viajes'])
+				
+				val_tot_toneladas_series = {
+					'name': 'Toneladas',
+					'data': val_tot_toneladas_series_data,
+					'dataLabels': {
+											'enabled': 'true',
+											'format': "<b>{point.y:.2f}",
+											'style': {
+												'fontSize': "20 + 'px'"
+											}
+										}
+				}
+				val_ctd_viajes_series = {
+					'name': 'Viajes',
+					'data': val_ctd_viajes_series_data,
+					'dataLabels': {
+											'enabled': 'true',
+											'format': "<b>{point.y:.0f}",
+											'style': {
+												'fontSize': "20 + 'px'"
+											}
+										}
+				}
+				data = {
+				'categories': categorias,
+				'series': [val_tot_toneladas_series,val_ctd_viajes_series]
+				}
+				# print(data)
 				
 
 			elif action == 'get_graph_2':

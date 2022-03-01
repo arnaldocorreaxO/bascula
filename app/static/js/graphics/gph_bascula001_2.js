@@ -25,7 +25,7 @@ function get_graph_1_2(args) {
                     enabled: false
                 },
                 xAxis: {
-                    categories: ['CANTIDAD'],
+                    categories: request.categories,
                     crosshair: true
                 },
                 yAxis: {
@@ -56,7 +56,7 @@ function get_graph_1_2(args) {
                         }
                     }
                 },
-                series: request
+                series: request.series
             });
             return false;
         }
