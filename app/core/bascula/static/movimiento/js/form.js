@@ -8,6 +8,8 @@ $(function () {
         var select_movi_asociado = $('select[name="movimiento_padre"]');
         var select_vehiculo = $('select[name="vehiculo"]');
         var select_transporte = $('select[name="transporte"]');
+        var select_cliente = $('select[name="cliente"]');
+        var select_destino = $('select[name="destino"]');
 
         // BUSCAMOS MOVIMIENTO ASOCIADO
         // console.log(select_movi_asociado.val().length);
@@ -149,6 +151,22 @@ $(function () {
             };
 
         });
+        // // DESTINO NO PUEDE SER 
+        // select_destino.on('change', function () {
+        //     // suc_usuario 1 Villeta 2 Vallemi
+
+        //     if ($(this).val() == 1) {                
+        //         $('#id_cliente').val(suc_usuario).change();
+        //         $('#id_destino').val(suc_usuario).change();
+        //         return false;
+        //     };
+
+        //     if (!select_movi_asociado.val().length > 0) {
+        //         $('#id_cliente').val('').change();
+        //         $('#id_destino').val('').change();
+        //     };
+
+        // });
     };
 
     $('.btnAddVehiculo').on('click', function () {
