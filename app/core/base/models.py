@@ -130,6 +130,7 @@ class Empresa(ModeloBase):
 class Sucursal(ModeloBase):
     #ID
     empresa = models.ForeignKey(Empresa,verbose_name='Empresa',on_delete=models.CASCADE,related_name='empresa')
+    cod = models.CharField(verbose_name='Código',max_length=3)
     denominacion = models.CharField(verbose_name='Denominación',max_length=100,unique=True)
     denominacion_corta = models.CharField(verbose_name='Denominación Corta',max_length=25,unique=True,null=True,blank=True)
     denominacion_puesto = models.CharField(verbose_name='Denominación de Puesto',max_length=35,unique=True,null=True,blank=True)

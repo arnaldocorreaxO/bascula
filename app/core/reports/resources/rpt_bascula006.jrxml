@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA_REMOTO"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_TEST_BASCULA_REMOTO"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="428"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="562"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
@@ -36,7 +36,7 @@
 		<![CDATA[SELECT  
 MOVI.*,
 MOVA.*,
-TO_CHAR(MOVA._FEC_SALIDA - MOVI.FEC_SALIDA, 'DD HH24:MI:SS'::TEXT) AS TIEMPO_LLEGADA
+TO_CHAR(MOVA._FEC_ENTRADA - MOVI.FEC_SALIDA, 'DD HH24:MI:SS'::TEXT) AS TIEMPO_LLEGADA
 FROM 
 V_MOVI MOVI LEFT OUTER JOIN V_MOVA MOVA ON MOVI.ID = MOVA._MOVIMIENTO_PADRE
 WHERE 1=1
@@ -56,6 +56,11 @@ ORDER BY 1,5,9,7,18,3,4]]>
 	<field name="sucursal_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="sucursal_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="sucursal_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
+	</field>
+	<field name="sucursal_cod" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sucursal_cod"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursal_cod"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
 	</field>
 	<field name="sucursal" class="java.lang.String">
@@ -196,6 +201,11 @@ ORDER BY 1,5,9,7,18,3,4]]>
 	<field name="_sucursal_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="_sucursal_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="_sucursal_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
+	</field>
+	<field name="_sucursal_cod" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="_sucursal_cod"/>
+		<property name="com.jaspersoft.studio.field.label" value="_sucursal_cod"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
 	<field name="_sucursal" class="java.lang.String">
@@ -355,8 +365,14 @@ ORDER BY 1,5,9,7,18,3,4]]>
 	<variable name="V_SUM_NETO_DESTINO" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[($F{_peso_neto}!=null?$F{_peso_neto}:0)]]></variableExpression>
 	</variable>
-	<variable name="V_TREE" class="java.lang.String">
-		<variableExpression><![CDATA[($F{_id}!=null?"+":"-")]]></variableExpression>
+	<variable name="V_ASO" class="java.lang.String">
+		<variableExpression><![CDATA[($F{_id}!=null?"|___":"-")]]></variableExpression>
+	</variable>
+	<variable name="V_COUNT_RECIBIDOS" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[($F{_sucursal_id}!=null?1:0)]]></variableExpression>
+	</variable>
+	<variable name="V_COUNT_ENVIADOS" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[($F{sucursal_id}!=null?1:0)]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
@@ -377,7 +393,7 @@ ORDER BY 1,5,9,7,18,3,4]]>
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="40" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="50" y="40" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -390,7 +406,7 @@ ORDER BY 1,5,9,7,18,3,4]]>
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="272" y="40" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="292" y="40" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -403,7 +419,7 @@ ORDER BY 1,5,9,7,18,3,4]]>
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="382" y="40" width="90" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="402" y="40" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -416,7 +432,7 @@ ORDER BY 1,5,9,7,18,3,4]]>
 					<text><![CDATA[VEHICULO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="472" y="40" width="172" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="512" y="40" width="172" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -523,20 +539,6 @@ ORDER BY 1,5,9,7,18,3,4]]>
 					<text><![CDATA[DESTINO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="700" y="40" width="56" height="20" uuid="199e606d-66eb-40ef-ba05-4384dc863b99"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="5" isBold="true"/>
-					</textElement>
-					<text><![CDATA[PESO 
-EMBARQUE (kg)]]></text>
-				</staticText>
-				<staticText>
 					<reportElement x="0" y="3" width="58" height="10" uuid="20b6a3dc-0e01-4a18-a181-6556c6c143af"/>
 					<textElement>
 						<font size="7" isBold="true"/>
@@ -551,7 +553,7 @@ EMBARQUE (kg)]]></text>
 					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="70" y="40" width="78" height="20" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
+					<reportElement x="90" y="40" width="78" height="20" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -564,7 +566,7 @@ EMBARQUE (kg)]]></text>
 					<text><![CDATA[FECHA ENTRADA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="148" y="40" width="78" height="20" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
+					<reportElement x="168" y="40" width="78" height="20" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -577,7 +579,7 @@ EMBARQUE (kg)]]></text>
 					<text><![CDATA[FECHA SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="226" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<reportElement x="246" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -591,7 +593,7 @@ EMBARQUE (kg)]]></text>
 LLEGADA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="644" y="40" width="56" height="20" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
+					<reportElement x="684" y="40" width="72" height="20" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -604,7 +606,7 @@ LLEGADA]]></text>
 					<text><![CDATA[REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="322" y="40" width="60" height="20" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<reportElement x="342" y="40" width="60" height="20" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -616,38 +618,107 @@ LLEGADA]]></text>
 					</textElement>
 					<text><![CDATA[NRO. REMISION]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="30" y="40" width="20" height="20" uuid="d8ca20ae-5fc9-4306-aaed-f32218536af7"/>
+					<box padding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SUC.]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="40">
+			<band height="63">
 				<textField pattern="#,##0">
-					<reportElement x="840" y="2" width="54" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="840" y="2" width="54" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="700" y="2" width="140" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
-					<textElement textAlignment="Right">
+					<reportElement x="700" y="2" width="140" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
+					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[TOTAL NETO REMITENTE (kg):]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="700" y="20" width="140" height="18" uuid="2b4c209e-1f29-4d89-adab-9bc2708628de"/>
-					<textElement textAlignment="Right">
+					<reportElement x="700" y="15" width="140" height="12" uuid="2b4c209e-1f29-4d89-adab-9bc2708628de"/>
+					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[TOTAL NETO DESTINO (kg):]]></text>
 				</staticText>
 				<textField pattern="#,##0">
-					<reportElement x="840" y="20" width="54" height="18" uuid="63b532a8-9f8d-4781-92b7-a1309338b3e2"/>
+					<reportElement x="840" y="15" width="54" height="12" uuid="63b532a8-9f8d-4781-92b7-a1309338b3e2"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO_DESTINO}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="0" y="2" width="159" height="12" uuid="e97d21a2-50a5-42b6-b532-cceb71f19621"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL VEHICULOS REMITENTE (Und):]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="168" y="15" width="64" height="12" uuid="d4e306fe-dded-419b-87b7-19fd2629cf40"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_COUNT_RECIBIDOS}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="168" y="2" width="64" height="12" uuid="aee364ca-c951-4e81-b1ba-6baa8386cd81"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_COUNT_ENVIADOS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="15" width="159" height="12" uuid="54a2e4df-04be-4f75-a0ea-e0f7d6d98c13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL VEHICULOS DESTINO (Und):]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="28" width="159" height="12" uuid="436051af-c8dc-485e-8943-8920584fd385"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL VEHICULOS PENDIENTES (Und):]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="168" y="28" width="64" height="12" uuid="a977333c-ffc4-4167-8b8d-58d266153596"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_COUNT_ENVIADOS} - $V{V_COUNT_RECIBIDOS}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="840" y="27" width="54" height="12" uuid="465240cb-d65d-4dfe-be8a-e47b82202ce4"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_SUM_NETO}-$V{V_SUM_NETO_DESTINO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="700" y="27" width="140" height="12" uuid="3e6fd6a6-cb79-4105-8980-dfec2a4f2da4"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL NETO PENDIENTE (kg):]]></text>
+				</staticText>
 			</band>
 		</groupFooter>
 	</group>
@@ -711,7 +782,7 @@ LLEGADA]]></text>
 		<band height="26" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -721,7 +792,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="272" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
+				<reportElement stretchType="ElementGroupHeight" x="292" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -731,7 +802,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="382" y="0" width="90" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="402" y="0" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -741,7 +812,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="472" y="0" width="172" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ElementGroupHeight" x="512" y="0" width="172" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -787,18 +858,8 @@ LLEGADA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="700" y="0" width="56" height="13" uuid="279fd65c-71e0-480e-ab59-4c3814ac8e7f">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box padding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_embarque}]]></textFieldExpression>
-			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="70" y="0" width="78" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
+				<reportElement stretchType="ContainerHeight" x="90" y="0" width="78" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -808,7 +869,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_entrada}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="148" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
+				<reportElement stretchType="ContainerHeight" x="168" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -818,7 +879,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="226" y="13" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
+				<reportElement stretchType="ContainerHeight" x="246" y="13" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -828,7 +889,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{tiempo_llegada}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="644" y="0" width="56" height="13" uuid="cf7a5aa9-4e38-4703-b37b-862e0ea84efa">
+				<reportElement stretchType="ElementGroupHeight" x="684" y="0" width="72" height="13" uuid="cf7a5aa9-4e38-4703-b37b-862e0ea84efa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -838,7 +899,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="322" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
+				<reportElement stretchType="ElementGroupHeight" x="342" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -848,7 +909,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="30" y="13" width="40" height="13" uuid="533a8872-9f26-4ca5-a59d-8aa6b199699f">
+				<reportElement stretchType="ElementGroupHeight" x="50" y="13" width="40" height="13" uuid="533a8872-9f26-4ca5-a59d-8aa6b199699f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -858,7 +919,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="272" y="13" width="50" height="13" uuid="520d2301-b225-4b51-be7b-f521a9503626">
+				<reportElement stretchType="ElementGroupHeight" x="292" y="13" width="50" height="13" uuid="520d2301-b225-4b51-be7b-f521a9503626">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -868,7 +929,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="382" y="13" width="90" height="13" uuid="4f1e706d-d6f9-47c4-b542-0b1db5901e00">
+				<reportElement stretchType="ElementGroupHeight" x="402" y="13" width="110" height="13" uuid="4f1e706d-d6f9-47c4-b542-0b1db5901e00">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -878,7 +939,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_vehiculo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="472" y="13" width="172" height="13" uuid="90a47773-f1d1-4ed2-852d-560a6716a8e7">
+				<reportElement stretchType="ElementGroupHeight" x="512" y="13" width="172" height="13" uuid="90a47773-f1d1-4ed2-852d-560a6716a8e7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -917,18 +978,8 @@ LLEGADA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_neto}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="700" y="13" width="56" height="13" uuid="3114767d-fd39-4cd1-adca-2363def8a2e7">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{_peso_embarque}]]></textFieldExpression>
-			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="70" y="13" width="78" height="13" uuid="4ac7cfc1-5243-40f5-b102-93f98260841c">
+				<reportElement stretchType="ContainerHeight" x="90" y="13" width="78" height="13" uuid="4ac7cfc1-5243-40f5-b102-93f98260841c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -938,7 +989,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_fec_entrada}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="148" y="13" width="78" height="13" uuid="9dede141-0c93-4ed0-9062-cf1eabf9e29b">
+				<reportElement stretchType="ContainerHeight" x="168" y="13" width="78" height="13" uuid="9dede141-0c93-4ed0-9062-cf1eabf9e29b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -948,7 +999,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_fec_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="644" y="13" width="56" height="13" uuid="cff4f014-ae2d-4ad7-bdeb-554e5995895a">
+				<reportElement stretchType="ElementGroupHeight" x="684" y="13" width="72" height="13" uuid="cff4f014-ae2d-4ad7-bdeb-554e5995895a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -958,7 +1009,7 @@ LLEGADA]]></text>
 				<textFieldExpression><![CDATA[$F{_referencia}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="322" y="13" width="60" height="13" uuid="b87e1baf-8275-4075-8e93-686a701c530e">
+				<reportElement stretchType="ElementGroupHeight" x="342" y="13" width="60" height="13" uuid="b87e1baf-8275-4075-8e93-686a701c530e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
@@ -969,10 +1020,30 @@ LLEGADA]]></text>
 			</textField>
 			<textField>
 				<reportElement x="0" y="13" width="30" height="13" uuid="ae7d53c9-f2c0-4739-a191-91d7ab0735fa"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{V_TREE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{V_ASO}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="20" height="13" uuid="af290e4d-2f7c-4e94-b73d-7d04ed9d9cf6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sucursal_cod}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="30" y="13" width="20" height="13" uuid="60486339-a94c-4688-acaf-be00641f4284">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{_sucursal_cod}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

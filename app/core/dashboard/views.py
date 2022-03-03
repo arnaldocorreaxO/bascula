@@ -409,10 +409,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 		context['mes_actual'] = datetime.datetime.today().strftime("%B").capitalize()
 		context['anho_actual'] = datetime.datetime.today().strftime("%Y")
 		context['empresa'] = Empresa.objects.first()
-		context['clientes'] = Cliente.objects.all().count()
-		context['categorias'] = Categoria.objects.filter().count()
-		context['productos'] = Producto.objects.all().count()
-		context['movimientos'] = Movimiento.objects.filter(sucursal=usu_sucursal).order_by('-id')[0:10]   
+		context['clientes'] = Cliente.objects.exclude(activo=False).count()
+		context['destinos'] = Cliente.objects.filter(ver_en_destino=True).exclude(activo=False).count()
+		context['categorias'] = Categoria.objects.exclude(activo=False).count()
+		context['productos'] = Producto.objects.exclude(activo=False).count()
+		context['movimientos'] = Movimiento.objects.filter(sucursal=usu_sucursal).exclude(anulado=True).order_by('-id')[0:10]   
 		context['usuario'] = self.usuario
 		context['form'] = DashboardForm()
 		return context
