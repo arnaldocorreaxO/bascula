@@ -352,8 +352,8 @@ class RptBascula006ReportView(ModuleMixin, FormView):
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
-				# vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
-				# chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None	
+				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None	
 				#CONFIG				 
 				report = JasperReportBase()  
 				report.report_name  = 'rpt_bascula006'
@@ -367,8 +367,8 @@ class RptBascula006ReportView(ModuleMixin, FormView):
 				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
 				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
 				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
-				# report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
-				# report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 

@@ -18,6 +18,7 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
+    pendiente = forms.BooleanField(initial=False, required=False)
 
     # cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
     # producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
