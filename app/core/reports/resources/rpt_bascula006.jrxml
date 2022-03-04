@@ -455,10 +455,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[BRUTO (Ton)]]></text>
+					<text><![CDATA[BRUTO 
+(Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="756" y="40" width="46" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
@@ -468,10 +469,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TARA (Ton)]]></text>
+					<text><![CDATA[TARA 
+(Ton)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="848" y="40" width="46" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
@@ -481,10 +483,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[NETO (Ton)]]></text>
+					<text><![CDATA[NETO 
+(Ton)]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="60" y="15" width="212" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
@@ -829,7 +832,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
@@ -839,7 +842,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
@@ -849,7 +852,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}/1000.00]]></textFieldExpression>
@@ -956,7 +959,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_bruto}/1000.00]]></textFieldExpression>
@@ -966,7 +969,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_tara}/1000.00]]></textFieldExpression>
@@ -976,7 +979,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_neto}/1000.00]]></textFieldExpression>
