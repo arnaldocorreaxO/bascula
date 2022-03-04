@@ -28,10 +28,10 @@ var vehiculo = {
             order: [[0, 'asc']],
             columns: [
                 {"data": "id"},
-                {"data": "matricula"},
-                {"data": "marca"},
-                {"data": "transporte"},
-                {"data": "id"},
+                {"data": "fecha"},
+                {"data": "vehiculo"},
+                {"data": "chofer"},
+                {"data": "peso_neto"},
             ],
             columnDefs: [
                 {

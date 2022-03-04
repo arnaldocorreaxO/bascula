@@ -11,7 +11,7 @@ function get_graph_1_2(args) {
         dataType: 'json',
     }).done(function (request) {
         if (!request.hasOwnProperty('error')) {
-            Highcharts.chart('graph_1_2', {
+            Highcharts.chart('graph_1_1', {
                 chart: {
                     type: 'column'
                 },
@@ -22,7 +22,7 @@ function get_graph_1_2(args) {
                     text: args[0] + '<br> Fecha Hora Actualización: ' + args[1]
                 },
                 exporting: {
-                    enabled: false
+                    enabled: true
                 },
                 xAxis: {
                     categories: request.categories,
@@ -31,7 +31,7 @@ function get_graph_1_2(args) {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Total'
+                        text: 'TOTALES'
                     }
                 },
                 tooltip: {

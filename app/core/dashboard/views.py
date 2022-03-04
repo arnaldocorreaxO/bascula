@@ -22,7 +22,6 @@ locale.setlocale(locale.LC_TIME, '')
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
-
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.usuario = User.objects.filter(id=self.request.user.id).first()
@@ -41,6 +40,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 	def post(self, request, *args, **kwargs):
 		data = {}
+		ck_color = '#C3B091'
+		black_color = '#090910'
 		try:
 			action = request.POST['action']
 			sucursal = request.POST['sucursal']
@@ -50,27 +51,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 									 .strftime('%Y-%m-%d')
 			fecha = datetime.datetime.strptime(fecha, '%Y-%m-%d')  
 
-			if action == 'get_graph_1_1':
-				info = []
-				# hoy = datetime.datetime.now()
-				now = fecha
-				qs = Movimiento.objects.values('producto__denominacion') \
+			now = fecha
+
+			if action == 'search':
+				data=[]				
+				rows = Movimiento.objects.filter(sucursal=sucursal,fecha=fecha)\
+									   .exclude(anulado=True)\
+									   .order_by('-id')[0:10] 
+				for row in rows:													
+					data.append(row.toJSON())
+
+			elif action == 'get_graph_1_1':
+				data = []
+				# hoy = datetime.datetime.now()				
+				rows = Movimiento.objects.values('producto__denominacion') \
 						.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
 						.exclude(anulado=True)\
 						.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
 						.order_by('-tot_recepcion')
-				for i in qs:
-					info.append([i['producto__denominacion'],
-								 i['tot_recepcion']/1000])
-				# print(qs.query)
+				for row in rows:
+					data.append([row['producto__denominacion'],
+								 row['tot_recepcion']/1000])
+				# print(rows.query)
 				data = {
 					'name': 'Stock de Productos',
 					'type': 'pie',
 					'colorByPoint': True,
-					'data': info,
+					'data': data,
 				}
 			elif action == 'get_graph_1_2':
-				info = []
 				data = []
 				categorias=[]
 				val_tot_toneladas_series=[]
@@ -95,25 +104,28 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				(SELECT movimiento_padre FROM bascula_movimiento\
 				WHERE movimiento_padre is NOT NULL)"
 
-				qs = Movimiento.objects.extra(where=[_where])
+				rows = Movimiento.objects.extra(where=[_where])
 				
-				movi = qs.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
+				rows = rows.values('producto__denominacion', 'cliente__denominacion', 'transporte__denominacion') \
                                     .filter()\
                                     .annotate(tot_toneladas=Sum('peso_neto', output_field=FloatField()),
                                               ctd_viajes=Count(True)) \
                                     .order_by('-tot_toneladas')
-				for i in movi:
-					categorias.append(i['producto__denominacion']   + ' <br> ' +\
-									  i['transporte__denominacion']    + ' <br> ' +\
-									  i['cliente__denominacion'] + ' <br> ')
+				for row in rows:
+					text_denom = row['transporte__denominacion']
+					if text_denom =='DEL PROVEEDOR':
+						text_denom = row['cliente__denominacion']
+					categorias.append(row['producto__denominacion'] + ' <br> ' +\
+									  text_denom 					+ ' <br> ')
 				
 					# SERIES           
-					val_tot_toneladas_series_data.append(i['tot_toneladas']/1000)          
-					val_ctd_viajes_series_data.append(i['ctd_viajes'])
+					val_tot_toneladas_series_data.append(row['tot_toneladas']/1000)          
+					val_ctd_viajes_series_data.append(row['ctd_viajes'])
 				
 				val_tot_toneladas_series = {
 					'name': 'Toneladas',
-					'data': val_tot_toneladas_series_data,
+					'data': val_tot_toneladas_series_data,					
+					'color': ck_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.2f}",
@@ -125,6 +137,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_viajes_series = {
 					'name': 'Viajes',
 					'data': val_ctd_viajes_series_data,
+					'color':black_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.0f}",
@@ -135,10 +148,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				}
 				data = {
 				'categories': categorias,
-				'series': [val_tot_toneladas_series,val_ctd_viajes_series]
+				'series': [val_tot_toneladas_series, val_ctd_viajes_series]
 				}
-				# print(data)
-				
 
 			elif action == 'get_graph_2':
 				filtrar = request.POST['filtrar']
@@ -151,31 +162,36 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				# now = datetime.datetime.now()
 				now = fecha
 				
-				movi = Movimiento.objects\
+				rows = Movimiento.objects\
 							.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
 							.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
 							.exclude(anulado=True)\
 							.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 									  ctd_recepcion=Count(True)) \
 							.order_by('-tot_recepcion')
-				
+				blue_color = '#4F98CA'
 				if filtrar =='true':
 					# Filtar producto clinker que no sea interno
-					movi = movi.filter(producto__exact=2)\
+					rows = rows.filter(producto__exact=2)\
 							   .exclude(transporte__exact=1)
+					blue_color = ck_color
 
-				for i in movi:
+
+				for row in rows:
 					# CATEGORIAS DENOMINACION DE LOS PRODUCTOS + CLIENTES + TRANSPORTE
-					categorias.append(i['producto__denominacion']   + ' <br> ' +\
-									  i['transporte__denominacion']    + ' <br> ' +\
-									  i['cliente__denominacion'] + ' <br> ')
+					text_denom = row['transporte__denominacion']
+					if text_denom =='DEL PROVEEDOR':
+						text_denom = row['cliente__denominacion']
+					categorias.append(row['producto__denominacion'] + ' <br> ' +\
+									  text_denom 					+ ' <br> ')
 					 # SERIES           
-					val_tot_recepcion_series_data.append(i['tot_recepcion']/1000)          
-					val_ctd_recepcion_series_data.append(i['ctd_recepcion'])
+					val_tot_recepcion_series_data.append(row['tot_recepcion']/1000)          
+					val_ctd_recepcion_series_data.append(row['ctd_recepcion'])
 				
 				val_tot_recepcion_series = {
 					'name': 'Toneladas',
 					'data': val_tot_recepcion_series_data,
+					'color':blue_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.2f}",
@@ -187,6 +203,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_recepcion_series = {
 					'name': 'Viajes',
 					'data': val_ctd_recepcion_series_data,
+					'color':black_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.0f}",
@@ -217,7 +234,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				cliente_id = 2 #Vallemi
 				destino_id = 1 #Villeta
 				
-				movimientos = Movimiento.objects\
+				rows = Movimiento.objects\
 							.values('fecha') \
 							.filter( sucursal=sucursal,
 									 cliente=cliente_id,
@@ -234,18 +251,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				# no genera de forma correcta el query 
 				# NOT (anulado=True and otro_campo=1) 
 				# esto es igual a (False and True) = False
-				# print(movimientos.query)
-				for mov in movimientos:
+				# print(rows.query)
+				for row in rows:
 					# CATEGORIAS Dias 1 al 31
-					categorias.append(mov['fecha'].strftime('%d'))
+					categorias.append(row['fecha'].strftime('%d'))
 					# SERIES           
-					val_tot_recepcion_series_data.append(mov['tot_recepcion']/1000)          
-					val_ctd_recepcion_series_data.append(mov['ctd_recepcion'])
+					val_tot_recepcion_series_data.append(row['tot_recepcion']/1000)          
+					val_ctd_recepcion_series_data.append(row['ctd_recepcion'])
 				   
 				val_tot_recepcion_series = {
 					'name': 'Toneladas',
 					'data': val_tot_recepcion_series_data,
-					'color':'#f9975d',
+					# 'color':'#f9975d', #Naranja
+					'color': ck_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.2f}",
@@ -257,7 +275,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_recepcion_series = {
 					'name': 'Viajes',
 					'data': val_ctd_recepcion_series_data,
-					 'color':'#090910',
+					'color':black_color,
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.0f}",
@@ -288,7 +306,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				cliente_id = 2 #Vallemi
 				destino_id = 1 #Villeta
 
-				movimientos = Movimiento.objects\
+				rows = Movimiento.objects\
 							.values('fecha__month') \
 							.filter(sucursal=sucursal,
 									cliente=cliente_id,
@@ -299,19 +317,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 							.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 									  ctd_recepcion=Count(True)) \
 							.order_by('fecha__month')
-				for mov in movimientos:
+				for row in rows:
 					# CATEGORIAS MESES
 					#Utilizamos una fecha cualquiera para retornar solo el mes ;)
-					mes = datetime.date(1900, mov['fecha__month'], 1).strftime('%B').capitalize()
+					mes = datetime.date(1900, row['fecha__month'], 1).strftime('%B').capitalize()
 					categorias.append(mes)
 					# SERIES           
-					val_tot_recepcion_series_data.append(mov['tot_recepcion']/1000)          
-					val_ctd_recepcion_series_data.append(mov['ctd_recepcion'])
+					val_tot_recepcion_series_data.append(row['tot_recepcion']/1000)          
+					val_ctd_recepcion_series_data.append(row['ctd_recepcion'])
 				
 				val_tot_recepcion_series = {
 					'name': 'Toneladas',
 					'data': val_tot_recepcion_series_data,
-					'color':'#a9ff96',
+					# 'color':'#a9ff96', #Verde Limon
+					'color': ck_color,			
 					'dataLabels': {
 											'enabled': 'true',
 											'format': "<b>{point.y:.2f}",                          
@@ -323,7 +342,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_recepcion_series = {
 					'name': 'Viajes',
 					'data': val_ctd_recepcion_series_data,
-					'color':'#090910',
+					'color':black_color,
 					'dataLabels': {
 											'enabled': 'true',                                            
 											'format': "<b>{point.y:.0f}",
@@ -341,7 +360,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 			elif action == 'get_graph_5':
 				now = fecha
-				qs = Movimiento.objects \
+				rows = Movimiento.objects \
 									.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
 									.filter(sucursal=sucursal,fecha=now)\
 									.exclude(anulado=True)\
@@ -356,7 +375,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				vehiculo_salida_series_data = list()
 				vehiculo_pendiente_series_data = list()
 
-				for row in qs:
+				for row in rows:
 					text_denom = row['transporte__denominacion']
 					if text_denom == 'DEL PROVEEDOR':
 						text_denom = row['cliente__denominacion']                    
@@ -413,7 +432,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 		context['destinos'] = Cliente.objects.filter(ver_en_destino=True).exclude(activo=False).count()
 		context['categorias'] = Categoria.objects.exclude(activo=False).count()
 		context['productos'] = Producto.objects.exclude(activo=False).count()
-		context['movimientos'] = Movimiento.objects.filter(sucursal=usu_sucursal).exclude(anulado=True).order_by('-id')[0:10]   
+		# context['rows'] = Movimiento.objects.filter(sucursal=usu_sucursal).exclude(anulado=True).order_by('-id')[0:10]   
 		context['usuario'] = self.usuario
 		context['form'] = DashboardForm()
 		return context

@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="{% static 'lib/bootstrap-daterangepicker-3.0.5/daterangepicker.css' %}" />
     <script src="{% static 'lib/bootstrap-daterangepicker-3.0.5/spanish.js' %}"></script>
     <script src="{% static 'lib/bootstrap-daterangepicker-3.0.5/daterangepicker.js' %}"></script>
+     <!-- DATATABLES -->
+     <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/> 
+     <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+     <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+     <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+     <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+     <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script> 
     <style>
         .table {
             font-size: 12px;
@@ -24,8 +31,8 @@
         }
     </style>
     
-    <script src="{% static '/js/functions.js' %}"></script>
-    <script src="{% static '/js/dashboard.js' %}"></script>
+    <script src="{% static '/js/functions.js' %}"></script>    
+    <script src="{% static '/js/dashboard.js' %}"></script>    
     <script src="{% static '/js/graphics/gph_bascula001_1.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula001_2.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula002_1.js' %}"></script>
@@ -33,6 +40,7 @@
     <script src="{% static '/js/graphics/gph_bascula003.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula004.js' %}"></script>
     <script src="{% static '/js/graphics/gph_bascula005.js' %}"></script>
+    <script src="{% static '/js/graphics/list.js' %}"></script>
 
 
 {% endblock %}
@@ -161,15 +169,17 @@
                     </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-success"><i class="fas fa-truck"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Destinos</span>
-                            <span class="info-box-number">
-                                {{ destinos }}
-                            </span>
+                    <a href="{% url 'cliente_list' %}" class="small-box-footer">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="fas fa-truck"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Destinos</span>
+                                <span class="info-box-number">
+                                    {{ destinos }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
                     <a href="{% url 'categoria_list' %}" class="small-box-footer">
@@ -206,27 +216,27 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-sm m-0">
+                                <table class="table table-sm m-0" id="data">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">Fecha</th>
-                                        <th>Vehiculo</th>
-                                        <th>Chofer</th>
-                                        <th>Producto</th>
-                                        <th class="text-right">Neto</th>
+                                        <th scope="col" style="width: 10%;"class="text-center">Fecha</th>
+                                        <th scope="col" style="width: 30%;">Vehiculo</th>
+                                        <th scope="col" style="width: 30%;">Chofer</th>
+                                        <th scope="col" style="width: 20%;">Producto</th>
+                                        <th scope="col" style="width: 10%;" class="text-right">Neto</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for mov in movimientos %}
+                                    <!-- {#% for mov in movimientos %} -->
                                         <tr>              
-                                            <td class="text-center">{{ mov.fec_insercion|date:"d/m/Y H:i:s" }}</td>
-                                            <td>{{ mov.vehiculo.get_full_name }}</td>
-                                            <td>{{ mov.chofer.get_full_name }}</td>
-                                            <td>{{ mov.producto }}</td> 
-                                            <td class="text-right">{{ mov.peso_neto }}</td>
+                                            <!-- <td class="text-center">{#{ mov.fec_insercion|date:"d/m/Y H:i:s" }}</td>
+                                            <td>{#{ mov.vehiculo.get_full_name }}</td>
+                                            <td>{#{ mov.chofer.get_full_name }}</td>
+                                            <td>{#{ mov.producto }}</td> 
+                                            <td class="text-right">{#{ mov.peso_neto }}</td> -->
                                             
                                         </tr>
-                                    {% endfor %}
+                                    <!-- {#% endfor %} -->
                                     </tbody>
                                 </table>
                             </div>

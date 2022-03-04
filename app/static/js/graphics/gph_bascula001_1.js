@@ -1,7 +1,7 @@
 
 function get_graph_1_1(args) {
 
-    var graph_1 = Highcharts.chart('graph_1_1', {
+    var graph_1 = Highcharts.chart('graph_1_2', {
         chart: {
             type: 'pie',
             options3d: {

@@ -47,6 +47,7 @@ function load() {
     get_graph_3(args);
     get_graph_4(args);
     get_graph_5(args);
+    get_list(args);
     
 };
 
