@@ -46,4 +46,4 @@ class ReportForm(forms.Form):
     producto.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     chofer.widget.attrs.update({'class': 'form-control select2','multiple':'true'})    
-    situacion.widget.attrs.update({'class': 'form-control select2','multiple':'true'})    
+    situacion.widget.attrs.update({'class': 'form-control select2'})    
