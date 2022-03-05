@@ -11,7 +11,7 @@ function get_graph_1_1(args) {
             }
         },
         exporting: {
-            enabled: false
+            enabled: true,
         },
         title: {
             text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento del Día ' + args[2] + '</span>'
