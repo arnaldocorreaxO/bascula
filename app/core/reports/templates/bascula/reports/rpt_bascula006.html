@@ -8,7 +8,6 @@
 <script src="{% static 'lib/bootstrap-daterangepicker-3.0.5/daterangepicker.js' %}"></script>
 <script src="{% static '/movimiento/js/search_select2.js' %}"></script>
 <script src="{% static '/bascula/js/rpt_bascula001.js' %}"></script>
-
 {% endblock %}
 
 {% block params_report %}
@@ -80,9 +79,20 @@
             <label>Rangos de fechas:</label>
             <div class="input-group mb-3">
                 {{ form.date_range }}
+
             </div>
         </div>
-    </div>     
+    </div>    
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Situación</label>
+            <div class="input-group mb-3">
+                {{ form.situacion }}
+
+            </div>
+        </div>
+    </div>    
+    
 </div>
 
 {% endblock %}

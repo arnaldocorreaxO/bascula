@@ -18,7 +18,13 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
-    pendiente = forms.BooleanField(initial=False, required=False)
+    
+    SITUACION=(
+		('PEND','PENDIENTES'),
+		('RECI','RECIBIDOS'),
+		
+	)	
+    choiceSituacion = SITUACION + (('', '(Todos)'),)
 
     # cliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
     # producto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo__exact=True).order_by('denominacion'), empty_label="(Todos)")
@@ -31,6 +37,7 @@ class ReportForm(forms.Form):
     producto = forms.ModelChoiceField(queryset=Producto.objects.none(), empty_label="(Todos)")
     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.none(), empty_label="(Todos)")
     chofer = forms.ModelChoiceField(queryset=Chofer.objects.none(), empty_label="(Todos)")
+    situacion = forms.ChoiceField(choices=choiceSituacion)
    
     sucursal.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     transporte.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
@@ -39,3 +46,4 @@ class ReportForm(forms.Form):
     producto.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     chofer.widget.attrs.update({'class': 'form-control select2','multiple':'true'})    
+    situacion.widget.attrs.update({'class': 'form-control select2','multiple':'true'})    

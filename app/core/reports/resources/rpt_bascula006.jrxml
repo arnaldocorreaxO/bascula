@@ -14,8 +14,8 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA_REMOTO"/>
-	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="428"/>
-	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="562"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="786"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="204"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
 	<parameter name="P_USUARIO" class="java.lang.String"/>
 	<parameter name="P_TITULO1" class="java.lang.String"/>
@@ -32,6 +32,7 @@
 	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
 	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<parameter name="P_SUCURSAL_ID" class="java.lang.String"/>
+	<parameter name="P_SITUACION" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  
 MOVI.*,
@@ -49,6 +50,10 @@ AND  (MOVI.VEHICULO_ID IN ($P!{P_VEHICULO_ID}) OR $P{P_VEHICULO_ID}  IS NULL)
 AND  (MOVI.CHOFER_ID IN ($P!{P_CHOFER_ID}) OR $P{P_CHOFER_ID}  IS NULL) 
 AND  (MOVI.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOVI.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
+AND 
+(MOVA._ID IS NULL AND $P{P_SITUACION} ='PEND' OR
+ MOVA._ID IS NOT NULL AND $P{P_SITUACION} = 'RECI' OR 
+ $P{P_SITUACION}='')
 AND MOVI.PESO_NETO > 0 
 AND MOVI.ANULADO = FALSE
 ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_TICKET]]>
@@ -793,7 +798,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
@@ -803,7 +808,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
@@ -813,7 +818,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
@@ -823,7 +828,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
@@ -833,7 +838,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
 			</textField>
@@ -843,7 +848,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
 			</textField>
@@ -853,14 +858,14 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}/1000.00]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="8" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>
@@ -870,7 +875,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_entrada}]]></textFieldExpression>
 			</textField>
@@ -880,7 +885,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
@@ -890,7 +895,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tiempo_llegada}]]></textFieldExpression>
 			</textField>
@@ -900,7 +905,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
@@ -910,7 +915,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
 			</textField>
@@ -920,7 +925,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_fecha}]]></textFieldExpression>
 			</textField>
@@ -930,7 +935,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_nro_ticket}]]></textFieldExpression>
 			</textField>
@@ -940,7 +945,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_vehiculo}]]></textFieldExpression>
 			</textField>
@@ -950,7 +955,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_chofer}]]></textFieldExpression>
 			</textField>
@@ -960,7 +965,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_bruto}/1000.00]]></textFieldExpression>
 			</textField>
@@ -970,7 +975,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_tara}/1000.00]]></textFieldExpression>
 			</textField>
@@ -980,7 +985,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_neto}/1000.00]]></textFieldExpression>
 			</textField>
@@ -990,7 +995,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_fec_entrada}]]></textFieldExpression>
 			</textField>
@@ -1000,7 +1005,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_fec_salida}]]></textFieldExpression>
 			</textField>
@@ -1010,7 +1015,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_referencia}]]></textFieldExpression>
 			</textField>
@@ -1020,14 +1025,14 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_nro_remision}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="13" width="30" height="13" uuid="ae7d53c9-f2c0-4739-a191-91d7ab0735fa"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="10" isBold="false"/>
+					<font size="10" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_ASO}]]></textFieldExpression>
 			</textField>
@@ -1037,7 +1042,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sucursal_cod}]]></textFieldExpression>
 			</textField>
@@ -1047,7 +1052,7 @@ LLEGADA]]></text>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isItalic="true"/>
+					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_sucursal_cod}]]></textFieldExpression>
 			</textField>
