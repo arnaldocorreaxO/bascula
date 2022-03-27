@@ -438,11 +438,12 @@ class MovimientoCreate(PermissionMixin,CreateView):
 														 vehiculo=vehiculo)\
 														.exclude(anulado=True)\
 														.order_by('-id').first()
-						#BUSCAMOS SI EL MOVIMIENTO YA FUE ASOCIADO
-						movi_aso = Movimiento.objects.filter(movimiento_padre=movi.id).first()
-						#SI NO FUE ASOCIADO, EL VEHICULO TIENE UN MOVIMIENTO ASOCIADO SIN RECEPCIONAR
-						if not movi_aso:						
-							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi)
+						if movi:
+							#BUSCAMOS SI EL MOVIMIENTO YA FUE ASOCIADO
+							movi_aso = Movimiento.objects.filter(movimiento_padre=movi.id).first()
+							#SI NO FUE ASOCIADO, EL VEHICULO TIENE UN MOVIMIENTO ASOCIADO SIN RECEPCIONAR
+							if not movi_aso:						
+								data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi)
 					# print(data)
 			else:
 				# SEARCH SELECT2
