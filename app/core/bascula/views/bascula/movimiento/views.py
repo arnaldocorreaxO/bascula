@@ -431,16 +431,16 @@ class MovimientoCreate(PermissionMixin,CreateView):
 							suc_envio   = 2 #Vallemi
 							suc_destino = 1 #Villeta						
 
-						
+						#BUSCAMOS MOVIMIENTO REMITENTE ORIGEN
 						movi = Movimiento.objects.filter(sucursal_id = suc_envio,
-															destino = suc_destino,
-															movimiento_padre__isnull=True,
-															vehiculo=vehiculo)\
+														 destino = suc_destino,
+														 movimiento_padre__isnull=True,
+														 vehiculo=vehiculo)\
 														.exclude(anulado=True)\
 														.order_by('-id').first()
-						print(movi)
+						#BUSCAMOS SI EL MOVIMIENTO YA FUE ASOCIADO
 						movi_aso = Movimiento.objects.filter(movimiento_padre=movi.id).first()
-						print(movi_aso)
+						#SI NO FUE ASOCIADO, EL VEHICULO TIENE UN MOVIMIENTO ASOCIADO SIN RECEPCIONAR
 						if not movi_aso:						
 							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi)
 					# print(data)
