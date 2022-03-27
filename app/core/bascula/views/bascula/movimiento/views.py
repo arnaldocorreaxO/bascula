@@ -432,15 +432,17 @@ class MovimientoCreate(PermissionMixin,CreateView):
 							suc_destino = 1 #Villeta						
 
 						
-						movi_aso = Movimiento.objects.filter(sucursal_id = suc_envio,
+						movi = Movimiento.objects.filter(sucursal_id = suc_envio,
 															destino = suc_destino,
 															movimiento_padre__isnull=True,
 															vehiculo=vehiculo)\
 														.exclude(anulado=True)\
 														.order_by('-id').first()
-						# print(movi_aso)
-						if movi_aso:						
-							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi_aso)
+						print(movi)
+						movi_aso = Movimiento.objects.filter(movimiento_padre=movi.id).first()
+						print(movi_aso)
+						if not movi_aso:						
+							data['error'] = 'El vehiculo ingresado tiene un movimiento asociado \n%s' % (movi)
 					# print(data)
 			else:
 				# SEARCH SELECT2
