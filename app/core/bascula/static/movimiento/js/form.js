@@ -179,16 +179,16 @@ $(function () {
                 //     };
                 // };
                 /*PARA VALLEMI*/
-                if (suc_usuario == 2) {
-                    if ($(this).val() == 2) {
-                        if (select_transporte.val() != 1 && select_transporte.val() != 2) {
-                            $('#id_destino').val('').change();
-                            message_warning('El destino ingresado no corresponde al transporte seleccionado');
-                            return false;
-                        };
+                // if (suc_usuario == 2) {
+                //     if ($(this).val() == 2) {
+                //         if (select_transporte.val() != 1 && select_transporte.val() != 2) {
+                //             $('#id_destino').val('').change();
+                //             message_warning('El destino ingresado no corresponde al transporte seleccionado');
+                //             return false;
+                //         };
 
-                    };
-                };
+                //     };
+                // };
             };
         });
 
