@@ -336,8 +336,12 @@ class MovimientoCreate(PermissionMixin,CreateView):
 					movi.peso_embarque = request.POST['peso_embarque']
 					movi.referencia = request.POST['referencia']
 					movi.movimiento_padre = request.POST['movimiento_padre'] if request.POST['movimiento_padre']!='' else None
-					movi.save()
+					movi.save()					
 					data = {'id':movi.id}
+					# Actualizamos si hay cambio de Tranportadora
+					vehiculo = Vehiculo.objects.filter(id=movi.vehiculo_id).first()
+					vehiculo.transporte_id = movi.transporte_id
+					vehiculo.save()
 
 			elif action == 'validate_data':
 				return self.validate_data()		
