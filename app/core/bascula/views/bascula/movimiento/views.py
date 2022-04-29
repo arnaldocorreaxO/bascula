@@ -215,7 +215,7 @@ class MovimientoList(PermissionMixin,FormView):
 				else:
 					qs = Movimiento.objects.filter(sucursal=suc_usuario)
 
-				# print(_where)
+				#print(_where)
 				if not _search:
 					qs = qs.filter()\
 					.extra(where=[_where])\
@@ -226,7 +226,7 @@ class MovimientoList(PermissionMixin,FormView):
 									Q(vehiculo__matricula__icontains=_search)|
 									Q(producto__denominacion__icontains=_search))
 				total = qs.count()
-				# print(qs.query)
+				#print(qs.query)
 
 				if _start and _length:
 					start = int(_start)

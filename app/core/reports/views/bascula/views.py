@@ -467,3 +467,61 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 		context['action'] = 'report'
 		context['suc_usuario'] = suc_usuario
 		return context
+
+'''REPORTE 008'''
+class RptBascula008ReportView(ModuleMixin, FormView):
+	template_name = 'bascula/reports/rpt_bascula008.html'
+	form_class = ReportForm
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+		action = request.POST['action']
+		tipo = request.POST['tipo']
+		data = {}
+		try:
+			if action == 'report':
+				data = []			
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
+				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
+				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
+				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
+				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
+				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None			
+				#CONFIG				 
+				report = JasperReportBase()  
+				report.report_name  = 'rpt_bascula008'
+				report.report_url = reverse_lazy(report.report_name)
+				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
+				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
+				report.params['P_TITULO3'] = 'INFORME DE TIEMPO TRANSCURRIDO DE VEHICULOS EN TRÁNSITO'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
+				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
+				report.params['P_SITUACION'] = 'PEND'
+
+				return report.render_to_response(tipo)
+
+			else:
+				data['error'] = 'No ha ingresado una opción'
+		except Exception as e:
+			print('####################### ERROR #######################')
+			print(str(e))
+			data['error'] = str(e)
+		return HttpResponse(json.dumps(data), content_type='application/json')
+
+	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
+		context = super().get_context_data(**kwargs)
+		context['title'] = 'Reporte de Tiempo Transcurrido de Vehiculos en Tránsito'
+		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
+		return context
