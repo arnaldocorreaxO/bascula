@@ -357,12 +357,6 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<variable name="V_SUM_NETO" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
 	</variable>
-	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[(($P{P_FECHA_DESDE} != null && $P{P_FECHA_DESDE}.length() == 10) ? $P{P_FECHA_DESDE}.substring(8,10)+"/"+$P{P_FECHA_DESDE}.substring(5,7)+"/"+$P{P_FECHA_DESDE}.substring(0,4) : "")]]></variableExpression>
-	</variable>
-	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[(($P{P_FECHA_HASTA} != null && $P{P_FECHA_HASTA}.length() == 10) ? $P{P_FECHA_HASTA}.substring(8,10)+"/"+$P{P_FECHA_HASTA}.substring(5,7)+"/"+$P{P_FECHA_HASTA}.substring(0,4) : "")]]></variableExpression>
-	</variable>
 	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
@@ -380,6 +374,9 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	</variable>
 	<variable name="V_1000" class="java.lang.Float">
 		<variableExpression><![CDATA[1000.00]]></variableExpression>
+	</variable>
+	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[DATEFORMAT($V{V_HOY},"dd/MM/yyyy HH:mm:ss") ]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
@@ -573,7 +570,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[FECHA ENTRADA]]></text>
+					<text><![CDATA[FECHA SALIDA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="168" y="40" width="78" height="20" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
@@ -586,7 +583,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[FECHA SALIDA]]></text>
+					<text><![CDATA[FECHA REFERENCIA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="246" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
@@ -718,7 +715,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA["Impresión\n"
 + $P{P_REPORTE} 
 +"\nFecha: " + DATEFORMAT($V{V_HOY},"dd/MM/yyyy") 
-+"\nHora: " + DATEFORMAT($V{V_HOY},"hh:mm:ss")
++"\nHora: " + DATEFORMAT($V{V_HOY},"HH:mm:ss")
 +"\nUsuario: " + $P{P_USUARIO}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -728,7 +725,7 @@ TRANSCURRIDO]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["FECHA DESDE : " +  $V{V_FECHA_DESDE} + " HASTA: " + $V{V_FECHA_HASTA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["FECHA HASTA: " + $V{V_FECHA_HASTA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -820,7 +817,7 @@ TRANSCURRIDO]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fec_entrada}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
 				<reportElement stretchType="ContainerHeight" x="168" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
@@ -830,7 +827,7 @@ TRANSCURRIDO]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{V_FECHA_HASTA}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="ContainerHeight" x="246" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
