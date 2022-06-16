@@ -328,4 +328,5 @@ class Movimiento(ModeloBase):
 		verbose_name_plural = 'movimientos'
 		permissions = (
             ('habilita_peso_manual', 'Puede ingresar peso en forma manual'),		
+            ('change_movimiento_salida', 'Can change movimiento salida'),		
         )	

@@ -157,6 +157,11 @@ movimiento = {
                             }
                             // alert(btnClass)
                             buttons += '<a href="/bascula/movimiento/print/' + row.id + '/" id="btnPrint" target="_blank"  class="' + btnClass + '" data-toggle="tooltip" title="Imprimir Ticket Báscula"><i class="fas fa-print"></i></a>';
+                            
+                            if ($('input[name="usu_change_movimiento"]').val()=='SI'){                                
+                                buttons += '<a href="' + pathname + '/update/' + row.id + '/" class="btn btn-warning btn-flat"><i class="fas fa-edit"></i></a> ';
+                            }
+                            
                         }
                         return buttons;
                     }

@@ -274,6 +274,45 @@ class ClienteProductoForm(ModelForm):
 		except Exception as e:
 			data['error'] = str(e)
 		return data
+''' 
+============================
+===     MOVIMIENTO       ===
+============================ '''
+class MovimientoForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		
+	class Meta:
+		model = Movimiento
+		fields = '__all__'
+		exclude = readonly_fields
+		# widgets = {
+		# 	'sucursal': forms.Select(attrs={
+		# 		'class': 'custom-select select2',
+		# 		# 'style': 'width: 100%'
+		# 		}
+		# 	),
+		# 	'cliente': forms.Select(attrs={
+		# 		'class': 'custom-select select2',
+		# 		# 'style': 'width: 100%'
+		# 		}
+		# 	),
+		# 	'producto': forms.SelectMultiple(
+		# 		attrs={'class': 'form-control select2', 'multiple': 'multiple', 'style': 'width:100%'}),
+		# }
+
+	def save(self, commit=True):
+		data = {}
+		form = super()
+		try:
+			if form.is_valid():
+				instance = form.save()
+				data = instance.toJSON()
+			else:
+				data['error'] = form.errors
+		except Exception as e:
+			data['error'] = str(e)
+		return data
 
 
 ''' 

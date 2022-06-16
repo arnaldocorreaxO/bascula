@@ -5,7 +5,7 @@ import os
 import datetime
 
 from config import settings
-from core.bascula.forms import (ChoferForm, MovimientoEntradaForm,
+from core.bascula.forms import (ChoferForm, MovimientoEntradaForm, MovimientoForm,
 								MovimientoSalidaForm, SearchForm, VehiculoForm)
 from core.bascula.views.bascula.vehiculo.views import VehiculoList
 #LOCALS
@@ -260,8 +260,9 @@ class MovimientoList(PermissionMixin,FormView):
 		return HttpResponse(json.dumps(data), content_type='application/json')
 
 	
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
+	def get_context_data(self, **kwargs):		
+		context = super().get_context_data(**kwargs)		
+		context['usu_change_movimiento'] = 'SI' if self.request.user.has_perm('change_movimiento') else 'NO'
 		context['title'] = ' Movimiento de Bascula'
 		context['create_url'] = reverse_lazy('movimiento_create')
 		context['list_url'] = reverse_lazy('movimiento_list')
@@ -274,7 +275,7 @@ class MovimientoCreate(PermissionMixin,CreateView):
 	model = Movimiento
 	form_class=MovimientoEntradaForm
 	success_url = reverse_lazy('movimiento_list')
-	template_name = 'movimiento/create.html'
+	template_name = 'movimiento/create_ent_sal.html'
 	permission_required = 'add_movimiento'	
 
 	@method_decorator(csrf_exempt)
@@ -466,7 +467,7 @@ class MovimientoCreate(PermissionMixin,CreateView):
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'add'
-		context['suc_usuario'] = suc_usuario
+		context['suc_usuario'] = suc_usuario		
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
 		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
@@ -476,13 +477,13 @@ class MovimientoCreate(PermissionMixin,CreateView):
 		return context
 
 
-"""ACTUALIZAR MOVIMIENTO DE BASCULA"""
-class MovimientoUpdate(PermissionMixin,UpdateView):
+"""ACTUALIZAR MOVIMIENTO DE SALIDA DE BASCULA"""
+class MovimientoUpdateSalida(PermissionMixin,UpdateView):
 	model = Movimiento
 	form_class=MovimientoSalidaForm
 	success_url = reverse_lazy('movimiento_list')
-	template_name = 'movimiento/create.html'
-	permission_required = 'change_movimiento'
+	template_name = 'movimiento/create_ent_sal.html'
+	permission_required = 'change_movimiento_salida'
 	
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
@@ -583,7 +584,7 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		context['entity'] = 'Bascula'
 		context['list_url'] = self.success_url
 		context['action'] = 'edit'
-		context['suc_usuario'] = suc_usuario
+		context['suc_usuario'] = suc_usuario		
 		context['frmVehiculo'] = VehiculoForm()
 		context['frmChofer'] = ChoferForm()
 		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC1').first()
@@ -591,6 +592,53 @@ class MovimientoUpdate(PermissionMixin,UpdateView):
 		config = ConfigSerial.objects.values('puerto').filter(activo=True,sucursal=suc_usuario,cod__exact='BSC2').first()
 		context['puerto_bascula2'] = config['puerto'] if config else None	
 		context['tipo_salida'] = self.tipo_salida
+		return context
+
+'''MODIFICAR MOVIMIENTO DE BASCULA TODOS LOS CAMPOS'''
+class MovimientoUpdate(PermissionMixin, UpdateView):
+	model = Movimiento
+	template_name = 'movimiento/create.html'
+	form_class = MovimientoForm
+	success_url = reverse_lazy('movimiento_list')
+	permission_required = 'change_movimiento'
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		return super().dispatch(request, *args, **kwargs)
+
+	def validate_data(self):
+		data = {'valid': True}
+		try:
+			type = self.request.POST['type']
+			obj = self.request.POST['obj'].strip()
+			id = self.get_object().id
+			if type == 'denominacion':
+				if Chofer.objects.filter(denominacion__iexact=obj).exclude(id=id):
+					data['valid'] = False
+		except:
+			pass
+		return JsonResponse(data)
+
+	def post(self, request, *args, **kwargs):
+		data = {}
+		action = request.POST['action']
+		try:
+			if action == 'edit':
+				data = self.get_form().save()
+			elif action == 'validate_data':
+				return self.validate_data()
+			else:
+				data['error'] = 'No ha seleccionado ninguna opción'
+		except Exception as e:
+			data['error'] = str(e)
+		return HttpResponse(json.dumps(data), content_type='application/json')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data()
+		context['list_url'] = self.success_url
+		context['title'] = 'Edición de un Movimiento'
+		context['action'] = 'edit'
 		return context
 
 '''ELIMINAR MOVIMIENTO DE BASCULA'''
@@ -747,3 +795,5 @@ class MovimientoPrint(View):
 		except Exception as e:
 			print(str(e))
 		return HttpResponseRedirect(self.success_url)
+
+
