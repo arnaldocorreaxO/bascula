@@ -57,6 +57,7 @@ AND
 AND  (MOVI.MOVIMIENTO_PADRE IS NULL)
 AND MOVI.PESO_NETO > 0 
 AND MOVI.ANULADO = FALSE
+AND MOVA._ANULADO = FALSE
 ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_TICKET]]>
 	</queryString>
 	<field name="sucursal_id" class="java.lang.Integer">
@@ -344,9 +345,9 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="_movimiento_padre"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
-	<field name="_anulado_" class="java.lang.Boolean">
-		<property name="com.jaspersoft.studio.field.name" value="_anulado_"/>
-		<property name="com.jaspersoft.studio.field.label" value="_anulado_"/>
+	<field name="_anulado" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="_anulado"/>
+		<property name="com.jaspersoft.studio.field.label" value="_anulado"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
 	<field name="tiempo_llegada" class="java.lang.String">
