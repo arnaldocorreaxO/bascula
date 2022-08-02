@@ -3,10 +3,11 @@ function get_graph_2_1(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
-            'action': 'get_graph_2',
-            'sucursal': args[5],
-            'fecha': args[2],
-            'filtrar':'false' /*Todos los productos menos Clinker */
+            'action'    :  'get_graph_2',
+            'producto'  : args[7],
+            'sucursal'  : args[5],
+            'fecha'     : args[2],
+            'filtrar'   :'false' /*Todos los productos menos Clinker */
             
         },
         dataType: 'json',

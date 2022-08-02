@@ -25,9 +25,10 @@ function get_list(args) {
                     url: pathname,
                     type: 'POST',
                     data: {
-                            'sucursal': args[5],
-                            'fecha': args[2],
-                            'action': 'search'
+                            'producto'  : args[7],
+                            'sucursal'  : args[5],                            
+                            'fecha'     : args[2],
+                            'action'    : 'search'
                     },
                     dataSrc: "",
                     headers: {

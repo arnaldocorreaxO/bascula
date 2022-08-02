@@ -3,10 +3,11 @@ function get_graph_2_2(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
-            'action': 'get_graph_2',
-            'sucursal': args[5],
-            'fecha': args[2],
-            'filtrar':'true' /*Solo Clinker */
+            'action'    : 'get_graph_2',
+            'producto'  : args[7],
+            'sucursal'  : args[5],
+            'fecha'     : args[2],
+            'filtrar'   :'true' /*Solo Clinker */
             
         },
         dataType: 'json',
@@ -17,7 +18,7 @@ function get_graph_2_2(args) {
                     type: 'column'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento de Clinker del Día ' + args[2] + '</span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento de ' + args[6] + ' del Día ' + args[2] + '</span>'
                 },
                 subtitle: {
                     text: args[0] + '<br> Fecha Hora Actualización: '+ args[1]

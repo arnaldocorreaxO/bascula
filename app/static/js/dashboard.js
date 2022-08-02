@@ -14,29 +14,35 @@ function load() {
     mes_actual = $('input[name="mes_actual"]').val();
     anho_actual = $('input[name="anho_actual"]').val();
 
+    // PRODUCTO
+    sel_producto = $('select[name="producto"]').val();    
+    sel_producto_texto = $('select[name="producto"] option:selected').text();    
+
     // SUCURSAL
-    suc_seleccion = $('select[name="sucursal"]').val();    
-    suc_seleccion_texto = $('select[name="sucursal"] option:selected').text();    
+    sel_sucursal = $('select[name="sucursal"]').val();    
+    sel_sucursal_texto = $('select[name="sucursal"] option:selected').text();    
 
     //NOMBRE DEL MES
-    fec_seleccion = $('input[name="fecha"]').val();
-    mes_seleccion = fec_seleccion.substring(3,5)
-    mes_seleccion = obtenerNombreMes(mes_seleccion);
-    mes_seleccion = mes_seleccion.charAt(0).toUpperCase() + mes_seleccion.slice(1) 
+    sel_fecha = $('input[name="fecha"]').val();
+    sel_mes = sel_fecha.substring(3,5)
+    sel_mes = obtenerNombreMes(sel_mes);
+    sel_mes = sel_mes.charAt(0).toUpperCase() + sel_mes.slice(1) 
 
     // ANHO
-    anho_seleccion = fec_seleccion.substring(6)       
+    anho_seleccion = sel_fecha.substring(6)       
     
     // console.log(fecha_seleccion)
-    // console.log(mes_seleccion)
+    // console.log(sel_mes)
     // console.log(anho_seleccion)
 
-    args.push(suc_seleccion_texto); //[0]
+    args.push(sel_sucursal_texto); //[0]
     args.push(fec_hora_actual);
-    args.push(fec_seleccion);
-    args.push(mes_seleccion);
+    args.push(sel_fecha);
+    args.push(sel_mes);
     args.push(anho_seleccion); 
-    args.push(suc_seleccion); 
+    args.push(sel_sucursal);     
+    args.push(sel_producto_texto); 
+    args.push(sel_producto); 
     
     // console.log(anho_actual);
 
@@ -73,9 +79,14 @@ $(function () {
     // anho_actual = $('input[name="anho_actual"]').val(); 
     input_sucursal = $('input[name="usu_sucursal"]');
     select_sucursal = $('select[name="sucursal"]');
+    select_producto = $('select[name="producto"]');
 
     /*AL CAMBIAR LA SUCURSAL*/
     select_sucursal.on('change', function () {
+        load();
+    });
+    /*AL CAMBIAR EL PRODUCTO*/
+    select_producto.on('change', function () {
         load();
     });
 
@@ -83,9 +94,4 @@ $(function () {
     // sucursal.val(sucursal_actual).trigger("change"); //Cambia valor y dispara el evento
     select_sucursal.val(input_sucursal.val()).change(); //Cambia valor y dispara el evento
 
-
-    
-
-
-  
 });

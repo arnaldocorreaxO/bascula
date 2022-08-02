@@ -44,6 +44,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 		black_color = '#090910'
 		try:
 			action = request.POST['action']
+			producto = request.POST['producto']
 			sucursal = request.POST['sucursal']
 			fecha = request.POST['fecha']
 			# Convertir un string a datetime con formato 
@@ -62,24 +63,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 					data.append(row.toJSON())
 
 			elif action == 'get_graph_1_1':
-				data = []
-				# hoy = datetime.datetime.now()				
-				rows = Movimiento.objects.values('producto__denominacion') \
-						.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
-						.exclude(anulado=True)\
-						.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
-						.order_by('-tot_recepcion')
-				for row in rows:
-					data.append([row['producto__denominacion'],
-								 row['tot_recepcion']/1000])
-				# print(rows.query)
-				data = {
-					'name': 'Stock de Productos',
-					'type': 'pie',
-					'colorByPoint': True,
-					'data': data,
-				}
-			elif action == 'get_graph_1_2':
 				data = []
 				categorias=[]
 				val_tot_toneladas_series=[]
@@ -150,6 +133,25 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				'categories': categorias,
 				'series': [val_tot_toneladas_series, val_ctd_viajes_series]
 				}
+				
+			elif action == 'get_graph_1_2':
+				data = []
+				# hoy = datetime.datetime.now()				
+				rows = Movimiento.objects.values('producto__denominacion') \
+						.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
+						.exclude(anulado=True)\
+						.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
+						.order_by('-tot_recepcion')
+				for row in rows:
+					data.append([row['producto__denominacion'],
+								 row['tot_recepcion']/1000])
+				# print(rows.query)
+				data = {
+					'name': 'Stock de Productos',
+					'type': 'pie',
+					'colorByPoint': True,
+					'data': data,
+				}
 
 			elif action == 'get_graph_2':
 				filtrar = request.POST['filtrar']
@@ -171,9 +173,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 							.order_by('-tot_recepcion')
 				blue_color = '#4F98CA'
 				if filtrar =='true':
-					# Filtar producto clinker que no sea interno
-					rows = rows.filter(producto__exact=2)\
-							   .exclude(transporte__exact=1)
+					# Filtar productos que no sea interno
+					rows = rows.filter(producto__exact=producto)\
+							#    .exclude(transporte__exact=1)
 					blue_color = ck_color
 
 
@@ -231,22 +233,36 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				year = now.year    
 
 				# Envia Vallemi recibe Villeta
-				cliente_id = 2 #Vallemi
-				destino_id = 1 #Villeta
-				
-				rows = Movimiento.objects\
-							.values('fecha') \
-							.filter( sucursal=sucursal,
-									 cliente=cliente_id,
-									 destino=destino_id,
-									 producto=2, 
-									 fecha__month=month, 
-									 fecha__year=year,
-									 peso_neto__gt=0)\
-							.exclude(anulado=True)\
-							.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
-									  ctd_recepcion=Count(True)) \
-							.order_by('fecha')
+				if producto == 2:
+					cliente_id = 2 #Vallemi
+					destino_id = 1 #Villeta
+					
+					rows = Movimiento.objects\
+								.values('fecha') \
+								.filter( sucursal=sucursal,
+										cliente=cliente_id,
+										destino=destino_id,
+										producto=producto, 
+										fecha__month=month, 
+										fecha__year=year,
+										peso_neto__gt=0)\
+								.exclude(anulado=True)\
+								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+										ctd_recepcion=Count(True)) \
+								.order_by('fecha')
+				else:
+					rows = Movimiento.objects\
+								.values('fecha') \
+								.filter( sucursal=sucursal,										
+										producto=producto, 
+										fecha__month=month, 
+										fecha__year=year,
+										peso_neto__gt=0)\
+								.exclude(anulado=True)\
+								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+										ctd_recepcion=Count(True)) \
+								.order_by('fecha')
+
 				#.exclude(anulado=True)\ Este debe ir solo no combinar con otros campos la razon es que 
 				# no genera de forma correcta el query 
 				# NOT (anulado=True and otro_campo=1) 
@@ -303,20 +319,31 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				year = now.year
 
 				# Envia Vallemi recibe Villeta
-				cliente_id = 2 #Vallemi
-				destino_id = 1 #Villeta
+				if producto == 2:
+					cliente_id = 2 #Vallemi
+					destino_id = 1 #Villeta
 
-				rows = Movimiento.objects\
-							.values('fecha__month') \
-							.filter(sucursal=sucursal,
-									cliente=cliente_id,
-									destino=destino_id,
-									producto=2, fecha__year=year, peso_neto__gt=0)\
-							.exclude(cliente=1)\
-							.exclude(anulado=True)\
-							.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
-									  ctd_recepcion=Count(True)) \
-							.order_by('fecha__month')
+					rows = Movimiento.objects\
+								.values('fecha__month') \
+								.filter(sucursal=sucursal,
+										cliente=cliente_id,
+										destino=destino_id,
+										producto=producto, fecha__year=year, peso_neto__gt=0)\
+								.exclude(cliente=1)\
+								.exclude(anulado=True)\
+								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+										ctd_recepcion=Count(True)) \
+								.order_by('fecha__month')
+				else:
+					rows = Movimiento.objects\
+								.values('fecha__month') \
+								.filter(sucursal=sucursal,
+										producto=producto, fecha__year=year, peso_neto__gt=0)\
+								.exclude(anulado=True)\
+								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
+										ctd_recepcion=Count(True)) \
+								.order_by('fecha__month')
+
 				for row in rows:
 					# CATEGORIAS MESES
 					#Utilizamos una fecha cualquiera para retornar solo el mes ;)

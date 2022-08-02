@@ -3,6 +3,7 @@ function get_graph_4(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
+            'producto': args[7],
             'sucursal': args[5],
             'fecha': args[2],
             'action': 'get_graph_4'
@@ -15,7 +16,7 @@ function get_graph_4(args) {
                     type: 'column'
                 },
                 title: {
-                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento Clinker Año ' + args[4] + '</span>'
+                    text: '</i><span style="font-size:20px; font-weight: bold;">Movimiento ' + args[6] + ' Año ' + args[4] + '</span>'
                 },
                 subtitle: {
                     text: args[0] + '<br> Fecha Hora Actualización: '+ args[1]

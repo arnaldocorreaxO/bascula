@@ -3,9 +3,10 @@ function get_graph_5(args) {
         url: window.location.pathname,
         type: 'POST',
         data: {
-            'sucursal': args[5],
-            'fecha': args[2],
-            'action': 'get_graph_5'
+            'producto'  : args[7],
+            'sucursal'  : args[5],
+            'fecha'     : args[2],
+            'action'    : 'get_graph_5'
         },
         dataType: 'json',
     }).done(function (request) {

@@ -5,6 +5,7 @@
 
 
 from django import forms
+from core.bascula.models import Producto
 
 from core.base.models import Sucursal
 
@@ -18,10 +19,14 @@ class DashboardForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
-
+    #Items
+    producto = forms.ModelChoiceField(queryset=Producto.objects.filter(
+        activo__exact=True).order_by('denominacion'), empty_label=None,initial=2)
     sucursal = SucursalModelChoiceField(queryset=Sucursal.objects.filter(
         activo__exact=True).order_by('denominacion_corta'), empty_label=None)
     
     #Widgets
+    producto.widget.attrs.update(
+        {'class': 'form-control select2'})
     sucursal.widget.attrs.update(
         {'class': 'form-control select2'})
