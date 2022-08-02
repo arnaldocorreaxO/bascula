@@ -1,48 +1,48 @@
 var input_fecha;
-var anho;
-var usu_denom_corta;
-var fec_hora_actual;
-var mes_actual;
-var anho_actual;
+var v_anho;
+var v_usu_denom_corta;
+var v_fec_hora_actual;
+var v_mes_actual;
+var v_anho_actual;
 
 
 function load() {
     args = []
     //INPUT NO VISIBLES 
-    usu_suc_denom_corta = $('input[name="usu_suc_denom_corta"]').val();
-    fec_hora_actual = $('input[name="fecha_hora_actual"]').val();    
-    mes_actual = $('input[name="mes_actual"]').val();
-    anho_actual = $('input[name="anho_actual"]').val();
+    v_usu_suc_denom_corta = $('input[name="usu_suc_denom_corta"]').val();
+    v_fec_hora_actual     = $('input[name="fecha_hora_actual"]').val();    
+    v_mes_actual          = $('input[name="mes_actual"]').val();
+    v_anho_actual         = $('input[name="anho_actual"]').val();
 
     // PRODUCTO
-    sel_producto = $('select[name="producto"]').val();    
-    sel_producto_texto = $('select[name="producto"] option:selected').text();    
+    v_producto        = $('select[name="producto"]').val();    
+    v_producto_texto  = $('select[name="producto"] option:selected').text();    
 
     // SUCURSAL
-    sel_sucursal = $('select[name="sucursal"]').val();    
-    sel_sucursal_texto = $('select[name="sucursal"] option:selected').text();    
+    v_sucursal        = $('select[name="sucursal"]').val();    
+    v_sucursal_texto  = $('select[name="sucursal"] option:selected').text();    
 
     //NOMBRE DEL MES
-    sel_fecha = $('input[name="fecha"]').val();
-    sel_mes = sel_fecha.substring(3,5)
-    sel_mes = obtenerNombreMes(sel_mes);
-    sel_mes = sel_mes.charAt(0).toUpperCase() + sel_mes.slice(1) 
+    v_fecha   = $('input[name="fecha"]').val();
+    v_mes     = v_fecha.substring(3,5)
+    v_mes     = obtenerNombreMes(v_mes);
+    v_mes     = v_mes.charAt(0).toUpperCase() + v_mes.slice(1) 
 
     // ANHO
-    anho_seleccion = sel_fecha.substring(6)       
+    v_anho = v_fecha.substring(6)       
     
     // console.log(fecha_seleccion)
-    // console.log(sel_mes)
-    // console.log(anho_seleccion)
+    // console.log(v_mes)
+    // console.log(sel_anho)
 
-    args.push(sel_sucursal_texto); //[0]
-    args.push(fec_hora_actual);
-    args.push(sel_fecha);
-    args.push(sel_mes);
-    args.push(anho_seleccion); 
-    args.push(sel_sucursal);     
-    args.push(sel_producto_texto); 
-    args.push(sel_producto); 
+    args.push(v_sucursal_texto); //[0]
+    args.push(v_fec_hora_actual);
+    args.push(v_fecha);
+    args.push(v_mes);
+    args.push(v_anho); 
+    args.push(v_sucursal);     
+    args.push(v_producto_texto); 
+    args.push(v_producto); 
     
     // console.log(anho_actual);
 
