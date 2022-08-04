@@ -37,7 +37,7 @@
 		<![CDATA[SELECT  
 MOVI.*,
 MOVA.*,
-TO_CHAR(CURRENT_TIMESTAMP - MOVI.FEC_SALIDA, 'DD HH24:MI:SS'::TEXT) AS TIEMPO_TRANSCURRIDO
+TO_CHAR(COALESCE(MOVA._FEC_ENTRADA,CURRENT_TIMESTAMP) - MOVI.FEC_SALIDA, 'DD HH24:MI:SS'::TEXT) AS TIEMPO_TRANSCURRIDO
 FROM 
 V_MOVI MOVI LEFT OUTER JOIN V_MOVA MOVA ON MOVI.ID = MOVA._MOVIMIENTO_PADRE
 WHERE 1=1
@@ -342,9 +342,9 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="_movimiento_padre"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
-	<field name="_anulado_" class="java.lang.Boolean">
-		<property name="com.jaspersoft.studio.field.name" value="_anulado_"/>
-		<property name="com.jaspersoft.studio.field.label" value="_anulado_"/>
+	<field name="_anulado" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="_anulado"/>
+		<property name="com.jaspersoft.studio.field.label" value="_anulado"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
 	<field name="tiempo_transcurrido" class="java.lang.String">
@@ -376,7 +376,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<variableExpression><![CDATA[1000.00]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[DATEFORMAT($V{V_HOY},"dd/MM/yyyy HH:mm:ss") ]]></variableExpression>
+		<variableExpression><![CDATA[DATEFORMAT($V{V_HOY},"dd/MM/yyyy HH:mm:ss")]]></variableExpression>
 	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>

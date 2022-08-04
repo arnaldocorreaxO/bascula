@@ -483,14 +483,19 @@ class RptBascula008ReportView(ModuleMixin, FormView):
 		data = {}
 		try:
 			if action == 'report':
-				data = []			
+				data = []	
+				# Rango de Fecha
+				date_range = request.POST['date_range']
+				fecha_desde = date_range[:11].strip()
+				fecha_hasta = date_range[13:].strip()		
 				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
 				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
-				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None			
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None
+				situacion = request.POST['situacion']			
 				#CONFIG				 
 				report = JasperReportBase()  
 				report.report_name  = 'rpt_bascula008'
@@ -506,7 +511,9 @@ class RptBascula008ReportView(ModuleMixin, FormView):
 				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
 				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
 				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
-				report.params['P_SITUACION'] = 'PEND'
+				report.params['P_SITUACION'] = situacion if len(situacion)!=0 else None
+				report.params['P_FECHA_DESDE'] = fecha_desde
+				report.params['P_FECHA_HASTA'] = fecha_hasta
 
 				return report.render_to_response(tipo)
 
