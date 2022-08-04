@@ -48,10 +48,11 @@ AND  (MOVI.PRODUCTO_ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL)
 AND  (MOVI.TRANSPORTE_ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NULL) 
 AND  (MOVI.VEHICULO_ID IN ($P!{P_VEHICULO_ID}) OR $P{P_VEHICULO_ID}  IS NULL) 
 AND  (MOVI.CHOFER_ID IN ($P!{P_CHOFER_ID}) OR $P{P_CHOFER_ID}  IS NULL) 
-AND 
-(MOVA._ID IS NULL AND $P{P_SITUACION} ='PEND' OR
- MOVA._ID IS NOT NULL AND $P{P_SITUACION} = 'RECI' OR 
- $P{P_SITUACION} IS NULL)
+AND  (MOVI.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
+AND  (MOVI.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
+AND (MOVA._ID IS NULL AND $P{P_SITUACION} ='PEND' OR
+           MOVA._ID IS NOT NULL AND $P{P_SITUACION} = 'RECI' OR 
+            $P{P_SITUACION} IS NULL)
 AND  (MOVI.MOVIMIENTO_PADRE IS NULL)
 AND MOVI.PESO_NETO > 0 
 AND MOVI.ANULADO = FALSE
@@ -449,7 +450,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[CHOFER]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="802" y="40" width="46" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
+					<reportElement x="790" y="40" width="34" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -463,7 +464,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="756" y="40" width="46" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
+					<reportElement x="756" y="40" width="34" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -477,7 +478,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="848" y="40" width="46" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
+					<reportElement x="824" y="40" width="34" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -581,9 +582,10 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
+						<font size="5" isBold="true"/>
 					</textElement>
-					<text><![CDATA[FECHA REFERENCIA]]></text>
+					<text><![CDATA[FECHA LLEGADA
+REFERENCIA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="246" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
@@ -638,30 +640,57 @@ TRANSCURRIDO]]></text>
 					</textElement>
 					<text><![CDATA[SUC.]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="684" y="27" width="209" height="10" uuid="79131083-6c17-481f-bbed-63e2b9f2a84d"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{P_SITUACION}!=null?($P{P_SITUACION}=="PEND"?"PENDIENTES":"RECIBIDOS"):"Todos")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="630" y="27" width="54" height="10" uuid="e6c61432-d0ff-4f51-a92e-528a7112ca6b"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SITUACION:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="858" y="40" width="34" height="20" uuid="d77c716f-3869-4614-9c56-f843d3f3e199"/>
+					<box padding="0">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="5" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SITUACION]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="63">
 				<textField pattern="#,##0.00">
-					<reportElement x="821" y="2" width="72" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="790" y="2" width="68" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}/1000.00]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="681" y="2" width="140" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
+					<reportElement x="681" y="2" width="108" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO PENDIENTES (Ton):]]></text>
+					<text><![CDATA[TOTAL NETO (Ton):]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="2" width="159" height="12" uuid="e97d21a2-50a5-42b6-b532-cceb71f19621"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL VEHICULOS PENDIENTES(Und):]]></text>
+					<text><![CDATA[TOTAL VEHICULOS (Und):]]></text>
 				</staticText>
 				<textField pattern="#,##0">
 					<reportElement x="168" y="2" width="64" height="12" uuid="aee364ca-c951-4e81-b1ba-6baa8386cd81"/>
@@ -669,6 +698,13 @@ TRANSCURRIDO]]></text>
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_COUNT_ENVIADOS}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="0" y="20" width="64" height="12" uuid="27ee2a81-1c6e-4f98-847b-6f763ce4619c"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{P_SITUACION} == null? "TOTAL VEHICULOS (Und):": "TOTAL VEHICULOS (Und):")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -730,7 +766,7 @@ TRANSCURRIDO]]></text>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="14" splitType="Stretch">
+		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
 				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
@@ -773,7 +809,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="802" y="0" width="46" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
+				<reportElement stretchType="ElementGroupHeight" x="790" y="0" width="34" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -783,7 +819,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement stretchType="ElementGroupHeight" x="756" y="0" width="46" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+				<reportElement stretchType="ElementGroupHeight" x="756" y="0" width="34" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -793,7 +829,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="848" y="0" width="46" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ElementGroupHeight" x="824" y="0" width="34" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -827,7 +863,7 @@ TRANSCURRIDO]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{V_FECHA_HASTA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{_fec_entrada} == null ?$V{V_FECHA_HASTA}:$F{_fec_entrada})]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="ContainerHeight" x="246" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
@@ -868,6 +904,16 @@ TRANSCURRIDO]]></text>
 					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sucursal_cod}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
+				<reportElement stretchType="ElementGroupHeight" x="858" y="0" width="34" height="13" uuid="7181c0d9-66b6-46c6-887e-803aedddbb0b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{_id}==null?"PENDIENTE":"RECIBIDO")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
