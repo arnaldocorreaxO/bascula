@@ -148,7 +148,7 @@ movimiento = {
                     render: function (data, type, row) {
                         var buttons = ''
                         if (row.peso_salida == 0) {
-                            buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" id="btnSalida" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a> ';
+                            buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" id="btnSalida" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a>';
                         }
                         else {
                             btnClass = "btn btn-secondary btn-flat disabled_print"
@@ -157,12 +157,11 @@ movimiento = {
                             }
                             // alert(btnClass)
                             buttons += '<a href="/bascula/movimiento/print/' + row.id + '/" id="btnPrint" target="_blank"  class="' + btnClass + '" data-toggle="tooltip" title="Imprimir Ticket Báscula"><i class="fas fa-print"></i></a>';
-                            
-                            if ($('input[name="usu_change_movimiento"]').val()=='SI'){                                
-                                buttons += '<a href="' + pathname + '/update/' + row.id + '/" class="btn btn-warning btn-flat"><i class="fas fa-edit"></i></a> ';
-                            }
-                            
                         }
+                        if ($('input[name="usu_change_movimiento"]').val()=='SI'){                                
+                            buttons += '<a href="' + pathname + '/update/' + row.id + '/" class="btn btn-warning btn-flat mt-1 "><i class="fas fa-edit"></i></a> ';
+                        }
+                        
                         return buttons;
                     }
                 },

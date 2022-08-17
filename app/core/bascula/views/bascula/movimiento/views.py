@@ -7,7 +7,7 @@ import datetime
 from config import settings
 from core.bascula.forms import (ChoferForm, MovimientoEntradaForm, MovimientoForm,
 								MovimientoSalidaForm, SearchForm, VehiculoForm)
-from core.bascula.views.bascula.vehiculo.views import VehiculoList
+#from core.bascula.views.bascula.vehiculo.views import VehiculoList
 #LOCALS
 from core.views import printSeparador
 from core.bascula.models import Chofer, Cliente, ClienteProducto, ConfigSerial, Movimiento, Producto, Vehiculo
@@ -16,7 +16,7 @@ from core.base.models import Empresa
 from core.security.mixins import PermissionMixin
 
 #DJANGO
-from django.contrib.auth.mixins import PermissionRequiredMixin
+#from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -26,7 +26,7 @@ from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView,CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
 from weasyprint import CSS, HTML
@@ -211,9 +211,12 @@ class MovimientoList(PermissionMixin,FormView):
 					_where += f" AND bascula_movimiento.vehiculo_id IN ({vehiculo})"
 				
 				if len(start_date) and len(end_date):
-					qs = Movimiento.objects.filter(sucursal=suc_usuario,fecha__range=(start_date,end_date))
+					qs = Movimiento.objects.filter(sucursal=suc_usuario,fecha__range=(start_date,end_date))\
+										   .exclude(anulado=False)
 				else:
-					qs = Movimiento.objects.filter(sucursal=suc_usuario)
+					qs = Movimiento.objects.filter(sucursal=suc_usuario)\
+										   .exclude(anulado=False)
+										   
 
 				#print(_where)
 				if not _search:
