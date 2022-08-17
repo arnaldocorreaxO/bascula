@@ -211,11 +211,12 @@ class MovimientoList(PermissionMixin,FormView):
 					_where += f" AND bascula_movimiento.vehiculo_id IN ({vehiculo})"
 				
 				if len(start_date) and len(end_date):
+					#Para los movimientos del dia excluimos los anulados del día
 					qs = Movimiento.objects.filter(sucursal=suc_usuario,fecha__range=(start_date,end_date))\
-										   .exclude(anulado=False)
+										   .exclude(anulado=True)
 				else:
-					qs = Movimiento.objects.filter(sucursal=suc_usuario)\
-										   .exclude(anulado=False)
+					#Todos los movimientos incluyendo los anulados 
+					qs = Movimiento.objects.filter(sucursal=suc_usuario)
 										   
 
 				#print(_where)
