@@ -646,7 +646,7 @@ TRANSCURRIDO]]></text>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($P{P_SITUACION}!=null?($P{P_SITUACION}=="PEND"?"PENDIENTES":"RECIBIDOS"):"Todos")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($P{P_SITUACION}!=null?($P{P_SITUACION}.equals("PEND")?"PENDIENTES":"RECIBIDOS"):"Todos")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="630" y="27" width="54" height="10" uuid="e6c61432-d0ff-4f51-a92e-528a7112ca6b"/>
