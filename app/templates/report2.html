@@ -27,7 +27,7 @@
                     <input type="hidden" name="tipo" id="tipo" value="pdf">
                     {% csrf_token %}
                     {# Forms Visible #}
-                    <!-- {{ form.as_p}} -->
+                    <!-- {#{ form.as_p}} -->
                     {% block params_report %}
                         {% for field in form.visible_fields %}
                             <div class="form-group">

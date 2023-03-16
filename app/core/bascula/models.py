@@ -164,7 +164,7 @@ class Chofer(ModeloBase):
 
 #CLIENTES/PROVEEDORES
 class Cliente(ModeloBase):	
-	codigo = models.CharField(max_length=10,unique=True)
+	codigo = models.CharField(max_length=20,unique=True)
 	denominacion = models.CharField(max_length=100)
 	ver_en_destino = models.BooleanField(default=False)
 	
