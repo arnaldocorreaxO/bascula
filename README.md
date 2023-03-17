@@ -1,2 +1,2 @@
-# electoral
-Sistema Electoral
+# bascula
+Sistema de Control de Pesaje de Materias Primas
