@@ -829,7 +829,7 @@ TRANSCURRIDO]]></text>
 			<textField>
 				<reportElement x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="false" isItalic="false"/>
+					<font size="7" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>

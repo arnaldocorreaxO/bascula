@@ -430,7 +430,7 @@ ORDER BY 1,9,7,5,2,3]]>
 			<textField>
 				<reportElement x="0" y="1" width="30" height="13" uuid="f239b57a-f85f-41cc-ad68-3d130bed56ad"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Group1_COUNT}]]></textFieldExpression>
 			</textField>
