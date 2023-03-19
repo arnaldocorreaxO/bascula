@@ -138,7 +138,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="41" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="30" y="41" width="52" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -151,7 +151,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="70" y="41" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="82" y="41" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -164,7 +164,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="120" y="41" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="132" y="41" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -177,7 +177,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[TRANSPORTE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="230" y="41" width="182" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="242" y="41" width="170" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -358,7 +358,7 @@ ORDER BY 1,9,7,5,2,3]]>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="30" y="2" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ElementGroupHeight" x="30" y="2" width="52" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -368,7 +368,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="70" y="2" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
+				<reportElement stretchType="ElementGroupHeight" x="82" y="2" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -378,7 +378,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="120" y="2" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="132" y="2" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -388,7 +388,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="230" y="2" width="182" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ElementGroupHeight" x="242" y="2" width="170" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -427,8 +427,8 @@ ORDER BY 1,9,7,5,2,3]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="1" width="30" height="13" uuid="f239b57a-f85f-41cc-ad68-3d130bed56ad"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="2" width="30" height="13" uuid="f239b57a-f85f-41cc-ad68-3d130bed56ad"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
