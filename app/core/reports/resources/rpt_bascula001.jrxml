@@ -444,7 +444,7 @@ EMBARQUE (kg)]]></text>
 	<pageHeader>
 		<band height="70">
 			<subreport>
-				<reportElement x="0" y="0" width="893" height="70" uuid="6dbcc6fe-958d-4cab-97f2-be49a7bff6e1"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="893" height="70" uuid="6dbcc6fe-958d-4cab-97f2-be49a7bff6e1"/>
 				<subreportParameter name="P_REPORTE">
 					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
 				</subreportParameter>
