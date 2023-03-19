@@ -521,7 +521,7 @@ X DIA]]></text>
 					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["sub_rpt_top_vertical.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{P_RUTA}+"sub_rpt_top_vertical.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</pageHeader>
