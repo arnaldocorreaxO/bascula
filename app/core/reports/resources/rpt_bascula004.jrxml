@@ -104,7 +104,9 @@ ORDER BY 1,2,3,4,5]]>
 		<groupHeader>
 			<band height="55">
 				<staticText>
-					<reportElement x="214" y="34" width="123" height="19" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="121" y="34" width="216" height="21" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -117,22 +119,22 @@ ORDER BY 1,2,3,4,5]]>
 					<text><![CDATA[DENOMINACION]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="10" y="14" width="58" height="16" uuid="62daaaa3-a885-4620-bd83-a1bb880b3e97"/>
+					<reportElement x="10" y="14" width="58" height="10" uuid="62daaaa3-a885-4620-bd83-a1bb880b3e97"/>
 					<textElement verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="70" y="14" width="99" height="16" uuid="8fcc0c9c-5371-4a94-8709-36ee91d2a6c0"/>
+					<reportElement x="70" y="14" width="99" height="10" uuid="8fcc0c9c-5371-4a94-8709-36ee91d2a6c0"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="450" y="34" width="122" height="19" uuid="f475a542-7a57-48d1-b7f6-375b68c447d0"/>
-					<box padding="2">
+					<reportElement x="450" y="34" width="122" height="21" uuid="f475a542-7a57-48d1-b7f6-375b68c447d0"/>
+					<box padding="1">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0"/>
@@ -141,10 +143,13 @@ ORDER BY 1,2,3,4,5]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL (Ton)]]></text>
+					<text><![CDATA[TOTAL PESO NETO
+Toneladas]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="9" y="34" width="97" height="19" uuid="e09aeb6f-66c5-44dc-b31b-9cc8488022fa"/>
+					<reportElement x="10" y="34" width="41" height="21" uuid="e09aeb6f-66c5-44dc-b31b-9cc8488022fa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -157,7 +162,9 @@ ORDER BY 1,2,3,4,5]]>
 					<text><![CDATA[ID]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="106" y="34" width="108" height="19" uuid="b5209872-1543-4690-acd7-e2d685fdc53e"/>
+					<reportElement x="51" y="34" width="70" height="21" uuid="b5209872-1543-4690-acd7-e2d685fdc53e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -170,7 +177,9 @@ ORDER BY 1,2,3,4,5]]>
 					<text><![CDATA[COD. PRODUCTO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="337" y="34" width="113" height="19" uuid="b6d18aa2-00f4-4949-951a-c271398c77ff"/>
+					<reportElement x="337" y="34" width="113" height="21" uuid="b6d18aa2-00f4-4949-951a-c271398c77ff">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -183,28 +192,28 @@ ORDER BY 1,2,3,4,5]]>
 					<text><![CDATA[CANTIDAD VIAJES]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="180" y="14" width="99" height="16" uuid="fd6eb6e2-412a-4595-88be-7a6536cdc235"/>
+					<reportElement x="180" y="14" width="99" height="10" uuid="fd6eb6e2-412a-4595-88be-7a6536cdc235"/>
 					<textElement verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[CLIENTE (REMITENTE):]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="279" y="14" width="118" height="16" uuid="3a018f8e-9a44-4879-8bd2-3ee6c505f238"/>
+					<reportElement x="279" y="14" width="118" height="10" uuid="3a018f8e-9a44-4879-8bd2-3ee6c505f238"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="397" y="14" width="41" height="16" uuid="94f427fe-6827-4950-b9af-58aa50f3ea80"/>
+					<reportElement x="397" y="14" width="41" height="10" uuid="94f427fe-6827-4950-b9af-58aa50f3ea80"/>
 					<textElement verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DESTINO:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="438" y="14" width="134" height="16" uuid="2a83a33d-f1f6-4368-951d-e8e053fcd4ef"/>
+					<reportElement x="438" y="14" width="134" height="10" uuid="2a83a33d-f1f6-4368-951d-e8e053fcd4ef"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -227,9 +236,9 @@ ORDER BY 1,2,3,4,5]]>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="25">
+			<band height="20">
 				<textField pattern="#,##0.00">
-					<reportElement x="450" y="2" width="122" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="451" y="2" width="121" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -310,7 +319,7 @@ ORDER BY 1,2,3,4,5]]>
 		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="106" y="0" width="108" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="70" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -320,7 +329,7 @@ ORDER BY 1,2,3,4,5]]>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="214" y="0" width="122" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+				<reportElement stretchType="ElementGroupHeight" x="120" y="0" width="217" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -337,7 +346,7 @@ ORDER BY 1,2,3,4,5]]>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="9" y="0" width="96" height="13" uuid="3af51eab-9b9f-49c5-bbcc-5c2199640271">
+				<reportElement stretchType="ElementGroupHeight" x="9" y="0" width="40" height="13" uuid="3af51eab-9b9f-49c5-bbcc-5c2199640271">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -347,7 +356,7 @@ ORDER BY 1,2,3,4,5]]>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="337" y="0" width="112" height="13" uuid="ff5838b8-b174-48a7-bac9-b09370ce3aef"/>
+				<reportElement x="337" y="0" width="113" height="13" uuid="ff5838b8-b174-48a7-bac9-b09370ce3aef"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>

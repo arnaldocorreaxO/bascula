@@ -79,7 +79,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["<b>FECHA DESDE :</b> " +  ($V{V_FECHA_DESDE}!=""?$V{V_FECHA_DESDE}:"Todas") + " <b>HASTA :</b> " + ($V{V_FECHA_HASTA}!=""?$V{V_FECHA_HASTA}:"Todas")]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>FECHA DESDE:</b> " +  ($V{V_FECHA_DESDE}!=""?$V{V_FECHA_DESDE}:"Todas") + " <b>HASTA:</b> " + ($V{V_FECHA_HASTA}!=""?$V{V_FECHA_HASTA}:"Todas")]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

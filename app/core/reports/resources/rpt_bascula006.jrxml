@@ -375,7 +375,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
 		<groupHeader>
-			<band height="60">
+			<band height="62">
 				<textField>
 					<reportElement x="60" y="27" width="212" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
 					<textElement>
@@ -391,7 +391,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="50" y="40" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="50" y="40" width="40" height="22" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -404,7 +404,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="292" y="40" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="292" y="40" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -417,7 +417,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="402" y="40" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="402" y="40" width="110" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -430,7 +430,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[VEHICULO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="512" y="40" width="172" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="512" y="40" width="172" height="22" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -441,48 +441,6 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[CHOFER]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="802" y="40" width="46" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
-					<box padding="0">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[BRUTO 
-(Ton)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="756" y="40" width="46" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
-					<box padding="0">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[TARA 
-(Ton)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="848" y="40" width="46" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
-					<box padding="0">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[NETO 
-(Ton)]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="60" y="15" width="212" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
@@ -499,7 +457,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="40" width="30" height="20" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
+					<reportElement x="0" y="40" width="30" height="22" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -554,7 +512,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="90" y="40" width="78" height="20" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
+					<reportElement x="90" y="40" width="78" height="22" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -567,7 +525,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA ENTRADA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="168" y="40" width="78" height="20" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
+					<reportElement x="168" y="40" width="78" height="22" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -580,7 +538,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="246" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<reportElement x="246" y="40" width="46" height="22" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -594,7 +552,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 LLEGADA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="684" y="40" width="72" height="20" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
+					<reportElement x="684" y="40" width="72" height="22" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -607,7 +565,7 @@ LLEGADA]]></text>
 					<text><![CDATA[REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="342" y="40" width="60" height="20" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<reportElement x="342" y="40" width="60" height="22" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -620,7 +578,7 @@ LLEGADA]]></text>
 					<text><![CDATA[NRO. REMISION]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="40" width="20" height="20" uuid="d8ca20ae-5fc9-4306-aaed-f32218536af7"/>
+					<reportElement x="30" y="40" width="20" height="22" uuid="d8ca20ae-5fc9-4306-aaed-f32218536af7"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -630,35 +588,98 @@ LLEGADA]]></text>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[SUC.]]></text>
+					<text><![CDATA[SUC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="756" y="40" width="138" height="11" uuid="84b1c9f6-4230-4e77-a5d6-502bf298b3a1">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TONELADAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="756" y="51" width="46" height="11" uuid="1f725746-29bb-40f4-8fde-c0f1be134e1f">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TARA
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="802" y="51" width="46" height="11" uuid="4b162ced-f0ff-4b39-a272-637b9ef0ec54">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BRUTO 
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="848" y="51" width="46" height="11" uuid="49bf4188-7cfd-42d9-a263-2bef2a718737">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NETO
+]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="63">
+			<band height="40">
 				<textField pattern="#,##0.00">
-					<reportElement x="821" y="2" width="72" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="802" y="2" width="91" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}/1000.00]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="681" y="2" width="140" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
+					<reportElement x="641" y="2" width="161" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO REMITENTE (Ton):]]></text>
+					<text><![CDATA[TOTAL PESO NETO REMITENTE (Ton):]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="681" y="15" width="140" height="12" uuid="2b4c209e-1f29-4d89-adab-9bc2708628de"/>
+					<reportElement x="641" y="15" width="161" height="12" uuid="2b4c209e-1f29-4d89-adab-9bc2708628de"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO DESTINO (Ton):]]></text>
+					<text><![CDATA[TOTAL PESO NETO DESTINO      (Ton):]]></text>
 				</staticText>
 				<textField pattern="#,##0.00">
-					<reportElement x="821" y="15" width="72" height="12" uuid="63b532a8-9f8d-4781-92b7-a1309338b3e2"/>
+					<reportElement x="802" y="15" width="91" height="12" uuid="63b532a8-9f8d-4781-92b7-a1309338b3e2"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -669,7 +690,7 @@ LLEGADA]]></text>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL VEHICULOS REMITENTE (Und):]]></text>
+					<text><![CDATA[TOTAL VEHICULOS REMITENTE   (Und):]]></text>
 				</staticText>
 				<textField pattern="#,##0">
 					<reportElement x="168" y="15" width="64" height="12" uuid="d4e306fe-dded-419b-87b7-19fd2629cf40"/>
@@ -690,7 +711,7 @@ LLEGADA]]></text>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL VEHICULOS DESTINO (Und):]]></text>
+					<text><![CDATA[TOTAL VEHICULOS DESTINO        (Und):]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="28" width="159" height="12" uuid="436051af-c8dc-485e-8943-8920584fd385"/>
@@ -707,18 +728,18 @@ LLEGADA]]></text>
 					<textFieldExpression><![CDATA[$V{V_COUNT_ENVIADOS} - $V{V_COUNT_RECIBIDOS}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement x="821" y="27" width="72" height="12" uuid="465240cb-d65d-4dfe-be8a-e47b82202ce4"/>
+					<reportElement x="802" y="27" width="91" height="12" uuid="465240cb-d65d-4dfe-be8a-e47b82202ce4"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[($V{V_SUM_NETO_DESTINO}-$V{V_SUM_NETO})/1000.00]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="681" y="27" width="140" height="12" uuid="3e6fd6a6-cb79-4105-8980-dfec2a4f2da4"/>
+					<reportElement x="641" y="27" width="161" height="12" uuid="3e6fd6a6-cb79-4105-8980-dfec2a4f2da4"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO DIFERENCIA(Ton):]]></text>
+					<text><![CDATA[TOTAL PESO NETO DIFERENCIA(Ton):]]></text>
 				</staticText>
 			</band>
 		</groupFooter>

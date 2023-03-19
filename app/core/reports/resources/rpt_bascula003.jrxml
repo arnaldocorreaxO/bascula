@@ -138,7 +138,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="41" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="30" y="39" width="40" height="22" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -151,7 +151,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="70" y="41" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="70" y="39" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -164,7 +164,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="120" y="41" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="120" y="39" width="110" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -177,7 +177,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[VEHICULO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="230" y="41" width="182" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="230" y="39" width="216" height="22" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -188,45 +188,6 @@ ORDER BY 1,5,7,4,5,2,3]]>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[CHOFER]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="466" y="41" width="54" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[BRUTO (Ton)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="412" y="41" width="54" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[TARA (Ton)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="520" y="41" width="54" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[NETO (Ton)]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="58" y="15" width="210" height="10" uuid="04970368-4430-4cae-bd83-d7980a3836b8"/>
@@ -243,7 +204,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="41" width="30" height="20" uuid="9083e7ca-c94d-4494-8e83-f694a869fccd"/>
+					<reportElement x="0" y="39" width="30" height="22" uuid="9083e7ca-c94d-4494-8e83-f694a869fccd"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -263,14 +224,14 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					<text><![CDATA[CLIENTE (REMITENTE):]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="369" y="15" width="182" height="10" uuid="67c6d06c-b7c2-4cb5-b1a9-8277263e3d20"/>
+					<reportElement x="369" y="15" width="202" height="10" uuid="67c6d06c-b7c2-4cb5-b1a9-8277263e3d20"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="369" y="27" width="182" height="10" uuid="3b919349-9b8d-4c91-befd-e3eb95eccb8f"/>
+					<reportElement x="369" y="27" width="202" height="10" uuid="3b919349-9b8d-4c91-befd-e3eb95eccb8f"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
@@ -297,23 +258,86 @@ ORDER BY 1,5,7,4,5,2,3]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="446" y="39" width="126" height="11" uuid="23d0c46b-e65b-4558-b917-af349bd3bbdb">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TONELADAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="446" y="50" width="42" height="11" uuid="caae3787-abd0-4cc6-9b82-b3b80faf4d87">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TARA
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="488" y="50" width="42" height="11" uuid="8d4aeb7f-06c3-45b1-b70f-0242465b973d">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BRUTO 
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="530" y="50" width="42" height="11" uuid="dbf275ce-0a51-4f79-befc-7747e1274a76">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="1">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NETO
+]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
 				<textField pattern="#,##0.00">
-					<reportElement x="520" y="2" width="54" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
-					<textElement textAlignment="Right">
+					<reportElement x="488" y="1" width="86" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="440" y="2" width="80" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
-					<textElement textAlignment="Right">
+					<reportElement x="348" y="1" width="140" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TOTAL NETO (Ton):]]></text>
+					<text><![CDATA[TOTAL PESO NETO (Toneladas):]]></text>
 				</staticText>
 			</band>
 		</groupFooter>
@@ -388,7 +412,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="230" y="0" width="182" height="15" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ElementGroupHeight" x="230" y="0" width="216" height="15" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -398,7 +422,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="466" y="0" width="54" height="15" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
+				<reportElement stretchType="ElementGroupHeight" x="488" y="0" width="42" height="15" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -408,7 +432,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement stretchType="ElementGroupHeight" x="412" y="0" width="54" height="15" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+				<reportElement stretchType="ElementGroupHeight" x="447" y="0" width="41" height="15" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -418,7 +442,7 @@ ORDER BY 1,5,7,4,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="520" y="0" width="54" height="15" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ElementGroupHeight" x="530" y="0" width="44" height="15" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
