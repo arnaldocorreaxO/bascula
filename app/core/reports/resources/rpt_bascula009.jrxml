@@ -49,15 +49,14 @@ AND  (MOVI.TRANSPORTE_ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NU
 AND  (MOVI.VEHICULO_ID IN ($P!{P_VEHICULO_ID}) OR $P{P_VEHICULO_ID}  IS NULL) 
 AND  (MOVI.CHOFER_ID IN ($P!{P_CHOFER_ID}) OR $P{P_CHOFER_ID}  IS NULL) 
 AND  (MOVI.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
-AND  (MOVI.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
+AND  (MOVA._FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
 AND (MOVA._ID IS NULL AND $P{P_SITUACION} ='PEND' OR
            MOVA._ID IS NOT NULL AND $P{P_SITUACION} = 'RECI' OR 
             $P{P_SITUACION} IS NULL)
 AND  (MOVI.MOVIMIENTO_PADRE IS NULL)
 AND MOVI.PESO_NETO > 0 
 AND MOVI.ANULADO = FALSE
-AND COALESCE(MOVA._ANULADO,FALSE) = FALSE
-ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_TICKET]]>
+ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,_FECHA,_NRO_TICKET]]>
 	</queryString>
 	<field name="sucursal_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="sucursal_id"/>
@@ -119,6 +118,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="chofer_id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
 	</field>
+	<field name="chofer_ci" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.label" value="chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
+	</field>
 	<field name="chofer" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="chofer"/>
 		<property name="com.jaspersoft.studio.field.label" value="chofer"/>
@@ -127,6 +131,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<field name="vehiculo_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="vehiculo_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="vehiculo_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
+	</field>
+	<field name="vehiculo_matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vehiculo_matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="vehiculo_matricula"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
 	</field>
 	<field name="vehiculo" class="java.lang.String">
@@ -264,6 +273,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="_chofer_id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
+	<field name="_chofer_ci" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="_chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.label" value="_chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
+	</field>
 	<field name="_chofer" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="_chofer"/>
 		<property name="com.jaspersoft.studio.field.label" value="_chofer"/>
@@ -272,6 +286,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<field name="_vehiculo_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="_vehiculo_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="_vehiculo_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
+	</field>
+	<field name="_vehiculo_matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="_vehiculo_matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="_vehiculo_matricula"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
 	<field name="_vehiculo" class="java.lang.String">
@@ -374,16 +393,22 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<variable name="V_COUNT_ENVIADOS" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[($F{sucursal_id}!=null?1:0)]]></variableExpression>
 	</variable>
-	<variable name="V_1000" class="java.lang.Float">
-		<variableExpression><![CDATA[1000.00]]></variableExpression>
+	<variable name="V_1000" class="java.lang.Double">
+		<variableExpression><![CDATA[1.00]]></variableExpression>
 	</variable>
 	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[DATEFORMAT($V{V_HOY},"dd/MM/yyyy HH:mm:ss")]]></variableExpression>
 	</variable>
+	<variable name="V_DIFERENCIA" class="java.lang.Integer" resetType="Master">
+		<variableExpression><![CDATA[($F{_peso_neto}-$F{peso_neto})]]></variableExpression>
+	</variable>
+	<variable name="V_TOLERANCIA" class="java.lang.Float" resetType="Master">
+		<variableExpression><![CDATA[($V{V_DIFERENCIA}.floatValue()/$F{peso_neto}.floatValue())*100]]></variableExpression>
+	</variable>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
 		<groupHeader>
-			<band height="60">
+			<band height="69">
 				<textField>
 					<reportElement x="60" y="27" width="212" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
 					<textElement>
@@ -399,7 +424,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="50" y="40" width="40" height="20" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="30" y="40" width="50" height="28" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -409,10 +434,10 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[FECHA]]></text>
+					<text><![CDATA[DOCUMENTO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="292" y="40" width="50" height="20" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="438" y="40" width="50" height="28" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -425,33 +450,35 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="402" y="40" width="110" height="20" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="708" y="40" width="58" height="28" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="5" isBold="true"/>
 					</textElement>
-					<text><![CDATA[VEHICULO]]></text>
+					<text><![CDATA[DIFERENCIA
+ORIGEN Y DESTINO
+KG]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="512" y="40" width="172" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="211" y="40" width="47" height="28" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[CHOFER]]></text>
+					<text><![CDATA[PLACA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="790" y="40" width="34" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
+					<reportElement x="640" y="40" width="34" height="28" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -465,7 +492,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="756" y="40" width="34" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
+					<reportElement x="606" y="40" width="34" height="28" uuid="3b218086-a646-49ab-a71f-f551e24cc26d"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -479,7 +506,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="824" y="40" width="34" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
+					<reportElement x="674" y="40" width="34" height="28" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b"/>
 					<box padding="0">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -507,7 +534,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="40" width="30" height="20" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
+					<reportElement x="0" y="40" width="30" height="28" uuid="7b6ddc81-34fa-4fd9-8e7e-c61e725b529c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -562,7 +589,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="90" y="40" width="78" height="20" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
+					<reportElement x="258" y="40" width="78" height="28" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -575,7 +602,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="168" y="40" width="78" height="20" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
+					<reportElement x="528" y="40" width="78" height="28" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -589,7 +616,103 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="246" y="40" width="46" height="20" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<reportElement x="766" y="40" width="46" height="28" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<box padding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="5" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOLERANCIA
+1% A MENOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="488" y="40" width="40" height="28" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<box padding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REMISION]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="684" y="27" width="209" height="10" uuid="79131083-6c17-481f-bbed-63e2b9f2a84d"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{P_SITUACION}!=null?($P{P_SITUACION}=="PEND"?"PENDIENTES":"RECIBIDOS"):"Todos")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="630" y="27" width="54" height="10" uuid="e6c61432-d0ff-4f51-a92e-528a7112ca6b"/>
+					<textElement textAlignment="Left">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SITUACION:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="858" y="40" width="34" height="28" uuid="d77c716f-3869-4614-9c56-f843d3f3e199"/>
+					<box padding="0">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="5" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SITUACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="404" y="40" width="34" height="28" uuid="b656cef5-0ed3-45b3-8241-6a87ec979314"/>
+					<box padding="0">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NETO 
+(Ton)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="336" y="40" width="34" height="28" uuid="d4f9d97d-4b7f-439c-af6b-587eea187a73"/>
+					<box padding="0">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TARA 
+(Ton)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="370" y="40" width="34" height="28" uuid="d886ec43-84b3-4b1e-9830-2afd759cebe2"/>
+					<box padding="0">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BRUTO 
+(Ton)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="812" y="40" width="46" height="28" uuid="c6b2a895-0c8b-4384-976d-d62a140a951e"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -603,20 +726,7 @@ REFERENCIA]]></text>
 TRANSCURRIDO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="684" y="40" width="72" height="20" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[REFERENCIA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="342" y="40" width="60" height="20" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<reportElement x="80" y="40" width="130" height="28" uuid="efc801c7-a4eb-4ecf-8af1-9f47e57d44ce"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -626,50 +736,10 @@ TRANSCURRIDO]]></text>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[NRO. REMISION]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="40" width="20" height="20" uuid="d8ca20ae-5fc9-4306-aaed-f32218536af7"/>
-					<box padding="2">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[SUC.]]></text>
+					<text><![CDATA[CHOFER]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="684" y="27" width="209" height="10" uuid="79131083-6c17-481f-bbed-63e2b9f2a84d"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[($P{P_SITUACION}!=null?($P{P_SITUACION}.equals("PEND")?"PENDIENTES":"RECIBIDOS"):"Todos")]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="630" y="27" width="54" height="10" uuid="e6c61432-d0ff-4f51-a92e-528a7112ca6b"/>
-					<textElement textAlignment="Left">
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[SITUACION:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="858" y="40" width="34" height="20" uuid="d77c716f-3869-4614-9c56-f843d3f3e199"/>
-					<box padding="0">
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="5" isBold="true"/>
-					</textElement>
-					<text><![CDATA[SITUACION]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="630" y="7" width="250" height="16" uuid="e018a9af-12bd-461d-9771-62d32f9f382c"/>
+					<reportElement x="630" y="7" width="262" height="16" uuid="4fd96c51-859c-4e27-be18-3e91b6294deb"/>
 					<textElement markup="html">
 						<font size="7"/>
 					</textElement>
@@ -678,49 +748,35 @@ TRANSCURRIDO]]></text>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="63">
-				<textField pattern="#,##0.00">
-					<reportElement x="790" y="2" width="68" height="12" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+			<band height="20">
+				<textField pattern="#,##0">
+					<reportElement x="370" y="0" width="70" height="20" uuid="65fcd904-c9e7-43f0-a932-6786f3c44d29"/>
 					<textElement textAlignment="Right">
-						<font size="9" isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{V_SUM_NETO}/1000.00]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="640" y="0" width="66" height="20" uuid="effaf18e-ce8c-4cf8-aff0-c8399f8e3be5"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{V_SUM_NETO_DESTINO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="681" y="2" width="108" height="12" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
-					<textElement textAlignment="Left">
-						<font size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[TOTAL NETO (Ton):]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="0" y="2" width="159" height="12" uuid="e97d21a2-50a5-42b6-b532-cceb71f19621"/>
-					<textElement textAlignment="Left">
-						<font size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[TOTAL VEHICULOS (Und):]]></text>
-				</staticText>
-				<textField pattern="#,##0">
-					<reportElement x="168" y="2" width="64" height="12" uuid="aee364ca-c951-4e81-b1ba-6baa8386cd81"/>
-					<textElement textAlignment="Right">
+					<reportElement x="0" y="0" width="58" height="20" uuid="69868524-d934-4089-83d6-ba23ac85f6f2"/>
+					<textElement>
 						<font size="9" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{V_COUNT_ENVIADOS}]]></textFieldExpression>
-				</textField>
-				<textField pattern="#,##0">
-					<reportElement x="0" y="20" width="64" height="12" uuid="27ee2a81-1c6e-4f98-847b-6f763ce4619c"/>
-					<textElement textAlignment="Right">
-						<font size="9" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[($P{P_SITUACION} == null? "TOTAL VEHICULOS (Und):": "TOTAL VEHICULOS (Und):")]]></textFieldExpression>
-				</textField>
+					<text><![CDATA[TOTALES:]]></text>
+				</staticText>
 			</band>
 		</groupFooter>
 	</group>
 	<pageHeader>
 		<band height="70">
 			<subreport>
-				<reportElement x="0" y="0" width="893" height="70" uuid="3ca1042d-793a-4b7a-a4b1-d31d4709bada"/>
+				<reportElement x="0" y="0" width="893" height="70" uuid="8e513dac-3b0f-4984-ad2e-8ecf4a41b43d"/>
 				<subreportParameter name="P_REPORTE">
 					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -756,85 +812,85 @@ TRANSCURRIDO]]></text>
 	<detail>
 		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="50" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chofer_ci}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="292" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="438" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_nro_ticket}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="402" y="0" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box padding="2"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="512" y="0" width="172" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box padding="2"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="790" y="0" width="34" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="706" y="0" width="60" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{V_DIFERENCIA}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement stretchType="ElementGroupHeight" x="756" y="0" width="34" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="211" y="0" width="47" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vehiculo_matricula}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ElementGroupHeight" x="824" y="0" width="34" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="640" y="0" width="34" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{peso_neto}/1000.00]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_peso_bruto}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="606" y="0" width="34" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{_peso_tara}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="674" y="0" width="34" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{_peso_neto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="90" y="0" width="78" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement stretchType="ContainerHeight" x="258" y="0" width="79" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -843,57 +899,37 @@ TRANSCURRIDO]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="168" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement stretchType="ContainerHeight" x="528" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{_fec_entrada} == null ?$V{V_FECHA_HASTA}:$F{_fec_entrada})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_fec_entrada}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="246" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="ContainerHeight" x="766" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isBold="true" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tiempo_transcurrido}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="684" y="0" width="72" height="13" uuid="cf7a5aa9-4e38-4703-b37b-862e0ea84efa">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box padding="2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="7" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="342" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box padding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($V{V_DIFERENCIA}<0.00?$V{V_TOLERANCIA}:null)]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="20" height="13" uuid="af290e4d-2f7c-4e94-b73d-7d04ed9d9cf6">
+				<reportElement stretchType="ElementGroupHeight" x="488" y="0" width="40" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{sucursal_cod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_nro_remision}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0.00">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="ElementGroupHeight" x="858" y="0" width="34" height="13" uuid="7181c0d9-66b6-46c6-887e-803aedddbb0b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -902,6 +938,56 @@ TRANSCURRIDO]]></text>
 					<font size="5" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{_id}==null?"PENDIENTE":"RECIBIDO")]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="404" y="0" width="34" height="13" uuid="d5b6aa99-d8da-4e26-80db-0473ab3476cd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso_neto}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="336" y="0" width="34" height="13" uuid="c79ea50b-9562-4743-b37e-62e2e5969e94">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="370" y="0" width="34" height="13" uuid="54173afa-021f-4276-9813-14e918101732">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ContainerHeight" x="812" y="0" width="46" height="13" uuid="c2adc775-b438-4034-82c4-c039d31744ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tiempo_transcurrido}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="80" y="0" width="130" height="13" uuid="65c9345a-3bdf-484c-a965-147525722ed0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

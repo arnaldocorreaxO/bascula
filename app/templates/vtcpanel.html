@@ -137,29 +137,6 @@
             <input type="hidden" name="anho_actual" value="{{ anho_actual }}">            
 
             <div class="row">
-                <div class="col-12 justify-content-end d-flex">
-                    <div class="form-group">
-                        <!-- <label>Año:</label> -->
-                        <div class="input-group mb-3">
-                        <b class="p-1">Producto: </b> {{ form.producto }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label>Año:</label> -->
-                        <div class="input-group mb-3">
-                        <b class="p-1">Sucursal: </b> {{ form.sucursal }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label>Año:</label> -->
-                        <div class="input-group mb-3">
-                        <b class="p-1">Fecha: </b> {{ form.fecha }}
-                        </div>
-                    </div>
-                </div>                    
-            </div>
-
-            <div class="row">
                 <div class="col-md-3 col-sm-6 col-12">
                     <a href="{% url 'cliente_list' %}" class="small-box-footer">
                         <div class="info-box">
@@ -214,6 +191,37 @@
                     </a>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-3 justify-content-end d-flex">
+                        <!-- EMPTY -->
+                </div>
+                <div class="col-3 justify-content-end d-flex">
+                    <div class="form-group">
+                        <!-- <label>Año:</label> -->
+                        <div class="input-group mb-3">
+                            <b class="p-1">Producto: </b> {{ form.producto }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 justify-content-end d-flex">
+                    <div class="form-group">
+                        <!-- <label>Año:</label> -->
+                        <div class="input-group mb-3">
+                            <b class="p-1">Sucursal: </b> {{ form.sucursal }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 justify-content-end d-flex">
+                    <div class="form-group">
+                        <!-- <label>Año:</label> -->
+                        <div class="input-group mb-3">
+                            <b class="p-1">Fecha: </b> {{ form.fecha }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">

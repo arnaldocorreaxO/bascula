@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA_LOCAL"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
 	<parameter name="P_USUARIO" class="java.lang.String"/>
 	<parameter name="P_TITULO1" class="java.lang.String"/>
@@ -115,17 +115,8 @@ ORDER BY 1,2,3,4,5,6]]>
 		<property name="com.jaspersoft.studio.field.name" value="total_neto"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_neto"/>
 	</field>
-	<variable name="V_HOY" class="java.util.Date" resetType="None">
-		<variableExpression><![CDATA[NOW( )]]></variableExpression>
-	</variable>
 	<variable name="V_SUM_NETO" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
-	</variable>
-	<variable name="V_FECHA_DESDE" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[(($P{P_FECHA_DESDE} != null && $P{P_FECHA_DESDE}.length() == 10) ? $P{P_FECHA_DESDE}.substring(8,10)+"/"+$P{P_FECHA_DESDE}.substring(5,7)+"/"+$P{P_FECHA_DESDE}.substring(0,4) : "")]]></variableExpression>
-	</variable>
-	<variable name="V_FECHA_HASTA" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[(($P{P_FECHA_HASTA} != null && $P{P_FECHA_HASTA}.length() == 10) ? $P{P_FECHA_HASTA}.substring(8,10)+"/"+$P{P_FECHA_HASTA}.substring(5,7)+"/"+$P{P_FECHA_HASTA}.substring(0,4) : "")]]></variableExpression>
 	</variable>
 	<variable name="V_SUM_VIAJES" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
@@ -141,9 +132,6 @@ ORDER BY 1,2,3,4,5,6]]>
 	</variable>
 	<variable name="V_AVG_TOT_NETO_X_DIA" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Average">
 		<variableExpression><![CDATA[$F{total_neto}]]></variableExpression>
-	</variable>
-	<variable name="V_REPORT_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
-		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
 	<variable name="V_RES_SUM_VIAJES" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{cant_viaje}]]></variableExpression>
@@ -484,61 +472,9 @@ X DIA]]></text>
 		</groupFooter>
 	</group>
 	<pageHeader>
-		<band height="90">
+		<band height="97">
 			<textField>
-				<reportElement x="80" y="1" width="399" height="18" uuid="c90e11db-aa81-4780-b751-a4d623570501"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{P_TITULO1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="15" width="399" height="20" uuid="fa40376d-3b58-4e17-bec4-485484e2aae1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{P_TITULO2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="39" width="399" height="20" uuid="84bbd460-3007-4467-9a0c-2e10b951c0bf"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{P_TITULO4}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="28" width="399" height="20" uuid="26d8dbb7-c737-4b0c-847b-9a98f244562e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{P_TITULO3}]]></textFieldExpression>
-			</textField>
-			<image onErrorType="Icon">
-				<reportElement x="9" y="-4" width="60" height="59" uuid="b0312ba4-0922-41f9-bd0c-e8c99988ccd3"/>
-				<imageExpression><![CDATA[$P{P_RUTA} +  "logo_empresa.png"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement stretchType="ContainerHeight" x="490" y="0" width="88" height="50" uuid="ec6b5d4d-e404-4c4d-a110-465dd06dc84d"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Impresión\n"
-+ $P{P_REPORTE} 
-+"\nFecha: " + DATEFORMAT($V{V_HOY},"dd/MM/yyyy") 
-+"\nHora: " + DATEFORMAT($V{V_HOY},"HH:mm:ss")
-+"\nUsuario: " + $P{P_USUARIO}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="55" width="399" height="12" uuid="3f65e2eb-18d1-4247-b70d-57d1215e4fb4">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["FECHA DESDE: " +  ($V{V_FECHA_DESDE}!=null?$V{V_FECHA_DESDE}:"Todas") + " HASTA: " + ($V{V_FECHA_HASTA}!=null?$V{V_FECHA_HASTA}:"Todas")]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="67" width="200" height="23" uuid="887c09a6-d2e8-43e1-802a-0a4df7883bc5">
+				<reportElement x="80" y="74" width="200" height="23" uuid="887c09a6-d2e8-43e1-802a-0a4df7883bc5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -547,7 +483,7 @@ X DIA]]></text>
 				<textFieldExpression><![CDATA["HORA ENTRADA\n DESDE: " +  $P{P_HORA_ENT_DESDE}  + " HASTA: " + $P{P_HORA_ENT_HASTA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="67" width="200" height="23" uuid="474383a3-6d24-4e45-8bf0-4447a85ee6f4">
+				<reportElement x="280" y="74" width="200" height="23" uuid="474383a3-6d24-4e45-8bf0-4447a85ee6f4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -555,6 +491,38 @@ X DIA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA["HORA SALIDA\n DESDE: " +  $P{P_HORA_SAL_DESDE}  + " HASTA: " + $P{P_HORA_SAL_HASTA}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="70" uuid="982548c3-4d01-4bf0-a1df-11535ac933db"/>
+				<subreportParameter name="P_REPORTE">
+					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_USUARIO">
+					<subreportParameterExpression><![CDATA[$P{P_USUARIO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_TITULO1">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_TITULO2">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_TITULO3">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_TITULO4">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_RUTA">
+					<subreportParameterExpression><![CDATA[$P{P_RUTA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_FECHA_DESDE">
+					<subreportParameterExpression><![CDATA[$P{P_FECHA_DESDE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="P_FECHA_HASTA">
+					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_rpt_top_vertical.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</pageHeader>
 	<detail>
@@ -642,7 +610,7 @@ X DIA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{Group1_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
