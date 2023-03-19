@@ -481,12 +481,12 @@ EMBARQUE (kg)]]></text>
 		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ContainerHeight" x="30" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
@@ -496,7 +496,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
@@ -506,7 +506,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
@@ -516,7 +516,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
@@ -526,7 +526,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
@@ -536,7 +536,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
@@ -546,14 +546,14 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
+				<reportElement stretchType="ContainerHeight" x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font fontName="SansSerif" size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Group1_COUNT}]]></textFieldExpression>
 			</textField>
@@ -563,7 +563,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_embarque}]]></textFieldExpression>
 			</textField>
@@ -573,7 +573,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_entrada}]]></textFieldExpression>
 			</textField>
@@ -583,7 +583,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
@@ -593,7 +593,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tiempo_carga_descarga}]]></textFieldExpression>
 			</textField>
@@ -603,7 +603,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
@@ -613,7 +613,7 @@ EMBARQUE (kg)]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
 			</textField>
