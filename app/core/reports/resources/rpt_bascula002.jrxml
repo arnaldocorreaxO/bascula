@@ -177,7 +177,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[TRANSPORTE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="242" y="41" width="170" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="242" y="41" width="180" height="20" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -190,7 +190,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[CHOFER]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="462" y="41" width="50" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69">
+					<reportElement x="472" y="41" width="50" height="20" uuid="7bdaebe3-9264-4e69-b36a-6b8324ee8f69">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="2">
@@ -205,7 +205,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[BRUTO (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="412" y="41" width="50" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d">
+					<reportElement x="422" y="41" width="50" height="20" uuid="3b218086-a646-49ab-a71f-f551e24cc26d">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="2">
@@ -220,7 +220,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<text><![CDATA[TARA (Ton)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="512" y="41" width="50" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b">
+					<reportElement x="522" y="41" width="50" height="20" uuid="9089a961-f4ae-4c22-ba95-fbbedbbabf8b">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="2">
@@ -308,14 +308,14 @@ ORDER BY 1,9,7,5,2,3]]>
 		<groupFooter>
 			<band height="20">
 				<textField pattern="#,##0.00">
-					<reportElement x="508" y="2" width="54" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
+					<reportElement x="518" y="2" width="54" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{V_SUM_NETO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="428" y="2" width="80" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
+					<reportElement x="438" y="2" width="80" height="18" uuid="99ae9a07-bf80-4f2f-9018-c03b5438731b"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
@@ -394,7 +394,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ContainerHeight" x="242" y="2" width="170" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ContainerHeight" x="242" y="2" width="180" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -404,7 +404,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ContainerHeight" x="462" y="2" width="50" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
+				<reportElement stretchType="ContainerHeight" x="472" y="2" width="50" height="13" uuid="462b8136-2616-4872-b750-dcbc49ade25f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -415,7 +415,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{peso_bruto}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ContainerHeight" x="412" y="2" width="50" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
+				<reportElement stretchType="ContainerHeight" x="422" y="2" width="50" height="13" uuid="6750c0ca-701f-4833-8e9a-35694dcf0b37">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -426,7 +426,7 @@ ORDER BY 1,9,7,5,2,3]]>
 				<textFieldExpression><![CDATA[$F{peso_tara}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
-				<reportElement stretchType="ContainerHeight" x="512" y="2" width="50" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
+				<reportElement stretchType="ContainerHeight" x="522" y="2" width="50" height="13" uuid="9092f786-cf97-4e77-83d3-f747bad5453f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
