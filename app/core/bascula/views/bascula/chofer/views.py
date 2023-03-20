@@ -49,11 +49,14 @@ class ChoferList(PermissionMixin, ListView):
 			
 				_where = "'' = %s"				
 				if len(_search):
-					if _search.isnumeric():
-						_where = " codigo = %s"				
-					else:
-						_search = "%" + _search.replace(' ', '%') + "%"
-						_where = " upper(codigo ||' '|| nombre ||' '|| apellido ) LIKE upper(%s)"
+					#Buscar por codigo nombre o apellido 
+					_search = "%" + _search.replace(' ', '%') + "%"
+					_where = " upper(codigo ||' '|| nombre ||' '|| apellido ) LIKE upper(%s)"
+					# if _search.isnumeric():
+					# 	_where = " codigo = %s"				
+					# else:
+					# 	_search = "%" + _search.replace(' ', '%') + "%"
+					# 	_where = " upper(codigo ||' '|| nombre ||' '|| apellido ) LIKE upper(%s)"
 					
 				print(_where)
 				qs = Chofer.objects\
