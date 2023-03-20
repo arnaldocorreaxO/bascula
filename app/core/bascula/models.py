@@ -128,7 +128,7 @@ class Vehiculo(ModeloBase):
 
 #CHOFERES
 class Chofer(ModeloBase):	
-	codigo = models.IntegerField(verbose_name='CI',unique=True)
+	codigo = models.BigIntegerField(verbose_name='CI',unique=True)
 	nombre = models.CharField(max_length=100)
 	apellido = models.CharField(max_length=100)
 

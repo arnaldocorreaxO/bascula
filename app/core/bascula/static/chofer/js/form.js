@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 }),
             },
             fields: {
-                denominacion: {
+                codigo: {
                     validators: {
                         notEmpty: {},
                         stringLength: {
@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function (e) {
                             url: pathname,
                             data: function () {
                                 return {
-                                    obj: form.querySelector('[name="denominacion"]').value,
-                                    type: 'denominacion',
+                                    obj: form.querySelector('[name="codigo"]').value,
+                                    type: 'codigo',
                                     action: 'validate_data'
                                 };
                             },
-                            message: 'El nombre ya se encuentra registrado',
+                            message: 'El nro de CI ingresado ya existe!',
                             method: 'POST'
                         }
                     }

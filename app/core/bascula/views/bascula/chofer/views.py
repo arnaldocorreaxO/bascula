@@ -117,8 +117,8 @@ class ChoferCreate(PermissionMixin, CreateView):
 		try:
 			type = self.request.POST['type']
 			obj = self.request.POST['obj'].strip()            
-			if type == 'denominacion':                
-				if Chofer.objects.filter(denominacion__iexact=obj):
+			if type == 'codigo':                
+				if Chofer.objects.filter(codigo__iexact=obj):
 					data['valid'] = False
 		except:
 			pass
@@ -164,8 +164,8 @@ class ChoferUpdate(PermissionMixin, UpdateView):
 			type = self.request.POST['type']
 			obj = self.request.POST['obj'].strip()
 			id = self.get_object().id
-			if type == 'denominacion':
-				if Chofer.objects.filter(denominacion__iexact=obj).exclude(id=id):
+			if type == 'codigo':
+				if Chofer.objects.filter(codigo__iexact=obj).exclude(id=id):
 					data['valid'] = False
 		except:
 			pass

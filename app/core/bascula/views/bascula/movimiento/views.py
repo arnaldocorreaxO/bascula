@@ -16,7 +16,7 @@ from core.base.models import Empresa
 from core.security.mixins import PermissionMixin
 
 #DJANGO
-#from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -275,7 +275,8 @@ class MovimientoList(PermissionMixin,FormView):
 
 
 """CREAR MOVIMIENTO DE BASCULA"""
-class MovimientoCreate(PermissionMixin,CreateView):
+# class MovimientoCreate(PermissionMixin,CreateView):
+class MovimientoCreate(PermissionRequiredMixin,CreateView):
 	model = Movimiento
 	form_class=MovimientoEntradaForm
 	success_url = reverse_lazy('movimiento_list')
