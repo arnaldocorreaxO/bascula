@@ -275,8 +275,7 @@ class MovimientoList(PermissionMixin,FormView):
 
 
 """CREAR MOVIMIENTO DE BASCULA"""
-# class MovimientoCreate(PermissionMixin,CreateView):
-class MovimientoCreate(PermissionRequiredMixin,CreateView):
+class MovimientoCreate(PermissionMixin,CreateView):
 	model = Movimiento
 	form_class=MovimientoEntradaForm
 	success_url = reverse_lazy('movimiento_list')
