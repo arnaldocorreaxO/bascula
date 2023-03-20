@@ -193,11 +193,17 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text"><b>Para filtrar debe seleccionar los siguientes campos 
-                            <i class="fas fa-arrow-right"></i></b></span>
-                    </div>    
+                <!-- Oculto para XS -->
+                <div class="col-md-3 col-sm-6 col-12 d-none d-sm-block">
+                    <div class="alert alert-light text-center" role="alert">
+                        Para filtrar seleccionar los campos <i class="fas fa-arrow-right"></i>
+                      </div>
+                </div>
+                <!-- Visible solo en XS -->
+                <div class="col-md-3 col-sm-6 col-12 d-block d-sm-none">
+                    <div class="alert alert-light text-center" role="alert">
+                        Para filtrar seleccionar los campos <i class="fas fa-arrow-down"></i>
+                      </div>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
                         <!-- EMPTY -->
