@@ -412,7 +412,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="300" y="40" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="306" y="40" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -425,7 +425,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="410" y="40" width="102" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="416" y="40" width="102" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -438,7 +438,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[VEHICULO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="512" y="40" width="172" height="22" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
+					<reportElement x="518" y="40" width="172" height="22" uuid="6969c0d4-95bd-4616-9d17-34bb12f8735c"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -547,7 +547,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="254" y="40" width="46" height="22" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<reportElement x="254" y="40" width="52" height="22" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -561,7 +561,7 @@ REFERENCIA]]></text>
 TRANSCURRIDO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="684" y="40" width="72" height="22" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
+					<reportElement x="690" y="40" width="66" height="22" uuid="86620ba0-f97b-4438-b1bd-396f42bda8ca"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -574,7 +574,7 @@ TRANSCURRIDO]]></text>
 					<text><![CDATA[REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="350" y="40" width="60" height="22" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<reportElement x="356" y="40" width="60" height="22" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -789,7 +789,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="300" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
+				<reportElement stretchType="ElementGroupHeight" x="306" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -799,7 +799,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="410" y="0" width="102" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="416" y="0" width="102" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -809,7 +809,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="512" y="0" width="172" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
+				<reportElement stretchType="ElementGroupHeight" x="518" y="0" width="172" height="13" uuid="6731df87-d5a1-4cce-9974-ba513d50bb66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -876,7 +876,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[($F{_fec_entrada} == null ?$V{V_FECHA_HASTA}:$F{_fec_entrada})]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="254" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
+				<reportElement stretchType="ContainerHeight" x="254" y="0" width="52" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -886,7 +886,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{tiempo_transcurrido}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ElementGroupHeight" x="684" y="0" width="72" height="13" uuid="cf7a5aa9-4e38-4703-b37b-862e0ea84efa">
+				<reportElement stretchType="ElementGroupHeight" x="690" y="0" width="66" height="13" uuid="cf7a5aa9-4e38-4703-b37b-862e0ea84efa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -896,7 +896,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="350" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
+				<reportElement stretchType="ElementGroupHeight" x="356" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
