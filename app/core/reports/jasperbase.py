@@ -18,7 +18,7 @@ class JasperReportBase():
 		super(JasperReportBase, self).__init__()
 
 	def get_report(self,tipo):
-		self.input_file = '{report_dir}{report_name}.jasper'.format(report_dir=settings.REPORTS_DIR,report_name=self.report_name)		
+		self.input_file = '{report_dir}{report_name}.jrxml'.format(report_dir=settings.REPORTS_DIR,report_name=self.report_name)		
 		self.output_file = '{report_dir}{report_name}'.format(report_dir=settings.REPORTS_DIR,report_name=self.report_name)			
 
 		pyreportjasper = PyReportJasper()
