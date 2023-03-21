@@ -399,7 +399,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="50" y="40" width="40" height="22" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
+					<reportElement x="50" y="40" width="48" height="22" uuid="7b985fbb-e0fb-4701-9130-f504e0965d95"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -412,7 +412,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="292" y="40" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
+					<reportElement x="300" y="40" width="50" height="22" uuid="58152cd8-c641-439a-bf37-48494352b254"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -425,7 +425,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[TICKET]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="402" y="40" width="110" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
+					<reportElement x="410" y="40" width="102" height="22" uuid="3229a025-cbd4-4afe-af61-b014ffa312a9"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -520,7 +520,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="90" y="40" width="78" height="22" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
+					<reportElement x="98" y="40" width="78" height="22" uuid="beab4c83-d7c4-4b6e-a84b-c373fa54dc3f"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -533,7 +533,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 					<text><![CDATA[FECHA SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="168" y="40" width="78" height="22" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
+					<reportElement x="176" y="40" width="78" height="22" uuid="b51098b3-cd37-442a-8d8e-aa239f78f4a5"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -547,7 +547,7 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="246" y="40" width="46" height="22" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
+					<reportElement x="254" y="40" width="46" height="22" uuid="28ded818-3593-4d1a-a638-118adc41a149"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -574,7 +574,7 @@ TRANSCURRIDO]]></text>
 					<text><![CDATA[REFERENCIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="342" y="40" width="60" height="22" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
+					<reportElement x="350" y="40" width="60" height="22" uuid="0d7b4a3e-8b36-4781-9cf2-5d9a2e7ec5bb"/>
 					<box padding="2">
 						<topPen lineWidth="1.0"/>
 						<leftPen lineWidth="1.0"/>
@@ -779,7 +779,7 @@ TRANSCURRIDO]]></text>
 		<band height="13" splitType="Prevent">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy">
-				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="40" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
+				<reportElement stretchType="ElementGroupHeight" x="50" y="0" width="48" height="13" uuid="083eda30-1003-4f8e-a150-89e74c02dded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -789,7 +789,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="292" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
+				<reportElement stretchType="ElementGroupHeight" x="300" y="0" width="50" height="13" uuid="f0c579e0-e834-4ce9-8204-df5dc60b93fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -799,7 +799,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="402" y="0" width="110" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
+				<reportElement stretchType="ElementGroupHeight" x="410" y="0" width="102" height="13" uuid="6aea157a-8e1f-4010-8773-5887e433f05d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -856,7 +856,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="90" y="0" width="78" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
+				<reportElement stretchType="ContainerHeight" x="98" y="0" width="78" height="13" uuid="25c03fe7-4b8f-4b17-80e4-bbc1847d60e9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -866,7 +866,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement stretchType="ContainerHeight" x="168" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
+				<reportElement stretchType="ContainerHeight" x="176" y="0" width="78" height="13" uuid="040cfada-af15-4672-abc2-93cb92e9e51c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -876,7 +876,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[($F{_fec_entrada} == null ?$V{V_FECHA_HASTA}:$F{_fec_entrada})]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" x="246" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
+				<reportElement stretchType="ContainerHeight" x="254" y="0" width="46" height="13" uuid="44f6e606-2156-4680-b566-732ffca410fc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="1"/>
@@ -896,7 +896,7 @@ TRANSCURRIDO]]></text>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0">
-				<reportElement stretchType="ElementGroupHeight" x="342" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
+				<reportElement stretchType="ElementGroupHeight" x="350" y="0" width="60" height="13" uuid="ce9698b0-7334-416e-989b-5230f34c3eb4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
@@ -905,7 +905,7 @@ TRANSCURRIDO]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="" hyperlinkTarget="">
 				<reportElement stretchType="ElementGroupHeight" x="30" y="0" width="20" height="13" uuid="af290e4d-2f7c-4e94-b73d-7d04ed9d9cf6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
