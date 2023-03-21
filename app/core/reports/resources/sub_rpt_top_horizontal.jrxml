@@ -59,10 +59,10 @@
 			</textField>
 			<image onErrorType="Icon">
 				<reportElement x="10" y="4" width="60" height="59" uuid="b0312ba4-0922-41f9-bd0c-e8c99988ccd3"/>
-				<imageExpression><![CDATA[$P{P_RUTA} +  "logo_empresa.png"]]></imageExpression>
+				<imageExpression><![CDATA["logo_empresa.png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement stretchType="ContainerHeight" x="806" y="5" width="88" height="50" uuid="ec6b5d4d-e404-4c4d-a110-465dd06dc84d"/>
+				<reportElement stretchType="ContainerHeight" x="806" y="10" width="88" height="50" uuid="ec6b5d4d-e404-4c4d-a110-465dd06dc84d"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>

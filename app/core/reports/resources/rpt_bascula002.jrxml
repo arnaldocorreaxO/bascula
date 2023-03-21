@@ -345,7 +345,7 @@ ORDER BY 1,9,7,5,2,3]]>
 	<pageHeader>
 		<band height="70">
 			<subreport>
-				<reportElement x="0" y="0" width="572" height="70" uuid="12c472f7-17bd-499a-9855-8f2fd38401b5"/>
+				<reportElement x="-2" y="0" width="572" height="70" uuid="12c472f7-17bd-499a-9855-8f2fd38401b5"/>
 				<subreportParameter name="P_REPORTE">
 					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -374,7 +374,7 @@ ORDER BY 1,9,7,5,2,3]]>
 					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{P_RUTA}+"sub_rpt_top_vertical.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["sub_rpt_top_vertical.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</pageHeader>
