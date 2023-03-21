@@ -30,7 +30,6 @@ class JasperReportBase():
 			output_formats=[tipo],
 			parameters=self.get_params(),
 			locale='es_PY',
-			resource=settings.REPORTS_DIR #Todos los recursos necesarios se encuentran en la misma ruta del reporte (imagenes, subreportes,etc)
 		)
 		pyreportjasper.process_report()
 
