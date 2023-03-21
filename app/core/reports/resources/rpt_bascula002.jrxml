@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="612" pageHeight="936" columnWidth="584" leftMargin="20" rightMargin="8" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA_LOCAL"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
 	<parameter name="P_USUARIO" class="java.lang.String"/>
 	<parameter name="P_TITULO1" class="java.lang.String"/>
@@ -345,7 +354,7 @@ ORDER BY 1,9,7,5,2,3]]>
 	<pageHeader>
 		<band height="70">
 			<subreport>
-				<reportElement x="-2" y="0" width="572" height="70" uuid="12c472f7-17bd-499a-9855-8f2fd38401b5"/>
+				<reportElement x="-2" y="0" width="574" height="70" uuid="12c472f7-17bd-499a-9855-8f2fd38401b5"/>
 				<subreportParameter name="P_REPORTE">
 					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -482,14 +491,14 @@ ORDER BY 1,9,7,5,2,3]]>
 		<band height="19" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 			<textField>
-				<reportElement x="0" y="0" width="286" height="19" uuid="275a3616-58ed-4958-9b99-f3d77a862f28"/>
+				<reportElement x="0" y="0" width="292" height="19" uuid="275a3616-58ed-4958-9b99-f3d77a862f28"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Group" evaluationGroup="Group1">
-				<reportElement x="286" y="0" width="286" height="19" uuid="f5c1ac6e-b1b6-4ca7-81b8-5984e8581551"/>
+				<reportElement x="292" y="0" width="292" height="19" uuid="f5c1ac6e-b1b6-4ca7-81b8-5984e8581551"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>

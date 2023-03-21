@@ -777,7 +777,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
@@ -787,7 +787,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_ticket}]]></textFieldExpression>
 			</textField>
@@ -797,7 +797,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vehiculo}]]></textFieldExpression>
 			</textField>
@@ -807,7 +807,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chofer}]]></textFieldExpression>
 			</textField>
@@ -817,7 +817,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
 			</textField>
@@ -827,7 +827,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
 			</textField>
@@ -837,14 +837,14 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}/1000.00]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="30" height="13" uuid="bfcdd486-2e36-4548-a9d1-8b095d336593"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="false" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_REPORT_COUNT}]]></textFieldExpression>
 			</textField>
@@ -854,7 +854,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_salida}]]></textFieldExpression>
 			</textField>
@@ -864,7 +864,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{_fec_entrada} == null ?$V{V_FECHA_HASTA}:$F{_fec_entrada})]]></textFieldExpression>
 			</textField>
@@ -874,7 +874,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tiempo_transcurrido}]]></textFieldExpression>
 			</textField>
@@ -884,7 +884,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
 			</textField>
@@ -894,7 +894,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nro_remision}]]></textFieldExpression>
 			</textField>
@@ -904,7 +904,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isItalic="false"/>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sucursal_cod}]]></textFieldExpression>
 			</textField>
@@ -914,7 +914,7 @@ TRANSCURRIDO]]></text>
 				</reportElement>
 				<box padding="2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="5" isItalic="false"/>
+					<font fontName="SansSerif" size="5" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{_id}==null?"PENDIENTE":"RECIBIDO")]]></textFieldExpression>
 			</textField>
