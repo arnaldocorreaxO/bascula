@@ -10,6 +10,7 @@ function isChrome(){
    };
 
 // Bloquear inspeccionar elemento
+// Block inspect element 
 function blockie() {
     // document.addEventListener("contextmenu", (e) => {
     //     e.preventDefault();
