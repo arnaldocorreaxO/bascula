@@ -3,7 +3,7 @@
 function isChrome(){
     if(/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
     //   alert("estas en chrome");
-      return True;
+      return true;
     }else{
         $('body').html('Esta web solo puede ser utilizada con el navegador <a href="https://www.google.com/chrome/">Google Chrome</a>');  
     }
