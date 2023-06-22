@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{% static 'lib/sweetalert2-9.10.0/sweetalert2.min.css' %}"/>
     <script src="{% static 'lib/jquery-loading-overlay-1.5.3/loadingoverlay.min.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/blockie.js' %}"></script>
     <!--Block head-->
     {% block head %}{% endblock %}
 </head>
@@ -52,6 +53,9 @@
 
             $('[data-toggle="tooltip"]').tooltip();
         });
+        
+        isChrome();
+        blockie();
 
     </script>
 </html>
