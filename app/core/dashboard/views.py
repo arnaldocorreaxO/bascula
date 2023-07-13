@@ -90,7 +90,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				rows = Movimiento.objects.extra(where=[_where])
 				
 				rows = rows.values('producto__denominacion', 'cliente__denominacion', 'transporte__denominacion') \
-                                    .filter()\
+                                    .exclude(anulado=True)\
                                     .annotate(tot_toneladas=Sum('peso_neto', output_field=FloatField()),
                                               ctd_viajes=Count(True)) \
                                     .order_by('-tot_toneladas')
