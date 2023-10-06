@@ -2,12 +2,14 @@
 var input_daterange;
 var input_timerange_in;
 var input_timerange_out;
+var input_timerange_in_out;
 // INIT LOAD
 $(function () {  
     current_date = new moment().format('YYYY-MM-DD');
     input_daterange = $('input[name="date_range"]');
     input_timerange_in =  $('input[name="time_range_in"]');
     input_timerange_out =  $('input[name="time_range_out"]');
+    input_timerange_in_out =  $('input[name="time_range_in_out"]');
     
     // RANGO DE FECHAS
     input_daterange
@@ -49,8 +51,22 @@ $(function () {
             picker.container.find(".calendar-table").hide();
         });
 
+    // RANGO DE HORAS ENTRADA Y SALIDA
+    input_timerange_in_out
+        .daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+            timePickerSeconds: true,
+            locale: {
+                format: 'HH:mm:ss'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
 
-         // #SUCURSAL POR DEFECTO 
+
+    // #SUCURSAL POR DEFECTO 
     var sucursal_id = $('input[name="suc_usuario"]').val();   
     var select_sucursal = $('select[name="sucursal"]'); 
     select_sucursal.val(sucursal_id).change();

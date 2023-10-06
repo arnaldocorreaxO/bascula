@@ -18,6 +18,11 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
+    #* En un solo rango para hora_entrada y hora_salida
+    time_range_in_out = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
     
     SITUACION=(
 		('PEND','PENDIENTES'),

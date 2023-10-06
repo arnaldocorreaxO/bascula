@@ -74,7 +74,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="form-group">
             <label>Rango de fechas:</label>
             <div class="input-group mb-3">
@@ -83,22 +83,22 @@
             </div>
         </div>
     </div>    
-    <div class="col-lg-3">
+    <div class="col-lg-4">
         <div class="form-group">
-            <label>Rango de hora entrada:</label>
+            <label>Hora Entrada y Salida:</label>
             <div class="input-group mb-3">
-                {{ form.time_range_in }}
+                {{ form.time_range_in_out }}
             </div>
         </div>
     </div>       
-    <div class="col-lg-3">
+    <!-- <div class="col-lg-3">
         <div class="form-group">
             <label>Rango de hora salida:</label>
             <div class="input-group mb-3">
-                {{ form.time_range_out }}
+                {#{ form.time_range_out }}
             </div>
         </div>
-    </div>    
+    </div>     -->
 </div>
 
 {% endblock %}
