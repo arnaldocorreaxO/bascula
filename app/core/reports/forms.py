@@ -23,6 +23,15 @@ class ReportForm(forms.Form):
         'class': 'form-control',
         'autocomplete': 'off'
     }))
+
+    time_in = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
+    time_out = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
     
     SITUACION=(
 		('PEND','PENDIENTES'),

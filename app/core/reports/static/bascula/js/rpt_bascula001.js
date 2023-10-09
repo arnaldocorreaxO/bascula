@@ -3,13 +3,15 @@ var input_daterange;
 var input_timerange_in;
 var input_timerange_out;
 var input_timerange_in_out;
+var input_time_in;
+var input_time_out;
 // INIT LOAD
 $(function () {  
     current_date = new moment().format('YYYY-MM-DD');
     input_daterange = $('input[name="date_range"]');
-    input_timerange_in =  $('input[name="time_range_in"]');
-    input_timerange_out =  $('input[name="time_range_out"]');
-    input_timerange_in_out =  $('input[name="time_range_in_out"]');
+    input_time_in =  $('input[name="time_in"]');
+    input_time_out =  $('input[name="time_out"]');
+    
     
     // RANGO DE FECHAS
     input_daterange
@@ -23,10 +25,11 @@ $(function () {
         .on('apply.daterangepicker', function (ev, picker) {
 
         });
-
-    // RANGO DE HORAS ENTRADAS
-    input_timerange_in
+  
+    // DESDE HORA ENTRADA
+    input_time_in
         .daterangepicker({
+            singleDatePicker:true,
             timePicker: true,
             timePicker24Hour: true,
             timePickerIncrement: 1,
@@ -37,9 +40,10 @@ $(function () {
         }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
-    // RANGO DE HORAS SALIDAS
-    input_timerange_out
+    // HASTA HORA SALIDA
+    input_time_out
         .daterangepicker({
+            singleDatePicker:true,
             timePicker: true,
             timePicker24Hour: true,
             timePickerIncrement: 1,
@@ -50,21 +54,8 @@ $(function () {
         }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
-
-    // RANGO DE HORAS ENTRADA Y SALIDA
-    input_timerange_in_out
-        .daterangepicker({
-            timePicker: true,
-            timePicker24Hour: true,
-            timePickerIncrement: 1,
-            timePickerSeconds: true,
-            locale: {
-                format: 'HH:mm:ss'
-            }
-        }).on('show.daterangepicker', function (ev, picker) {
-            picker.container.find(".calendar-table").hide();
-        });
-
+    
+    input_time_out.val('23:59:59')
 
     // #SUCURSAL POR DEFECTO 
     var sucursal_id = $('input[name="suc_usuario"]').val();   

@@ -423,12 +423,11 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				# hora_sal_hasta = time_range_out[10:].strip()			
 				
 				# Rango de Hora de Salida			
-				time_range_in_out = request.POST['time_range_in_out']
-				hora_ent_desde = time_range_in_out[:8].strip()
+				hora_ent_desde = request.POST['time_in']
 				hora_ent_hasta = '23:59:59'
 
 				hora_sal_desde = '00:00:00'
-				hora_sal_hasta = time_range_in_out[10:].strip()		
+				hora_sal_hasta = request.POST['time_out']
 		
 				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
