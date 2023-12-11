@@ -328,8 +328,8 @@ class Movimiento(ModeloBase):
 	referencia = models.CharField(max_length=25,null=True,blank=True)
 	# movimiento_padre = models.ForeignKey('self',verbose_name='Movimiento Asociado', on_delete=models.PROTECT,blank=True, null=True,related_name='movimiento_hijo')	
 	movimiento_padre = models.IntegerField(verbose_name='Movimiento Asociado',null=True,blank=True)
-	modo_transporte = models.ForeignKey(ModoTransporte,on_delete=models.PROTECT,related_name='modo_transporte',null=True,blank=True)
-	lote = models.ForeignKey(Lote,on_delete=models.PROTECT,related_name='lote',null=True,blank=True)
+	modo_transporte = models.ForeignKey(ModoTransporte,on_delete=models.PROTECT,related_name='modo_transporte',verbose_name='Ref. Modo Transporte',null=True,blank=True)
+	lote = models.ForeignKey(Lote,on_delete=models.PROTECT,related_name='lote',verbose_name='Ref. Lote',null=True,blank=True)
 
 	def toJSON(self):		
 		fec_entrada = format(self.fec_entrada,"%Y-%m-%d %H:%M:%S")

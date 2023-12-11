@@ -778,7 +778,7 @@ class MovimientoPrint(View):
 			estado = False
 			movimiento = Movimiento.objects.filter(pk=self.kwargs['pk'],fec_impresion__isnull=estado).first()
 			if  movimiento:
-				if 'print_ticket1' in request.GET:
+				if 'print_ticket' in request.GET:
 					#Permitir imprimir una vez en la llamada de ajax
 					pass					
 				else:
