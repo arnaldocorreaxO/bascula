@@ -222,7 +222,22 @@
             <td class="float-left">CHOFER</td>
             <td class="float-center">:</td>
             <td class="text-left">{{ movimiento.chofer.get_name }}</td>
-        </tr>        
+        </tr>   
+    
+        {% if movimiento.modo_transporte %}
+        <tr>
+            <td class="float-left">REF. MODO</td>
+            <td class="float-center">:</td>
+            <td class="text-left">{{ movimiento.modo_transporte }}</td>
+        </tr>
+        {% endif %}
+        {% if movimiento.lote %}
+        <tr>
+            <td class="float-left">REF. LOTE</td>
+            <td class="float-center">:</td>
+            <td class="text-left">{{ movimiento.lote }}</td>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
     

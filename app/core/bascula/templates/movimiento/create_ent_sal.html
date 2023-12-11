@@ -175,6 +175,19 @@
                                 </div>
                             </div>
 
+                            {% if request.user.sucursal_id == 2 %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    <label for="{{ form.modo_transporte.id_for_label }}">{{form.modo_transporte.label}}</label>
+                                    {{ form.modo_transporte}}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    <label for="{{ form.lote.id_for_label }}">{{form.lote.label}}</label>
+                                    {{ form.lote}}
+                                </div>
+                            </div>
+                            {% endif %}
+
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary btn-flat" id="btnGuardar">

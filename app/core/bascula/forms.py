@@ -2,11 +2,10 @@ import datetime
 
 from django import forms
 from django.db.models import Max
-from django.forms import ModelChoiceField, ModelForm
+from django.forms import ModelForm
 from core.base.forms import readonly_fields
 
-from core.bascula.models import (Categoria, ClienteProducto, Movimiento, Chofer, Transporte, Vehiculo, 
-								 Cliente,Producto,MarcaVehiculo)
+from core.bascula.models import *
 
 ''' 
 ====================
@@ -329,6 +328,8 @@ class MovimientoEntradaForm(ModelForm):
 		self.fields['cliente'].queryset = Cliente.objects.exclude(activo=False).order_by('id')[:5]
 		self.fields['producto'].queryset = Producto.objects.none()
 		self.fields['destino'].queryset = Cliente.objects.filter(activo=True,ver_en_destino=True)
+		self.fields['modo_transporte'].queryset = ModoTransporte.objects.filter(activo=True)
+		self.fields['lote'].queryset = Lote.objects.filter(activo=True)
 		movimiento_padre=None
 		# if usuario:
 		# 	qs = Movimiento.objects.filter(activo=True,
@@ -361,7 +362,7 @@ class MovimientoEntradaForm(ModelForm):
 				 'nro_mic','nro_remision','peso_embarque',
 				 'cliente','producto','peso_entrada',
 				 'transporte','destino','sucursal','referencia',
-				 'movimiento_padre']
+				 'movimiento_padre','modo_transporte','lote']
 		widgets = {
 			'fecha': forms.TextInput(attrs={
 				'readonly': True,                
@@ -409,10 +410,18 @@ class MovimientoEntradaForm(ModelForm):
 				'class': 'custom-select select2',
 				'style': 'width: 100%'
 				}
-			),						           
-		}
-
-		
+			),		
+			'modo_transporte': forms.Select(attrs={
+				'class': 'custom-select select2',
+				'style': 'width: 100%'
+				}
+			),      				           
+			'lote': forms.Select(attrs={
+				'class': 'custom-select select2',
+				'style': 'width: 100%'
+				}
+			),      
+		}		
 
 	def save(self, commit=True):
 		data = {}
@@ -470,7 +479,8 @@ class MovimientoSalidaForm(ModelForm):
 		fields =['fecha','nro_ticket','vehiculo','chofer',
 				 'nro_mic','nro_remision','peso_embarque',
 				 'cliente','producto','peso_entrada','peso_salida',
-				 'transporte','destino','sucursal','referencia','movimiento_padre']
+				 'transporte','destino','sucursal','referencia','movimiento_padre',
+				 'modo_transporte','lote']
 		widgets = {
 			'fecha': forms.TextInput(attrs={
 				'readonly': True,
@@ -505,6 +515,18 @@ class MovimientoSalidaForm(ModelForm):
 						}
 			),
 			'destino': forms.Select(attrs={
+				'class': 'custom-select',
+				'style': 'width: 100%',
+				'disabled': True,
+						}
+			),
+			'modo_transporte': forms.Select(attrs={
+				'class': 'custom-select',
+				'style': 'width: 100%',
+				'disabled': True,
+						}
+			),
+			'lote': forms.Select(attrs={
 				'class': 'custom-select',
 				'style': 'width: 100%',
 				'disabled': True,
@@ -557,6 +579,83 @@ class MovimientoSalidaForm(ModelForm):
 				data = instance.toJSON()
 			else:
 				data['error'] = form.errors
+		except Exception as e:
+			data['error'] = str(e)
+		return data
+
+
+
+#*TIPO TRANSPORTE
+class TipoTransporteForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['denominacion'].widget.attrs['autofocus'] = True
+
+	class Meta:
+		model = TipoTransporte
+		fields = '__all__'
+		exclude = readonly_fields
+		widgets = {
+			'denominacion': forms.TextInput(attrs={'placeholder': 'Ingrese un Tipo de Transporte'}),
+		}
+
+	def save(self, commit=True):
+		data = {}
+		try:
+			if self.is_valid():
+				super().save()
+			else:
+				data['error'] = self.errors
+		except Exception as e:
+			data['error'] = str(e)
+		return data
+
+#*MODO TRANSPORTE
+class ModoTransporteForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['denominacion'].widget.attrs['autofocus'] = True
+
+	class Meta:
+		model = ModoTransporte
+		fields = '__all__'
+		exclude = readonly_fields
+		widgets = {
+			'denominacion': forms.TextInput(attrs={'placeholder': 'Ingrese Modo de Transporte'}),
+		}
+
+	def save(self, commit=True):
+		data = {}
+		try:
+			if self.is_valid():
+				super().save()
+			else:
+				data['error'] = self.errors
+		except Exception as e:
+			data['error'] = str(e)
+		return data
+
+#*LOTE
+class LoteForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['denominacion'].widget.attrs['autofocus'] = True
+
+	class Meta:
+		model = Lote
+		fields = '__all__'
+		exclude = readonly_fields
+		widgets = {
+			'denominacion': forms.TextInput(attrs={'placeholder': 'Ingrese Lote'}),
+		}
+
+	def save(self, commit=True):
+		data = {}
+		try:
+			if self.is_valid():
+				super().save()
+			else:
+				data['error'] = self.errors
 		except Exception as e:
 			data['error'] = str(e)
 		return data

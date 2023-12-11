@@ -336,6 +336,8 @@ class MovimientoCreate(PermissionMixin,CreateView):
 					movi.cliente_id = request.POST['cliente']
 					movi.producto_id = request.POST['producto']
 					movi.destino_id = request.POST['destino']
+					movi.modo_transporte_id = request.POST['modo_transporte']
+					movi.lote_id = request.POST['lote']
 					movi.nro_mic = request.POST['nro_mic'] if request.POST['nro_mic']!='' else None					
 					movi.nro_remision = request.POST['nro_remision']
 					movi.peso_embarque = request.POST['peso_embarque']
@@ -773,9 +775,10 @@ class MovimientoPrint(View):
 	def get(self, request, *args, **kwargs):
 		data = {}
 		try:
-			movimiento = Movimiento.objects.filter(pk=self.kwargs['pk'],fec_impresion__isnull=True).first()
-			if movimiento:
-				if 'print_ticket' in request.GET:
+			estado = False
+			movimiento = Movimiento.objects.filter(pk=self.kwargs['pk'],fec_impresion__isnull=estado).first()
+			if  movimiento:
+				if 'print_ticket1' in request.GET:
 					#Permitir imprimir una vez en la llamada de ajax
 					pass					
 				else:

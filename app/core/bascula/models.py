@@ -56,6 +56,58 @@ class ConfigSerial(ModeloBase):
 		verbose_name_plural = 'Configuracion Serial'
 		unique_together =('sucursal','cod')
 
+#LOTE
+class Lote(ModeloBase):	
+	denominacion = models.CharField(max_length=100)	
+
+	def toJSON(self):
+		item = model_to_dict(self)
+		return item
+	
+	def __str__(self):
+		return f"{self.id} - {self.denominacion}"
+	
+	class Meta:
+	# ordering = ['1',]
+		db_table = 'bascula_lote'
+		verbose_name = 'lote'
+		verbose_name_plural = 'lotes'
+
+#TIPO TRANSPORTE
+class TipoTransporte(ModeloBase):	
+	denominacion = models.CharField(max_length=100)	
+
+	def toJSON(self):
+		item = model_to_dict(self)
+		return item
+	
+	def __str__(self):
+		return f"{self.id} - {self.denominacion}"
+	
+	class Meta:
+	# ordering = ['1',]
+		db_table = 'bascula_tipo_transporte'
+		verbose_name = 'tipo transporte'
+		verbose_name_plural = 'tipo transportes'
+
+#MODO TRANSPORTE
+class ModoTransporte(ModeloBase):	
+	tipo = models.ForeignKey(TipoTransporte,on_delete=models.PROTECT,related_name='tipo_transporte')
+	denominacion = models.CharField(max_length=100)	
+
+	def toJSON(self):
+		item = model_to_dict(self)
+		return item
+	
+	def __str__(self):
+		return f"{self.id} - {self.denominacion}"
+	
+	class Meta:
+	# ordering = ['1',]
+		db_table = 'bascula_modo_transporte'
+		verbose_name = 'modo_transporte'
+		verbose_name_plural = 'modo_transportes'
+
 #MARCAS
 class MarcaVehiculo(ModeloBase):	
 	denominacion = models.CharField(max_length=100,unique=True)
@@ -197,6 +249,7 @@ class Categoria(ModeloBase):
 	
 	def __str__(self):
 		return f"{self.id} - {self.denominacion}"
+	
 	class Meta:
 	# ordering = ['1',]
 		db_table = 'bascula_categoria'
@@ -215,7 +268,7 @@ class Producto(ModeloBase):
 	
 	def __str__(self):
 		return f"{self.codigo} - {self.denominacion}"
-
+	
 	class Meta:
 		ordering = ['denominacion',]
 		db_table = 'bascula_producto'
@@ -235,8 +288,7 @@ class ClienteProducto(ModeloBase):
 		return item
 	
 	def __str__(self):
-		return f"{self.cliente} - {self.producto}"
-		
+		return f"{self.cliente} - {self.producto}"		
 
 	class Meta:
 	# ordering = ['1',]
@@ -276,6 +328,8 @@ class Movimiento(ModeloBase):
 	referencia = models.CharField(max_length=25,null=True,blank=True)
 	# movimiento_padre = models.ForeignKey('self',verbose_name='Movimiento Asociado', on_delete=models.PROTECT,blank=True, null=True,related_name='movimiento_hijo')	
 	movimiento_padre = models.IntegerField(verbose_name='Movimiento Asociado',null=True,blank=True)
+	modo_transporte = models.ForeignKey(ModoTransporte,on_delete=models.PROTECT,related_name='modo_transporte',null=True,blank=True)
+	lote = models.ForeignKey(Lote,on_delete=models.PROTECT,related_name='lote',null=True,blank=True)
 
 	def toJSON(self):		
 		fec_entrada = format(self.fec_entrada,"%Y-%m-%d %H:%M:%S")
@@ -330,3 +384,4 @@ class Movimiento(ModeloBase):
             ('habilita_peso_manual', 'Puede ingresar peso en forma manual'),		
             ('change_movimiento_salida', 'Can change movimiento salida'),		
         )	
+

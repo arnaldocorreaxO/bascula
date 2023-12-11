@@ -7,6 +7,8 @@ from core.bascula.views.bascula.clienteproducto.views import *
 from core.bascula.views.bascula.marcavehiculo.views import *
 from core.bascula.views.bascula.vehiculo.views import *
 from core.bascula.views.bascula.chofer.views import *
+from core.bascula.views.bascula.lote.views import *
+from core.bascula.views.bascula.modotransporte.views import *
 
 from django.urls import path
 
@@ -62,5 +64,15 @@ urlpatterns = [
     path('chofer/add/', ChoferCreate.as_view(), name='chofer_create'),
     path('chofer/update/<int:pk>/', ChoferUpdate.as_view(), name='chofer_update'),
     path('chofer/delete/<int:pk>/', ChoferDelete.as_view(), name='chofer_delete'),
+    # LOTE
+    path('lote', LoteList.as_view(), name='lote_list'),
+    path('lote/add/', LoteCreate.as_view(), name='lote_create'),
+    path('lote/update/<int:pk>/', LoteUpdate.as_view(), name='lote_update'),
+    path('lote/delete/<int:pk>/', LoteDelete.as_view(), name='lote_delete'),    
+    # MODO TRANSPORTE
+    path('modotransporte', ModoTransporteList.as_view(), name='modotransporte_list'),
+    path('modotransporte/add/', ModoTransporteCreate.as_view(), name='modotransporte_create'),
+    path('modotransporte/update/<int:pk>/', ModoTransporteUpdate.as_view(), name='modotransporte_update'),
+    path('modotransporte/delete/<int:pk>/', ModoTransporteDelete.as_view(), name='modotransporte_delete'),
 
    ]
