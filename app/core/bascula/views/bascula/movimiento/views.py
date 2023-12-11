@@ -775,7 +775,7 @@ class MovimientoPrint(View):
 	def get(self, request, *args, **kwargs):
 		data = {}
 		try:
-			estado = False
+			estado = True
 			movimiento = Movimiento.objects.filter(pk=self.kwargs['pk'],fec_impresion__isnull=estado).first()
 			if  movimiento:
 				if 'print_ticket' in request.GET:
