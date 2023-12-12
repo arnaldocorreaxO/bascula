@@ -727,21 +727,21 @@ EMBARQUE (kg)]]></text>
 	<lastPageFooter>
 		<band height="20">
 			<textField pattern="#,##0">
-				<reportElement x="802" y="0" width="94" height="18" uuid="8c229e62-a8c3-49ea-8f20-2265e04fc89b"/>
+				<reportElement x="802" y="1" width="94" height="18" uuid="8c229e62-a8c3-49ea-8f20-2265e04fc89b"/>
 				<textElement textAlignment="Right">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{V_SUM_NETO_GRAL}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="583" y="0" width="218" height="18" uuid="872a29da-cfb3-46dc-ae48-393a95e082c3"/>
+				<reportElement x="583" y="1" width="218" height="18" uuid="872a29da-cfb3-46dc-ae48-393a95e082c3"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL GENERAL PESO NETO (kg):]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="448" y="-1" width="135" height="20" uuid="72383fb3-81a3-4476-b756-921891109c36"/>
+				<reportElement x="448" y="0" width="135" height="20" uuid="72383fb3-81a3-4476-b756-921891109c36"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
