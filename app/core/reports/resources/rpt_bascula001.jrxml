@@ -469,28 +469,28 @@ EMBARQUE (kg)]]></text>
 ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="644" y="16" width="96" height="10" uuid="474d550b-7ae5-4ca0-9dcf-846a2bc9f816"/>
+					<reportElement x="644" y="16" width="112" height="10" uuid="474d550b-7ae5-4ca0-9dcf-846a2bc9f816"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[REF. MODO TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="644" y="28" width="96" height="10" uuid="cd3c23b5-9d33-4509-9e75-7d34414d3424"/>
+					<reportElement x="644" y="28" width="112" height="10" uuid="cd3c23b5-9d33-4509-9e75-7d34414d3424"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[REF. LOTE:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="742" y="16" width="154" height="10" uuid="276faea8-2f47-4b93-b5eb-75f35b00fa1f"/>
+					<reportElement x="756" y="16" width="140" height="10" uuid="276faea8-2f47-4b93-b5eb-75f35b00fa1f"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{modo_transporte}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="742" y="28" width="154" height="10" uuid="018a3a33-bab9-4ce8-a2a0-6792bc7c505d"/>
+					<reportElement x="756" y="28" width="140" height="10" uuid="018a3a33-bab9-4ce8-a2a0-6792bc7c505d"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
