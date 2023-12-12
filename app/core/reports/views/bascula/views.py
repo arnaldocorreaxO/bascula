@@ -454,6 +454,8 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
 				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
+				modo_transporte = request.POST.getlist('modo_transporte') if 'modo_transporte' in request.POST else None		
+				lote = request.POST.getlist('lote') if 'lote' in request.POST else None
 				# vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
 				# chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None	
 				#CONFIG				 
@@ -471,6 +473,8 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
 				# report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
 				# report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
+				report.params['P_MODO_TRANSPORTE_ID'] = ",".join(modo_transporte) if modo_transporte!=[''] else None
+				report.params['P_LOTE_ID'] = ",".join(lote) if lote!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
 				# report.params['P_HORA_ENT_DESDE'] = hora_ent_desde

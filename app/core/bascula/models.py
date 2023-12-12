@@ -65,7 +65,7 @@ class Lote(ModeloBase):
 		return item
 	
 	def __str__(self):
-		return f"{self.id} - {self.denominacion}"
+		return self.denominacion
 	
 	class Meta:
 	# ordering = ['1',]
@@ -82,7 +82,7 @@ class TipoTransporte(ModeloBase):
 		return item
 	
 	def __str__(self):
-		return f"{self.id} - {self.denominacion}"
+		return self.denominacion
 	
 	class Meta:
 	# ordering = ['1',]
@@ -100,7 +100,7 @@ class ModoTransporte(ModeloBase):
 		return item
 	
 	def __str__(self):
-		return f"{self.id} - {self.denominacion}"
+		return self.denominacion
 	
 	class Meta:
 	# ordering = ['1',]
