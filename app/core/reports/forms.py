@@ -52,8 +52,8 @@ class ReportForm(forms.Form):
     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.none(), empty_label="(Todos)")
     chofer = forms.ModelChoiceField(queryset=Chofer.objects.none(), empty_label="(Todos)")
     situacion = forms.ChoiceField(choices=choiceSituacion)
-    modo_transporte = forms.ModelChoiceField(queryset=ModoTransporte.objects.none(), empty_label="(Todos)")
-    lote = forms.ModelChoiceField(queryset=Lote.objects.none(), empty_label="(Todos)")
+    modo_transporte = forms.ModelChoiceField(queryset=ModoTransporte.objects.filter(activo=True), empty_label="(Todos)")
+    lote = forms.ModelChoiceField(queryset=Lote.objects.filter(activo=True), empty_label="(Todos)")
    
     sucursal.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     transporte.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
