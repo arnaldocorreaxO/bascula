@@ -30,10 +30,6 @@
 	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
 	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<parameter name="P_SUCURSAL_ID" class="java.lang.String"/>
-	<parameter name="P_MODO_TRANSPORTE_ID" class="java.lang.String"/>
-	<parameter name="P_LOTE_ID" class="java.lang.String"/>
-	<parameter name="P_HORA_SAL_DESDE" class="java.lang.String"/>
-	<parameter name="P_HORA_SAL_HASTA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  
 SUC.DENOMINACION AS SUCURSAL,
@@ -44,8 +40,6 @@ CLI.DENOMINACION  AS CLIENTE,
 PRO.DENOMINACION ||' - '|| PRO.CODIGO AS PRODUCTO,
 CHO.NOMBRE || ' ' || CHO.APELLIDO || ' - '  ||CHO.CODIGO AS CHOFER,
 VEH.MATRICULA || '  -  ' ||	MAR.DENOMINACION AS VEHICULO,
-MOD.DENOMINACION ||' - '|| MOD.ID AS MODO_TRANSPORTE,
-LOT.DENOMINACION ||' - '|| LOT.ID AS LOTE,
 MOV.PESO_BRUTO AS PESO_BRUTO,
 MOV.PESO_TARA AS PESO_TARA,
 MOV.PESO_NETO AS PESO_NETO,
@@ -66,8 +60,6 @@ INNER JOIN BASCULA_CHOFER CHO ON MOV.CHOFER_ID = CHO.ID
 INNER JOIN BASCULA_VEHICULO VEH ON MOV.VEHICULO_ID = VEH.ID
 INNER JOIN BASCULA_TRANSPORTE TRA ON MOV.TRANSPORTE_ID = TRA.ID
 INNER JOIN BASCULA_MARCA_VEHICULO MAR ON VEH.MARCA_ID = MAR.ID
-LEFT OUTER JOIN BASCULA_MODO_TRANSPORTE MOD ON MOD.ID = MOV.MODO_TRANSPORTE_ID 
-LEFT OUTER JOIN BASCULA_LOTE LOT ON LOT.ID = MOV.LOTE_ID 
 WHERE 1=1
 AND  (SUC.ID IN ($P!{P_SUCURSAL_ID}) OR $P{P_SUCURSAL_ID}  IS NULL) 
 AND  (CLI.ID IN ($P!{P_CLIENTE_ID}) OR $P{P_CLIENTE_ID}  IS NULL) 
@@ -76,16 +68,11 @@ AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL)
 AND  (TRA.ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NULL) 
 AND  (VEH.ID IN ($P!{P_VEHICULO_ID}) OR $P{P_VEHICULO_ID}  IS NULL) 
 AND  (CHO.ID IN ($P!{P_CHOFER_ID}) OR $P{P_CHOFER_ID}  IS NULL) 
-AND  (MOD.ID IN ($P!{P_MODO_TRANSPORTE_ID}) OR $P{P_MODO_TRANSPORTE_ID}  IS NULL) 
-AND  (LOT.ID IN ($P!{P_LOTE_ID}) OR $P{P_LOTE_ID}  IS NULL) 
 AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
-AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  >= $P{P_FECHA_DESDE}||' '||$P{P_HORA_SAL_DESDE} OR $P{P_HORA_SAL_DESDE} IS NULL)
-AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  <= $P{P_FECHA_HASTA}||' '||$P{P_HORA_SAL_HASTA} OR $P{P_HORA_SAL_HASTA} IS NULL)
 AND MOV.PESO_NETO > 0 
 AND MOV.ANULADO = FALSE
-/*ORDER BY 1,4,5,6,13,2,3*/
-ORDER BY 1,4,5,6,2,3,9,10]]>
+ORDER BY 1,4,5,6,13,2,3]]>
 	</queryString>
 	<field name="sucursal" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="sucursal"/>
@@ -123,14 +110,6 @@ ORDER BY 1,4,5,6,2,3,9,10]]>
 	<field name="vehiculo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="vehiculo"/>
 		<property name="com.jaspersoft.studio.field.label" value="vehiculo"/>
-	</field>
-	<field name="modo_transporte" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="modo_transporte"/>
-		<property name="com.jaspersoft.studio.field.label" value="modo_transporte"/>
-	</field>
-	<field name="lote" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="lote"/>
-		<property name="com.jaspersoft.studio.field.label" value="lote"/>
 	</field>
 	<field name="peso_bruto" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="peso_bruto"/>
@@ -184,10 +163,7 @@ ORDER BY 1,4,5,6,2,3,9,10]]>
 	<variable name="V_SUM_NETO" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
 	</variable>
-	<variable name="V_SUM_NETO_GRAL" class="java.lang.Float" calculation="Sum">
-		<variableExpression><![CDATA[$F{peso_neto}]]></variableExpression>
-	</variable>
-	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true" preventOrphanFooter="true">
+	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{sucursal} + $F{cliente} + $F{destino} + $F{transporte} + $F{producto}]]></groupExpression>
 		<groupHeader>
 			<band height="61">
@@ -468,38 +444,10 @@ EMBARQUE (kg)]]></text>
 					<text><![CDATA[TARA
 ]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="644" y="16" width="96" height="10" uuid="474d550b-7ae5-4ca0-9dcf-846a2bc9f816"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[REF. MODO TRANSPORTE:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="644" y="28" width="96" height="10" uuid="cd3c23b5-9d33-4509-9e75-7d34414d3424"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[REF. LOTE:]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="742" y="16" width="154" height="10" uuid="276faea8-2f47-4b93-b5eb-75f35b00fa1f"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{modo_transporte}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="742" y="28" width="154" height="10" uuid="018a3a33-bab9-4ce8-a2a0-6792bc7c505d"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
-				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="20">
+			<band height="22">
 				<textField pattern="#,##0">
 					<reportElement x="802" y="2" width="94" height="18" uuid="a8ee3226-7fb2-42b7-83f9-e1f57dcee50e"/>
 					<textElement textAlignment="Right">
@@ -518,7 +466,7 @@ EMBARQUE (kg)]]></text>
 		</groupFooter>
 	</group>
 	<pageHeader>
-		<band height="89">
+		<band height="70">
 			<subreport>
 				<reportElement x="0" y="0" width="893" height="70" uuid="6dbcc6fe-958d-4cab-97f2-be49a7bff6e1"/>
 				<subreportParameter name="P_REPORTE">
@@ -552,15 +500,6 @@ EMBARQUE (kg)]]></text>
 				<subreportExpression><![CDATA[($P{P_RUTA}!=null?$P{P_RUTA}+"sub_rpt_top_horizontal.jasper":"sub_rpt_top_horizontal.jasper")
 /*DEFINIMOS RUTA DEL RECURSO */]]></subreportExpression>
 			</subreport>
-			<textField>
-				<reportElement x="282" y="74" width="379" height="15" uuid="22a57b04-cce1-4327-bf59-efb07f0b00a5">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["HORA SALIDA DESDE: " +  $P{P_HORA_SAL_DESDE}  + " HASTA: " + $P{P_HORA_SAL_HASTA}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<detail>
@@ -706,17 +645,17 @@ EMBARQUE (kg)]]></text>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Prevent">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+		<band height="19" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 			<textField>
-				<reportElement x="330" y="0" width="118" height="20" uuid="275a3616-58ed-4958-9b99-f3d77a862f28"/>
+				<reportElement x="0" y="0" width="448" height="19" uuid="275a3616-58ed-4958-9b99-f3d77a862f28"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="448" y="0" width="135" height="20" uuid="f5c1ac6e-b1b6-4ca7-81b8-5984e8581551"/>
+			<textField evaluationTime="Group" evaluationGroup="Group1">
+				<reportElement x="448" y="0" width="448" height="19" uuid="f5c1ac6e-b1b6-4ca7-81b8-5984e8581551"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
@@ -724,36 +663,4 @@ EMBARQUE (kg)]]></text>
 			</textField>
 		</band>
 	</pageFooter>
-	<lastPageFooter>
-		<band height="20">
-			<textField pattern="#,##0">
-				<reportElement x="802" y="0" width="94" height="18" uuid="8c229e62-a8c3-49ea-8f20-2265e04fc89b"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{V_SUM_NETO_GRAL}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="583" y="0" width="218" height="18" uuid="872a29da-cfb3-46dc-ae48-393a95e082c3"/>
-				<textElement textAlignment="Right">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TOTAL GENERAL PESO NETO (kg):]]></text>
-			</staticText>
-			<textField evaluationTime="Report">
-				<reportElement x="448" y="-1" width="135" height="20" uuid="72383fb3-81a3-4476-b756-921891109c36"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="330" y="0" width="118" height="20" uuid="12062adc-ee16-4937-b3f4-f798dc11a996"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
-	</lastPageFooter>
 </jasperReport>

@@ -31,7 +31,18 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				data = []
 				date_range = request.POST['date_range']
 				fecha_desde = date_range[:11].strip()
-				fecha_hasta = date_range[13:].strip()					
+				fecha_hasta = date_range[13:].strip()	
+				
+				# Rango de Hora de Salida			
+				# hora_ent_desde = request.POST['time_in']
+				# hora_ent_hasta = '23:59:59'
+
+				# hora_sal_desde = '00:00:00'
+				hora_sal_desde = request.POST['time_in']
+				hora_sal_hasta = request.POST['time_out']
+				#*PARA LOS TURNOS SE TOMA LAS HORAS DE SALIDAS 
+				#*MODIFICADO 12/12/2023
+
 				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
 				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
 				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
@@ -39,6 +50,8 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
 				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
 				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None		
+				modo_transporte = request.POST.getlist('modo_transporte') if 'modo_transporte' in request.POST else None		
+				lote = request.POST.getlist('lote') if 'lote' in request.POST else None		
 				#CONFIG				 
 				report = JasperReportBase()  
 				report.report_name  = 'rpt_bascula001'
@@ -54,8 +67,14 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
 				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
 				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
+				report.params['P_MODO_TRANSPORTE_ID'] = ",".join(modo_transporte) if modo_transporte!=[''] else None
+				report.params['P_LOTE_ID'] = ",".join(lote) if lote!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
+				# report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
+				# report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
+				report.params['P_HORA_SAL_DESDE'] = hora_sal_desde
+				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta
 				
 				return report.render_to_response(tipo)
 
@@ -423,10 +442,11 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				# hora_sal_hasta = time_range_out[10:].strip()			
 				
 				# Rango de Hora de Salida			
-				hora_ent_desde = request.POST['time_in']
-				hora_ent_hasta = '23:59:59'
+				# hora_ent_desde = request.POST['time_in']
+				# hora_ent_hasta = '23:59:59'
 
-				hora_sal_desde = '00:00:00'
+				# hora_sal_desde = '00:00:00'
+				hora_sal_desde = request.POST['time_in']
 				hora_sal_hasta = request.POST['time_out']
 		
 				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
@@ -453,8 +473,8 @@ class RptBascula007ReportView(ModuleMixin, FormView):
 				# report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
 				report.params['P_FECHA_DESDE'] = fecha_desde
 				report.params['P_FECHA_HASTA'] = fecha_hasta
-				report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
-				report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
+				# report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
+				# report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
 				report.params['P_HORA_SAL_DESDE'] = hora_sal_desde
 				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta
 

@@ -53,8 +53,8 @@ AND  (DES.ID IN ($P!{P_DESTINO_ID}) OR $P{P_DESTINO_ID}  IS NULL)
 AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL)  
 AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL)
-AND  (TO_CHAR(MOV.FEC_ENTRADA,'YYYY-MM-DD HH24:MI:SS') >= $P{P_FECHA_DESDE}||' '||$P{P_HORA_ENT_DESDE} OR $P{P_HORA_ENT_DESDE} IS NULL)
-AND  (TO_CHAR(MOV.FEC_ENTRADA,'YYYY-MM-DD HH24:MI:SS') <= $P{P_FECHA_HASTA}||' '||$P{P_HORA_ENT_HASTA} OR $P{P_HORA_ENT_HASTA} IS NULL)
+/*AND  (TO_CHAR(MOV.FEC_ENTRADA,'YYYY-MM-DD HH24:MI:SS') >= $P{P_FECHA_DESDE}||' '||$P{P_HORA_ENT_DESDE} OR $P{P_HORA_ENT_DESDE} IS NULL)
+AND  (TO_CHAR(MOV.FEC_ENTRADA,'YYYY-MM-DD HH24:MI:SS') <= $P{P_FECHA_HASTA}||' '||$P{P_HORA_ENT_HASTA} OR $P{P_HORA_ENT_HASTA} IS NULL)*/
 AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  >= $P{P_FECHA_DESDE}||' '||$P{P_HORA_SAL_DESDE} OR $P{P_HORA_SAL_DESDE} IS NULL)
 AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  <= $P{P_FECHA_HASTA}||' '||$P{P_HORA_SAL_HASTA} OR $P{P_HORA_SAL_HASTA} IS NULL)
 AND MOV.PESO_NETO > 0 
@@ -474,16 +474,7 @@ X DIA]]></text>
 	<pageHeader>
 		<band height="97">
 			<textField>
-				<reportElement x="80" y="74" width="200" height="23" uuid="887c09a6-d2e8-43e1-802a-0a4df7883bc5">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["HORA ENTRADA\n DESDE: " +  $P{P_HORA_ENT_DESDE}  + " HASTA: " + $P{P_HORA_ENT_HASTA}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="280" y="74" width="200" height="23" uuid="474383a3-6d24-4e45-8bf0-4447a85ee6f4">
+				<reportElement x="80" y="74" width="400" height="23" uuid="474383a3-6d24-4e45-8bf0-4447a85ee6f4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

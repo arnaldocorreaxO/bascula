@@ -29,7 +29,7 @@
                 {{ form.cliente }}
             </div>
         </div>
-    </div>    
+    </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label>Por Destino</label>
@@ -73,6 +73,24 @@
         </div>
     </div>
 </div>
+<div class="row">    
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Modo Transporte</label>
+            <div class="input-group mb-3">
+                {{ form.modo_transporte }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Por Lote</label>
+            <div class="input-group mb-3">
+                {{ form.lote }}
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-4">
         <div class="form-group">
@@ -81,6 +99,23 @@
                 {{ form.date_range }}
             </div>
         </div>
-    </div>     
+    </div>
+
+    <div class="col-lg-2">
+        <div class="form-group">
+            <label>Desde Hora Salida:</label>
+            <div class="input-group mb-3">
+                {{ form.time_in }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group">
+            <label>Hasta Hora Salida:</label>
+            <div class="input-group mb-3">
+                {{ form.time_out }}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

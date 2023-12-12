@@ -1,5 +1,5 @@
 
-from core.bascula.models import  Chofer, Cliente,  Producto, Transporte, Vehiculo
+from core.bascula.models import  Chofer, Cliente, Lote, ModoTransporte,  Producto, Transporte, Vehiculo
 from django import forms
 
 from core.base.models import Sucursal
@@ -52,6 +52,8 @@ class ReportForm(forms.Form):
     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.none(), empty_label="(Todos)")
     chofer = forms.ModelChoiceField(queryset=Chofer.objects.none(), empty_label="(Todos)")
     situacion = forms.ChoiceField(choices=choiceSituacion)
+    modo_transporte = forms.ModelChoiceField(queryset=ModoTransporte.objects.none(), empty_label="(Todos)")
+    lote = forms.ModelChoiceField(queryset=Lote.objects.none(), empty_label="(Todos)")
    
     sucursal.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     transporte.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
@@ -61,3 +63,5 @@ class ReportForm(forms.Form):
     vehiculo.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
     chofer.widget.attrs.update({'class': 'form-control select2','multiple':'true'})    
     situacion.widget.attrs.update({'class': 'form-control select2'})    
+    modo_transporte.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
+    lote.widget.attrs.update({'class': 'form-control select2','multiple':'true'})
