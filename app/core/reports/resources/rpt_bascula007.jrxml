@@ -224,7 +224,7 @@ X DIA]]></text>
 					<text><![CDATA[PRODUCTO:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="61" y="29" width="220" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
+					<reportElement x="61" y="29" width="209" height="10" uuid="911da48e-8ee9-4b34-849e-f3523dc85e39"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
@@ -238,7 +238,7 @@ X DIA]]></text>
 					<text><![CDATA[TRANSPORTE:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="61" y="17" width="220" height="10" uuid="a4326a4c-b65f-4b47-b88b-c9e43cbe827b"/>
+					<reportElement x="61" y="17" width="209" height="10" uuid="a4326a4c-b65f-4b47-b88b-c9e43cbe827b"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
@@ -359,7 +359,7 @@ TONELADAS
 X DIA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="282" y="5" width="98" height="10" uuid="f205919f-8f33-459f-b073-5639ae4a993e"/>
+					<reportElement x="270" y="5" width="110" height="10" uuid="f205919f-8f33-459f-b073-5639ae4a993e"/>
 					<box padding="0">
 						<pen lineWidth="1.0" lineStyle="Dashed"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -394,14 +394,14 @@ X DIA]]></text>
 					<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="282" y="17" width="98" height="10" uuid="8020698e-ddf8-405b-9a84-b00bef9c53a7"/>
+					<reportElement x="270" y="17" width="110" height="10" uuid="8020698e-ddf8-405b-9a84-b00bef9c53a7"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DESTINO:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="61" y="5" width="220" height="10" uuid="beb2e8cb-38c8-45a9-844d-5bd09a9191f9"/>
+					<reportElement x="61" y="5" width="209" height="10" uuid="beb2e8cb-38c8-45a9-844d-5bd09a9191f9"/>
 					<box padding="0">
 						<pen lineWidth="1.0" lineStyle="Dashed"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -443,14 +443,14 @@ X DIA]]></text>
 					<textFieldExpression><![CDATA[$F{modo_transporte}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="282" y="29" width="98" height="10" uuid="3ef6d3af-a252-4982-b678-ccf48158339b"/>
+					<reportElement x="270" y="29" width="110" height="10" uuid="3ef6d3af-a252-4982-b678-ccf48158339b"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[REF. MODO TRANSPORTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="282" y="42" width="98" height="10" uuid="ddb224a5-7bcc-469a-92d9-475bfcc2006b"/>
+					<reportElement x="270" y="42" width="110" height="10" uuid="ddb224a5-7bcc-469a-92d9-475bfcc2006b"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
