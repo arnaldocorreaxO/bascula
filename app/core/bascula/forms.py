@@ -328,7 +328,7 @@ class MovimientoEntradaForm(ModelForm):
 		self.fields['cliente'].queryset = Cliente.objects.exclude(activo=False).order_by('id')[:5]
 		self.fields['producto'].queryset = Producto.objects.none()
 		self.fields['destino'].queryset = Cliente.objects.filter(activo=True,ver_en_destino=True)
-		self.fields['modo_transporte'].queryset = ModoTransporte.objects.filter(activo=True)
+		self.fields['modo_transporte'].queryset = ModoTransporte.objects.filter(activo=True).order_by('id')
 		self.fields['lote'].queryset = Lote.objects.filter(activo=True)
 		self.fields['modo_transporte'].required = True
 		movimiento_padre=None
