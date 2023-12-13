@@ -45,6 +45,7 @@ class JasperReportBase():
 					'P_USUARIO': str(get_current_user().username),
                     'P_RUTA': settings.REPORTS_DIR }
 		# Concatenamos parametros locales y los enviados 
+		print(params)
 		return dict(params, **self.params)
 		
 
