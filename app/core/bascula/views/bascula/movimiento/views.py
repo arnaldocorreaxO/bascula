@@ -286,7 +286,6 @@ class MovimientoCreate(PermissionMixin,CreateView):
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
 
-	
 	def validate_data(self):
 		data = {'valid': True}
 		try:

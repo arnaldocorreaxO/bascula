@@ -10,6 +10,7 @@ $(function () {
         var select_transporte = $('select[name="transporte"]');
         var select_cliente = $('select[name="cliente"]');
         var select_destino = $('select[name="destino"]');
+    
 
         // BUSCAMOS MOVIMIENTO ASOCIADO
         // console.log(select_movi_asociado.val().length);

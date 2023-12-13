@@ -92,6 +92,7 @@ class TipoTransporte(ModeloBase):
 
 #MODO TRANSPORTE
 class ModoTransporte(ModeloBase):	
+	# sucursal = models.ForeignKey(Sucursal,on_delete=models.PROTECT) Agregar +
 	tipo = models.ForeignKey(TipoTransporte,on_delete=models.PROTECT,related_name='tipo_transporte')
 	denominacion = models.CharField(max_length=100)	
 
