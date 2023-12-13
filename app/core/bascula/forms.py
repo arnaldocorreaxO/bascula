@@ -437,7 +437,6 @@ class MovimientoEntradaForm(ModelForm):
 			data['error'] = str(e)
 		return data
 
-
 ''' 
 ==============================
 ===   MOVIMIENTO SALIDA    ===
