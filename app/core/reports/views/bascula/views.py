@@ -54,8 +54,9 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				lote = request.POST.getlist('lote') if 'lote' in request.POST else None		
 				#CONFIG				 
 				report = JasperReportBase()  
-				report.report_name  = 'rpt_bascula001'
-				report.report_url = reverse_lazy(report.report_name)
+				# report.report_name  = 'rpt_bascula001'
+				report.report_name  = 'sub_rpt_top_horizontal'
+				'''report.report_url = reverse_lazy(report.report_name)
 				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
 				#PARAMETROS
 				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
@@ -74,7 +75,7 @@ class RptBascula001ReportView(ModuleMixin, FormView):
 				# report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
 				# report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
 				report.params['P_HORA_SAL_DESDE'] = hora_sal_desde
-				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta
+				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta'''
 				
 				return report.render_to_response(tipo)
 

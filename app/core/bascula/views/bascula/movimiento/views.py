@@ -680,21 +680,26 @@ def test_bascula(request):
 
 """OBTENER PESO DIRECTAMENTE DEL PUERTO SERIAL"""
 @method_decorator(csrf_exempt)
-def leer_puerto_serial(request,puerto):
-	config = ConfigSerial.objects.get(puerto=puerto)	
-	buffer = leerPuertoSerial(config)
-	printSeparador()
-	print('# BUFFER DATO DIRECTO SERIAL')	
-	print(buffer)
-	if 'error' in buffer:
-		return JsonResponse({'error': buffer})
-	if buffer:
-		suc_usuario = request.user.sucursal.id		
-		data = getPeso(suc_usuario,config,buffer)
-	printSeparador()
-	print('Resultado\t:', data)
-	printSeparador()
-	return JsonResponse({ 'peso': data })          
+def leer_puerto_serial_view(request, puerto):
+    configuracion_serial = ConfigSerial.objects.get(puerto=puerto)    
+    datos_recibidos = leer_puerto_serial(configuracion_serial)
+    
+    print_separador()
+    print('# BUFFER DE DATOS DIRECTOS DEL PUERTO SERIAL')    
+    print(datos_recibidos)
+    
+    if 'error' in datos_recibidos:
+        return JsonResponse({'error': datos_recibidos})
+    
+    if datos_recibidos:
+        sucursal_usuario = request.user.sucursal.id        
+        peso_obtenido = obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos)
+    
+    print_separador()
+    print('Resultado\t:', peso_obtenido)
+    print_separador()
+    
+    return JsonResponse({'peso': peso_obtenido})      
 
 """OBTENER PESO DE ARCHIVO TXT"""
 @method_decorator(csrf_exempt)
@@ -711,45 +716,44 @@ def leer_peso_bascula(request):
 				#os.remove("peso.txt")			
 	return JsonResponse({ 'peso': data })          
 
-def getPeso(suc_usuario,config,buffer):
-	# VILLETA
-	if suc_usuario == 1: 
-		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-		# VISOR BALPAR
-		if config.cod == 'BSC1' or config.cod == 'BSC2': 
-			pos_ini = buffer.find('+') + 1
-			print('Posicion Inicial:', pos_ini)
-			pos_fin = pos_ini + (config.pos_fin - config.pos_ini)
-			print('Posicion Final\t:', pos_fin)
-			return buffer[pos_ini:pos_fin]
-		
-		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-		# VISOR TOLEDO DESHABILITADO
-		if config.cod == 'BSC2' and True == False: #Para el simulador habilitar este 
-			pos_ini = config.pos_ini
-			print('Posicion Inicial:', pos_ini)
-			pos_fin = config.pos_fin
-			print('Posicion Final\t:', pos_fin)
-			return buffer[pos_ini:pos_fin]
-	# VALLEMI
-	elif suc_usuario == 2: 
-		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-		# VISOR SIPEL ORION
-		if config.cod == 'BSC1': 
-			pos_ini = config.pos_ini
-			print('Posicion Inicial:', pos_ini)
-			pos_fin = config.pos_fin
-			print('Posicion Final\t:', pos_fin)
-			return buffer[pos_ini:pos_fin]
-		
-		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-		# VISOR SIPEL ORION
-		if config.cod == 'BSC2': 
-			pos_ini = config.pos_ini
-			print('Posicion Inicial:', pos_ini)
-			pos_fin = config.pos_fin
-			print('Posicion Final\t:', pos_fin)
-			return buffer[pos_ini:pos_fin]
+def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
+    if sucursal_usuario == 1:
+        """OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+        # VISOR BALPAR
+        if configuracion_serial.cod in ['BSC1', 'BSC2']:
+            pos_ini = datos_recibidos.find('+') + 1
+            print('Posición Inicial:', pos_ini)
+            pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
+            print('Posición Final\t:', pos_fin)
+            return datos_recibidos[pos_ini:pos_fin]
+
+        """OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+        # VISOR TOLEDO DESHABILITADO
+        if configuracion_serial.cod == 'BSC2' and True == False:  # Para el simulador, habilitar este bloque
+            pos_ini = configuracion_serial.pos_ini
+            print('Posición Inicial:', pos_ini)
+            pos_fin = configuracion_serial.pos_fin
+            print('Posición Final\t:', pos_fin)
+            return datos_recibidos[pos_ini:pos_fin]
+
+    elif sucursal_usuario == 2:
+        """OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+        # VISOR SIPEL ORION
+        if configuracion_serial.cod == 'BSC1':
+            pos_ini = configuracion_serial.pos_ini
+            print('Posición Inicial:', pos_ini)
+            pos_fin = configuracion_serial.pos_fin
+            print('Posición Final\t:', pos_fin)
+            return datos_recibidos[pos_ini:pos_fin]
+
+        """OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+        # VISOR SIPEL ORION
+        if configuracion_serial.cod == 'BSC2':
+            pos_ini = configuracion_serial.pos_ini
+            print('Posición Inicial:', pos_ini)
+            pos_fin = configuracion_serial.pos_fin
+            print('Posición Final\t:', pos_fin)
+            return datos_recibidos[pos_ini:pos_fin]
 
 
 '''IMPRESION DE TICKET'''

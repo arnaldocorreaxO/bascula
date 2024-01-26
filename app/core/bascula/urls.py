@@ -14,7 +14,7 @@ from django.urls import path
 
 urlpatterns = [    
     # URL para lectura de Puerto COM
-	path('ajax_puerto_serial/<str:puerto>/',leer_puerto_serial,name='leer_puerto_serial'),
+	path('ajax_puerto_serial/<str:puerto>/',leer_puerto_serial_view,name='leer_puerto_serial'),
 	path('ajax_peso_bascula/',leer_peso_bascula,name='leer_peso_bascula'),
 
     # MOVIMIENTO BASCULA
