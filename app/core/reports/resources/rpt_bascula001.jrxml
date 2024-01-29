@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<!-- Created with Jaspersoft Studio version 6.21.0.final using JasperReports Library version 6.21.0-4f56c4f36cd19e17675219a9ac4692d5f0f13b06  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula001" pageWidth="936" pageHeight="612" orientation="Landscape" columnWidth="896" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PGSQL_BASCULA_REMOTO"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -15,12 +15,15 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="P_REPORTE" class="java.lang.String"/>
+	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_INFO" class="java.lang.String"/>
+	<parameter name="P_RUTA" class="java.lang.String"/>
 	<parameter name="P_USUARIO" class="java.lang.String"/>
 	<parameter name="P_TITULO1" class="java.lang.String"/>
 	<parameter name="P_TITULO2" class="java.lang.String"/>
 	<parameter name="P_TITULO3" class="java.lang.String"/>
 	<parameter name="P_TITULO4" class="java.lang.String"/>
-	<parameter name="P_RUTA" class="java.lang.String"/>
+	<parameter name="P_TITULO5" class="java.lang.String"/>
 	<parameter name="P_CLIENTE_ID" class="java.lang.String"/>
 	<parameter name="P_PRODUCTO_ID" class="java.lang.String"/>
 	<parameter name="P_CHOFER_ID" class="java.lang.String"/>
@@ -520,14 +523,14 @@ EMBARQUE (kg)]]></text>
 		</groupFooter>
 	</group>
 	<pageHeader>
-		<band height="135">
+		<band height="87">
 			<subreport>
-				<reportElement x="0" y="0" width="893" height="135" uuid="6dbcc6fe-958d-4cab-97f2-be49a7bff6e1"/>
-				<subreportParameter name="P_REPORTE">
-					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
+				<reportElement x="0" y="-13" width="895" height="93" uuid="8cdf5e55-38e8-49b5-9a93-b3e287b20442"/>
+				<subreportParameter name="P_LOGO">
+					<subreportParameterExpression><![CDATA[$P{P_LOGO}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_USUARIO">
-					<subreportParameterExpression><![CDATA[$P{P_USUARIO}]]></subreportParameterExpression>
+				<subreportParameter name="P_INFO">
+					<subreportParameterExpression><![CDATA[$P{P_INFO}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="P_TITULO1">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO1}]]></subreportParameterExpression>
@@ -541,24 +544,12 @@ EMBARQUE (kg)]]></text>
 				<subreportParameter name="P_TITULO4">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO4}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_RUTA">
-					<subreportParameterExpression><![CDATA[$P{P_RUTA}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_DESDE">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_DESDE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_HASTA">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_HORA_SAL_DESDE">
-					<subreportParameterExpression><![CDATA[$P{P_HORA_SAL_DESDE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_HORA_SAL_HASTA">
-					<subreportParameterExpression><![CDATA[$P{P_HORA_SAL_HASTA}]]></subreportParameterExpression>
+				<subreportParameter name="P_TITULO5">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO5}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[($P{P_RUTA}!=null?$P{P_RUTA}+"sub_rpt_top_horizontal.jasper":"sub_rpt_top_horizontal.jasper")
-/*DEFINIMOS RUTA DEL RECURSO */]]></subreportExpression>
+				<subreportExpression><![CDATA[/*DEFINIMOS RUTA DEL RECURSO */
+($P{P_RUTA}!=null?$P{P_RUTA}+"sub_rpt_top_horizontal.jasper":"sub_rpt_top_horizontal.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</pageHeader>
@@ -724,7 +715,7 @@ EMBARQUE (kg)]]></text>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="50">
+		<band height="26">
 			<staticText>
 				<reportElement x="572" y="8" width="230" height="18" uuid="872a29da-cfb3-46dc-ae48-393a95e082c3"/>
 				<textElement textAlignment="Right">

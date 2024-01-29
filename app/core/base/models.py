@@ -95,8 +95,8 @@ class Empresa(ModeloBase):
         return self.nombre_fantasia
 
     def get_image(self):
-        if self.image:
-            return '{}{}'.format(settings.MEDIA_URL, self.image)
+        if self.imagen:
+            return '{}{}'.format(settings.MEDIA_URL, self.imagen)
         return '{}{}'.format(settings.STATIC_URL, 'img/default/empty.png')
 
     def get_iva(self):

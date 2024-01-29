@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<!-- Created with Jaspersoft Studio version 6.21.0.final using JasperReports Library version 6.21.0-4f56c4f36cd19e17675219a9ac4692d5f0f13b06  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula003" pageWidth="612" pageHeight="936" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -22,6 +22,11 @@
 	<parameter name="P_TRANSPORTE_ID" class="java.lang.String"/>
 	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<parameter name="P_SUCURSAL_ID" class="java.lang.String"/>
+	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_INFO" class="java.lang.String"/>
+	<parameter name="P_TITULO5" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_DESDE" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_HASTA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  
 			SUC.DENOMINACION AS SUCURSAL,
@@ -45,6 +50,8 @@ AND  (DES.ID IN ($P!{P_DESTINO_ID}) OR $P{P_DESTINO_ID}  IS NULL)
 AND  (PRO.ID IN ($P!{P_PRODUCTO_ID}) OR $P{P_PRODUCTO_ID}  IS NULL) 
 AND  (MOV.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
 AND  (MOV.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL)
+AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  >= $P{P_FECHA_DESDE}||' '||$P{P_HORA_SAL_DESDE} OR $P{P_HORA_SAL_DESDE} IS NULL)
+AND  (TO_CHAR(MOV.FEC_SALIDA,'YYYY-MM-DD HH24:MI:SS')  <= $P{P_FECHA_HASTA}||' '||$P{P_HORA_SAL_HASTA} OR $P{P_HORA_SAL_HASTA} IS NULL)
 AND MOV.PESO_NETO > 0 
 AND MOV.ANULADO = FALSE
 GROUP BY 1,2,3,4,5
@@ -283,11 +290,11 @@ Toneladas]]></text>
 		<band height="70">
 			<subreport>
 				<reportElement x="0" y="0" width="572" height="70" uuid="49ad613e-f259-4b31-bb99-8715ad1765b3"/>
-				<subreportParameter name="P_REPORTE">
-					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
+				<subreportParameter name="P_LOGO">
+					<subreportParameterExpression><![CDATA[$P{P_LOGO}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_USUARIO">
-					<subreportParameterExpression><![CDATA[$P{P_USUARIO}]]></subreportParameterExpression>
+				<subreportParameter name="P_INFO">
+					<subreportParameterExpression><![CDATA[$P{P_INFO}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="P_TITULO1">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO1}]]></subreportParameterExpression>
@@ -301,14 +308,8 @@ Toneladas]]></text>
 				<subreportParameter name="P_TITULO4">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO4}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_RUTA">
-					<subreportParameterExpression><![CDATA[$P{P_RUTA}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_DESDE">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_DESDE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_HASTA">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
+				<subreportParameter name="P_TITULO5">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO5}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[($P{P_RUTA}!=null?$P{P_RUTA}+"sub_rpt_top_vertical.jasper":"sub_rpt_top_vertical.jasper")

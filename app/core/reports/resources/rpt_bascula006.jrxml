@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<!-- Created with Jaspersoft Studio version 6.21.0.final using JasperReports Library version 6.21.0-4f56c4f36cd19e17675219a9ac4692d5f0f13b06  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_bascula006" pageWidth="936" pageHeight="612" orientation="Landscape" columnWidth="896" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" isFloatColumnFooter="true" uuid="ba0f302e-7940-4e06-a588-1bee7ec99b04">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -33,6 +33,11 @@
 	<parameter name="P_DESTINO_ID" class="java.lang.String"/>
 	<parameter name="P_SUCURSAL_ID" class="java.lang.String"/>
 	<parameter name="P_SITUACION" class="java.lang.String"/>
+	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_INFO" class="java.lang.String"/>
+	<parameter name="P_TITULO5" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_DESDE" class="java.lang.String"/>
+	<parameter name="P_HORA_SAL_HASTA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  
 MOVI.*,
@@ -49,7 +54,8 @@ AND  (MOVI.TRANSPORTE_ID IN ($P!{P_TRANSPORTE_ID}) OR $P{P_TRANSPORTE_ID}  IS NU
 AND  (MOVI.VEHICULO_ID IN ($P!{P_VEHICULO_ID}) OR $P{P_VEHICULO_ID}  IS NULL) 
 AND  (MOVI.CHOFER_ID IN ($P!{P_CHOFER_ID}) OR $P{P_CHOFER_ID}  IS NULL) 
 AND  (MOVI.FECHA >= TO_DATE($P{P_FECHA_DESDE},'YYYY-MM-DD') OR $P{P_FECHA_DESDE} IS NULL) 
-AND  (MOVI.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL) 
+AND  (MOVI.FECHA <= TO_DATE($P{P_FECHA_HASTA},'YYYY-MM-DD') OR $P{P_FECHA_HASTA} IS NULL)
+
 AND 
 (MOVA._ID IS NULL AND $P{P_SITUACION} ='PEND' OR
  MOVA._ID IS NOT NULL AND $P{P_SITUACION} = 'RECI' OR 
@@ -120,6 +126,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="chofer_id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
 	</field>
+	<field name="chofer_ci" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.label" value="chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
+	</field>
 	<field name="chofer" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="chofer"/>
 		<property name="com.jaspersoft.studio.field.label" value="chofer"/>
@@ -128,6 +139,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<field name="vehiculo_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="vehiculo_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="vehiculo_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
+	</field>
+	<field name="vehiculo_matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vehiculo_matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="vehiculo_matricula"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_movi"/>
 	</field>
 	<field name="vehiculo" class="java.lang.String">
@@ -265,6 +281,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 		<property name="com.jaspersoft.studio.field.label" value="_chofer_id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
+	<field name="_chofer_ci" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="_chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.label" value="_chofer_ci"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
+	</field>
 	<field name="_chofer" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="_chofer"/>
 		<property name="com.jaspersoft.studio.field.label" value="_chofer"/>
@@ -273,6 +294,11 @@ ORDER BY SUCURSAL_ID,TRANSPORTE_ID,PRODUCTO_ID,CLIENTE_ID,DESTINO_ID,FECHA,NRO_T
 	<field name="_vehiculo_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="_vehiculo_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="_vehiculo_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
+	</field>
+	<field name="_vehiculo_matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="_vehiculo_matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="_vehiculo_matricula"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_mova"/>
 	</field>
 	<field name="_vehiculo" class="java.lang.String">
@@ -748,11 +774,11 @@ LLEGADA]]></text>
 		<band height="70">
 			<subreport>
 				<reportElement x="0" y="0" width="893" height="70" uuid="c359e8df-b020-4365-be35-872536511066"/>
-				<subreportParameter name="P_REPORTE">
-					<subreportParameterExpression><![CDATA[$P{P_REPORTE}]]></subreportParameterExpression>
+				<subreportParameter name="P_LOGO">
+					<subreportParameterExpression><![CDATA[$P{P_LOGO}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_USUARIO">
-					<subreportParameterExpression><![CDATA[$P{P_USUARIO}]]></subreportParameterExpression>
+				<subreportParameter name="P_INFO">
+					<subreportParameterExpression><![CDATA[$P{P_INFO}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="P_TITULO1">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO1}]]></subreportParameterExpression>
@@ -766,14 +792,8 @@ LLEGADA]]></text>
 				<subreportParameter name="P_TITULO4">
 					<subreportParameterExpression><![CDATA[$P{P_TITULO4}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="P_RUTA">
-					<subreportParameterExpression><![CDATA[$P{P_RUTA}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_DESDE">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_DESDE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="P_FECHA_HASTA">
-					<subreportParameterExpression><![CDATA[$P{P_FECHA_HASTA}]]></subreportParameterExpression>
+				<subreportParameter name="P_TITULO5">
+					<subreportParameterExpression><![CDATA[$P{P_TITULO5}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[/*DEFINIMOS RUTA DEL RECURSO */
@@ -829,7 +849,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_bruto}/1000.00]]></textFieldExpression>
@@ -839,7 +859,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_tara}/1000.00]]></textFieldExpression>
@@ -849,7 +869,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{peso_neto}/1000.00]]></textFieldExpression>
@@ -956,7 +976,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_bruto}/1000.00]]></textFieldExpression>
@@ -966,7 +986,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_tara}/1000.00]]></textFieldExpression>
@@ -976,7 +996,7 @@ LLEGADA]]></text>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="7" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_peso_neto}/1000.00]]></textFieldExpression>
