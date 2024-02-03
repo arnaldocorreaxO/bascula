@@ -1,23 +1,16 @@
 import pyodbc as po
-
-# Variables de conexión
-server = '10.130.10.101'
-database = 'PRD'
-username = 'sapsa'
-password = 'Info@2015'
-port ='4901'
-cursor=None
+from config.conn import MSSQL_PARAMS as params
 
 # Función para conectar a la base de datos
 def conectar():
     try:
         # Cadena de conexión
-        cnxn = po.connect('DRIVER={Devart ODBC Driver for ASE};'
-                          'SERVER=' + server +
-                          ';DATABASE=' + database +
-                          ';UID=' + username +
-                          ';PWD=' + password +
-                          ';PORT=' + port)
+        cnxn = po.connect('DRIVER=' + params['driver']+
+                        'SERVER=' + params['server'] +
+                        ';DATABASE=' + params['database'] +
+                        ';UID=' + params['username'] +
+                        ';PWD=' + params['password'] +
+                        ';PORT=' + params['port'])
         return cnxn
     except Exception as e:
         print("Error al conectar: %s" % e)
@@ -35,11 +28,10 @@ if __name__ == "__main__":
     # Conectar a la base de datos
     conexion = conectar()
     if conexion:
-        print("Conexión exitosa.")
+        print("Conexión exitosa a MSSQL")
         # Aquí puedes realizar operaciones en la base de datos
         # Por ejemplo, ejecutar consultas
         # Recuerda manejar adecuadamente las excepciones y cerrar la conexión cuando hayas terminado
         desconectar(conexion)
     else:
         print("No se pudo establecer la conexión.")
-
