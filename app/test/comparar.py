@@ -1,22 +1,12 @@
 import pandas as pd
 from conn import sap, mssql
 
-def copy_data_from_sybase_to_sqlserver(table):
+def copy_data_from_sybase_to_sqlserver(tabla):
     # Conexión a Sybase
     sybase_conn = sap.conectar()
     
-    # Consulta para contar la cantidad de columnas en Sybase
-    column_count_query  = f"""SELECT COUNT(*) AS cantidad_de_columnas
-                                  FROM syscolumns
-                                  WHERE id = OBJECT_ID('SAPSR3.{table}')"""
-    # Ejecutar la consulta para obtener la cantidad de columnas
-    cursor = sybase_conn.cursor()
-    cursor.execute(column_count_query )
-    column_count  = cursor.fetchone()[0]
-    cursor.close()
-
     # Consulta a la tabla especificada en Sybase
-    sybase_query = f"SELECT * FROM SAPSR3.{table}"
+    sybase_query = f"SELECT * FROM SAPSR3.{tabla}"
     sybase_data = pd.read_sql_query(sybase_query, sybase_conn)
     
     # Cerrar conexión a Sybase
@@ -25,17 +15,20 @@ def copy_data_from_sybase_to_sqlserver(table):
     # Conexión a SQL Server
     sql_server_conn = mssql.conectar()
     
-    # Insertar datos en SQL Server
-    cursor = sql_server_conn.cursor()
-
-    # Generar placeholders para la consulta de inserción
-    placeholders = ', '.join(['?' for _ in range(column_count )])
+    # Consulta para identificar filas que faltan
+    sql_check_query = f"SELECT * FROM [dbo].[{tabla}]"
+    existing_data = pd.read_sql_query(sql_check_query, sql_server_conn)
     
-    # Preparar la consulta de inserción
-    sql_insert_query = f"INSERT INTO [dbo].[{table}] VALUES ({placeholders})"
+    # Filtrar filas que ya existen en MSSQL
+    missing_data = sybase_data[~sybase_data.isin(existing_data)].dropna()
+    
+    # Insertar solo las filas que faltan en SQL Server
+    cursor = sql_server_conn.cursor()
+    placeholders = ', '.join(['?' for _ in range(len(missing_data.columns))])
+    sql_insert_query = f"INSERT INTO [dbo].[{tabla}] VALUES ({placeholders})"
     
     # Convertir los datos de Pandas DataFrame a una lista de tuplas
-    data_tuples = [tuple(row) for row in sybase_data.itertuples(index=False)]
+    data_tuples = [tuple(row) for row in missing_data.itertuples(index=False)]
     
     total_rows = len(data_tuples)
     rows_inserted = 0
