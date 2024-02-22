@@ -52,7 +52,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 									 .strftime('%Y-%m-%d')
 			fecha = datetime.datetime.strptime(fecha, '%Y-%m-%d')  
 
-			now = fecha
+			fecha_filtro = fecha
 
 			if action == 'search':
 				data=[]				
@@ -138,14 +138,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				data = []
 				# hoy = datetime.datetime.now()				
 				rows = Movimiento.objects.values('producto__denominacion') \
-						.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
+						.filter(sucursal=sucursal,fec_salida__date=fecha_filtro, peso_neto__gt=0)\
 						.exclude(anulado=True)\
 						.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField())) \
 						.order_by('-tot_recepcion')
 				for row in rows:
 					data.append([row['producto__denominacion'],
 								 row['tot_recepcion']/1000])
-				# print(rows.query)
+				#print(rows.query)
 				data = {
 					'name': 'Stock de Productos',
 					'type': 'pie',
@@ -161,12 +161,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_tot_recepcion_series_data=[]
 				val_ctd_recepcion_series=[]
 				val_ctd_recepcion_series_data=[]
-				# now = datetime.datetime.now()
-				now = fecha
+				# fecha_filtro = datetime.datetime.now()
+				fecha_filtro = fecha
 				
 				rows = Movimiento.objects\
 							.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
-							.filter(sucursal=sucursal,fecha=now, peso_neto__gt=0)\
+							.filter(sucursal=sucursal,fec_salida__date=fecha_filtro, peso_neto__gt=0)\
 							.exclude(anulado=True)\
 							.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 									  ctd_recepcion=Count(True)) \
@@ -228,9 +228,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_recepcion_series=[]
 				val_ctd_recepcion_series_data=[]
 				
-				now = fecha
-				month = now.month
-				year = now.year    
+				fecha_filtro = fecha
+				month = fecha_filtro.month
+				year = fecha_filtro.year    
 
 				# Envia Vallemi recibe Villeta
 				if producto == 2:
@@ -238,13 +238,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 					destino_id = 1 #Villeta
 					
 					rows = Movimiento.objects\
-								.values('fecha') \
+								.values('fec_salida__date') \
 								.filter( sucursal=sucursal,
 										cliente=cliente_id,
 										destino=destino_id,
 										producto=producto, 
-										fecha__month=month, 
-										fecha__year=year,
+										fec_salida__date__month=month, 
+										fec_salida__date__year=year,
 										peso_neto__gt=0)\
 								.exclude(anulado=True)\
 								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
@@ -252,16 +252,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 								.order_by('fecha')
 				else:
 					rows = Movimiento.objects\
-								.values('fecha') \
+								.values('fec_salida__date') \
 								.filter( sucursal=sucursal,										
 										producto=producto, 
-										fecha__month=month, 
-										fecha__year=year,
+										fec_salida__date__month=month, 
+										fec_salida__date__year=year,
 										peso_neto__gt=0)\
 								.exclude(anulado=True)\
 								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 										ctd_recepcion=Count(True)) \
-								.order_by('fecha')
+								.order_by('fec_salida__date')
 
 				#.exclude(anulado=True)\ Este debe ir solo no combinar con otros campos la razon es que 
 				# no genera de forma correcta el query 
@@ -270,7 +270,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				# print(rows.query)
 				for row in rows:
 					# CATEGORIAS Dias 1 al 31
-					categorias.append(row['fecha'].strftime('%d'))
+					categorias.append(row['fec_salida__date'].strftime('%d'))
 					# SERIES           
 					val_tot_recepcion_series_data.append(row['tot_recepcion']/1000)          
 					val_ctd_recepcion_series_data.append(row['ctd_recepcion'])
@@ -315,8 +315,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				val_ctd_recepcion_series=[]
 				val_ctd_recepcion_series_data=[]
 				
-				now = fecha
-				year = now.year
+				fecha_filtro = fecha
+				year = fecha_filtro.year
 
 				# Envia Vallemi recibe Villeta
 				if producto == 2:
@@ -324,30 +324,30 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 					destino_id = 1 #Villeta
 
 					rows = Movimiento.objects\
-								.values('fecha__month') \
+								.values('fec_salida__date') \
 								.filter(sucursal=sucursal,
 										cliente=cliente_id,
 										destino=destino_id,
-										producto=producto, fecha__year=year, peso_neto__gt=0)\
+										producto=producto, fec_salida__date__year=year, peso_neto__gt=0)\
 								.exclude(cliente=1)\
 								.exclude(anulado=True)\
 								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 										ctd_recepcion=Count(True)) \
-								.order_by('fecha__month')
+								.order_by('fec_salida__date__month')
 				else:
 					rows = Movimiento.objects\
-								.values('fecha__month') \
+								.values('fec_salida__date__month') \
 								.filter(sucursal=sucursal,
-										producto=producto, fecha__year=year, peso_neto__gt=0)\
+										producto=producto, fec_salida__date__year=year, peso_neto__gt=0)\
 								.exclude(anulado=True)\
 								.annotate(tot_recepcion=Sum('peso_neto', output_field=FloatField()),
 										ctd_recepcion=Count(True)) \
-								.order_by('fecha__month')
+								.order_by('fec_salida__date__month')
 
 				for row in rows:
 					# CATEGORIAS MESES
-					#Utilizamos una fecha cualquiera para retornar solo el mes ;)
-					mes = datetime.date(1900, row['fecha__month'], 1).strftime('%B').capitalize()
+					#Utilizamos una fec_salida__date cualquiera para retornar solo el mes ;)
+					mes = datetime.date(1900, row['fec_salida__date__month'], 1).strftime('%B').capitalize()
 					categorias.append(mes)
 					# SERIES           
 					val_tot_recepcion_series_data.append(row['tot_recepcion']/1000)          
@@ -386,10 +386,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 				# print(data)
 
 			elif action == 'get_graph_5':
-				now = fecha
+				fecha_filtro = fecha
 				rows = Movimiento.objects \
 									.values('producto__denominacion', 'cliente__denominacion','transporte__denominacion') \
-									.filter(sucursal=sucursal,fecha=now)\
+									.filter(sucursal=sucursal,fecha=fecha_filtro)\
 									.exclude(anulado=True)\
 									.annotate(vehiculo_entrada_count=Count('id'),
 											  vehiculo_salida_count=Count('id', filter=Q(peso_neto__gt=0)),
