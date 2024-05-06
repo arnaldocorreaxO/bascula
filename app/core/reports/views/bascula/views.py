@@ -718,3 +718,81 @@ class RptBascula009ReportView(ModuleMixin, FormView):
 		context['action'] = 'report'
 		context['suc_usuario'] = suc_usuario
 		return context
+
+
+'''REPORTE 010'''
+class RptBascula010ReportView(ModuleMixin, FormView):
+	template_name = 'bascula/reports/rpt_bascula010.html'
+	form_class = ReportForm
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+		action = request.POST['action']
+		tipo = request.POST['tipo']
+		data = {}
+		try:
+			if action == 'report':
+				data = []
+				date_range = request.POST['date_range']
+				fecha_desde = date_range[:11].strip()
+				fecha_hasta = date_range[13:].strip()	
+				# Rango de Hora de Salida			
+				# hora_ent_desde = request.POST['time_in']
+				# hora_ent_hasta = '23:59:59'
+
+				# hora_sal_desde = '00:00:00'
+				hora_sal_desde = request.POST['time_in']
+				hora_sal_hasta = request.POST['time_out']
+				#*PARA LOS TURNOS SE TOMA LAS HORAS DE SALIDAS 
+				#*MODIFICADO 12/12/2023			
+				sucursal = request.POST.getlist('sucursal') if 'sucursal' in request.POST else None			
+				transporte = request.POST.getlist('transporte') if 'transporte' in request.POST else None			
+				cliente = request.POST.getlist('cliente') if 'cliente' in request.POST else None			
+				destino = request.POST.getlist('destino') if 'destino' in request.POST else None
+				producto = request.POST.getlist('producto') if 'producto' in request.POST else None	
+				vehiculo = request.POST.getlist('vehiculo') if 'vehiculo' in request.POST else None
+				chofer = request.POST.getlist('chofer') if 'chofer' in request.POST else None
+				situacion = request.POST['situacion']
+				#CONFIG				 
+				report = JasperReportBase()  
+				report.report_name  = 'rpt_bascula010'
+				report.report_url = reverse_lazy(report.report_name)
+				report.report_title = Module.objects.filter(url=report.report_url).first().description                      
+				#PARAMETROS
+				report.params['P_TITULO2'] = self.request.user.sucursal.denominacion_puesto			
+				report.params['P_TITULO3'] = 'INFORME DE VEHICULOS EN TRANSITO PENDIENTES A UNA FECHA Y HORA'				
+				report.params['P_SUCURSAL_ID'] = ",".join(sucursal) if sucursal!=[''] else None
+				report.params['P_TRANSPORTE_ID'] = ",".join(transporte) if transporte!=[''] else None
+				report.params['P_CLIENTE_ID'] = ",".join(cliente) if cliente!=[''] else None
+				report.params['P_DESTINO_ID'] = ",".join(destino) if destino!=[''] else None
+				report.params['P_PRODUCTO_ID'] = ",".join(producto) if producto!=[''] else None
+				report.params['P_VEHICULO_ID']= ",".join(vehiculo) if vehiculo!=[''] else None
+				report.params['P_CHOFER_ID'] = ",".join(chofer) if chofer!=[''] else None
+				report.params['P_SITUACION'] = situacion if len(situacion)!=0 else None
+				report.params['P_FECHA_DESDE'] = fecha_desde
+				report.params['P_FECHA_HASTA'] = fecha_hasta
+				# report.params['P_HORA_ENT_DESDE'] = hora_ent_desde
+				# report.params['P_HORA_ENT_HASTA'] = hora_ent_hasta
+				report.params['P_HORA_SAL_DESDE'] = hora_sal_desde
+				report.params['P_HORA_SAL_HASTA'] = hora_sal_hasta
+
+				return report.render_to_response(tipo)
+
+			else:
+				data['error'] = 'No ha ingresado una opción'
+		except Exception as e:
+			print('####################### ERROR #######################')
+			print(str(e))
+			data['error'] = str(e)
+		return HttpResponse(json.dumps(data), content_type='application/json')
+
+	def get_context_data(self, **kwargs):
+		suc_usuario = self.request.user.sucursal.id
+		context = super().get_context_data(**kwargs)
+		context['title'] = 'Reporte de Vehiculos en Transito Pendientes a una Fecha y Hora'
+		context['action'] = 'report'
+		context['suc_usuario'] = suc_usuario
+		return context

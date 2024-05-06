@@ -12,5 +12,6 @@ urlpatterns = [
     path('rpt_bascula007/', RptBascula007ReportView.as_view(), name='rpt_bascula007'),
     path('rpt_bascula008/', RptBascula008ReportView.as_view(), name='rpt_bascula008'),
     path('rpt_bascula009/', RptBascula009ReportView.as_view(), name='rpt_bascula009'),
+    path('rpt_bascula010/', RptBascula010ReportView.as_view(), name='rpt_bascula010'),
 
 ]
