@@ -791,6 +791,8 @@ class MovimientoPrint(View):
 					context = {'movimiento': movimiento, 'company': Empresa.objects.first()}
 					context['height'] = self.get_height_ticket()
 					template = get_template('movimiento/ticket.html')
+					if movimiento.peso_salida == 0:
+						template = get_template('movimiento/ticket_orden_carga.html')
 					html_template = template.render(context).encode(encoding="UTF-8")
 					url_css = os.path.join(settings.BASE_DIR, 'static/lib/bootstrap-4.3.1/css/bootstrap.min.css')
 					pdf_file = HTML(string=html_template, base_url=request.build_absolute_uri()).write_pdf(

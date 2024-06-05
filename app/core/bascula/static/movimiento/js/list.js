@@ -149,6 +149,7 @@ movimiento = {
                         var buttons = ''
                         if (row.peso_salida == 0) {
                             buttons += '<a href="/bascula/movimiento/update/' + row.id + '/" id="btnSalida" class="btn btn-warning btn-flat" data-toggle="tooltip" title="Salida Báscula">SALIDA <i class="fas fa-truck"></i></a>';
+                            buttons += '<hr><a href="/bascula/movimiento/print/' + row.id + '/" id="btnPrint" target="_blank"  class="btn btn-success btn-flat" data-toggle="tooltip" title="Imprimir Orden de Carga"><i class="fas fa-print"></i></a>';
                         }
                         else {
                             btnClass = "btn btn-secondary btn-flat disabled_print"
