@@ -678,10 +678,25 @@ def test_bascula(request):
 		template_name='bascula/bascula.html',
 	)
 
+# """OBTENER PESO DE ARCHIVO TXT"""
+# @method_decorator(csrf_exempt)
+# def leer_peso_bascula(request):
+# 	data = 0
+# 	if os.path.exists("peso.txt"):
+# 		with open("peso.txt", "r") as archivo:
+# 			archivo.seek(0)
+# 			linea = archivo.readline()
+# 			print(linea)
+# 			if linea: 
+# 				data = float(linea[29:8])
+# 				print(data)
+# 				#os.remove("peso.txt")			
+# 	return JsonResponse({ 'peso': data })        
+
 """OBTENER PESO DIRECTAMENTE DEL PUERTO SERIAL"""
 @method_decorator(csrf_exempt)
 def leer_puerto_serial_view(request, puerto):
-	configuracion_serial = ConfigSerial.objects.get(sucursal_usuario=request.user.sucursal.id, puerto=puerto)    
+	configuracion_serial = ConfigSerial.objects.get(sucursal=request.user.sucursal, puerto=puerto)    
 	datos_recibidos = leer_puerto_serial(configuracion_serial)
 	
 	print_separador()
@@ -699,93 +714,64 @@ def leer_puerto_serial_view(request, puerto):
 	print('Resultado\t:', peso_obtenido)
 	print_separador()
 	
-	return JsonResponse({'peso': peso_obtenido})      
+	return JsonResponse({'peso': peso_obtenido})   
 
-"""OBTENER PESO DE ARCHIVO TXT"""
-@method_decorator(csrf_exempt)
-def leer_peso_bascula(request):
-	data = 0
-	if os.path.exists("peso.txt"):
-		with open("peso.txt", "r") as archivo:
-			archivo.seek(0)
-			linea = archivo.readline()
-			print(linea)
-			if linea: 
-				data = float(linea[29:8])
-				print(data)
-				#os.remove("peso.txt")			
-	return JsonResponse({ 'peso': data })          
+# Extrae el valor numérico entre el signo '+' y las posiciones definidas en la configuración serial
+def extraer_por_signo(datos_recibidos, configuracion_serial):
+    texto = str(datos_recibidos)
+    pos_ini = texto.find('+') + 1
+    pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
+    return texto[pos_ini:pos_fin]
+
+# Extrae el último valor numérico del buffer recibido
+# Si hay valores, devolver el último
+# Ej. valores = [1200, 1250, 1300]
+def extraer_ultimo_valor(datos_recibidos):
+    valores = []
+    for item in datos_recibidos:
+        texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
+        limpio = "".join(ch for ch in texto if ch.isdigit())
+        if limpio:
+            valores.append(int(limpio))
+
+    return valores[-1] if valores else None
 
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 	if sucursal_usuario == 1:
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
 		# VISOR BALPAR
 		if configuracion_serial.cod in ['BSC1', 'BSC2']:
-			pos_ini = datos_recibidos.find('+') + 1
-			print('Posición Inicial:', pos_ini)
-			pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
-			print('Posición Final\t:', pos_fin)
-			return datos_recibidos[pos_ini:pos_fin]
+			return extraer_por_signo(datos_recibidos, configuracion_serial)
 
-		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-		# VISOR TOLEDO DESHABILITADO
-		if configuracion_serial.cod == 'BSC2' and True == False:  # Para el simulador, habilitar este bloque
-			pos_ini = configuracion_serial.pos_ini
-			print('Posición Inicial:', pos_ini)
-			pos_fin = configuracion_serial.pos_fin
-			print('Posición Final\t:', pos_fin)
-			return datos_recibidos[pos_ini:pos_fin]
-
-	elif sucursal_usuario == 2:
-		
+	elif sucursal_usuario == 2:		
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
 		# VISOR OREJANO :) Y VISOR BALPAR (este envía siempre el signo +)
 		if configuracion_serial.cod == 'BSC1':
 			# Verificar si el buffer contiene el signo '+'
 			if isinstance(datos_recibidos, (bytes, str)) and '+' in str(datos_recibidos):
-				pos_ini = str(datos_recibidos).find('+') + 1
-				print('Posición Inicial:', pos_ini)
-				pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
-				print('Posición Final\t:', pos_fin)
-				return str(datos_recibidos)[pos_ini:pos_fin]
+				return extraer_por_signo(datos_recibidos, configuracion_serial)
 			else:
-				# Nueva lógica: obtener SIEMPRE el último valor del buffer continuo
-				valores = []
-				for item in datos_recibidos:
-					# Decodificar a texto
-					texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
-					# Filtrar solo dígitos
-					limpio = "".join(ch for ch in texto if ch.isdigit())
-					if limpio:
-						valores.append(int(limpio))
-				
-				# Si hay valores, devolver el último
-				if valores:
-					ultimo_valor = valores[-1]
-					print("Último valor obtenido:", ultimo_valor)
-					return ultimo_valor
-				else:
-					return None
+				return extraer_ultimo_valor(datos_recibidos)
 
-		# VISORES SIPEL ORION DESHABILITADOS
-		if True == False:
-			"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
-			# VISOR SIPEL ORION
-			if configuracion_serial.cod == 'BSC1':
-				pos_ini = configuracion_serial.pos_ini
-				print('Posición Inicial:', pos_ini)
-				pos_fin = configuracion_serial.pos_fin
-				print('Posición Final\t:', pos_fin)
-				return datos_recibidos[pos_ini:pos_fin]
+		# # VISORES SIPEL ORION DESHABILITADOS
+		# if True == False:
+		# 	"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
+		# 	# VISOR SIPEL ORION
+		# 	if configuracion_serial.cod == 'BSC1':
+		# 		pos_ini = configuracion_serial.pos_ini
+		# 		print('Posición Inicial:', pos_ini)
+		# 		pos_fin = configuracion_serial.pos_fin
+		# 		print('Posición Final\t:', pos_fin)
+		# 		return datos_recibidos[pos_ini:pos_fin]
 
-			"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
-			# VISOR SIPEL ORION
-			if configuracion_serial.cod == 'BSC2':
-				pos_ini = configuracion_serial.pos_ini
-				print('Posición Inicial:', pos_ini)
-				pos_fin = configuracion_serial.pos_fin
-				print('Posición Final\t:', pos_fin)
-				return datos_recibidos[pos_ini:pos_fin]
+		# 	"""OBTENER VALORES DEL BUFFER DE LA BASCULA 2"""
+		# 	# VISOR SIPEL ORION
+		# 	if configuracion_serial.cod == 'BSC2':
+		# 		pos_ini = configuracion_serial.pos_ini
+		# 		print('Posición Inicial:', pos_ini)
+		# 		pos_fin = configuracion_serial.pos_fin
+		# 		print('Posición Final\t:', pos_fin)
+		# 		return datos_recibidos[pos_ini:pos_fin]
 
 
 '''IMPRESION DE TICKET'''
