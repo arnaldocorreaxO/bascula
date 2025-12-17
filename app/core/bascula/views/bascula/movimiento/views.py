@@ -718,36 +718,37 @@ def leer_puerto_serial_view(request, puerto):
 
 # Extrae el valor numérico entre el signo '+' y las posiciones definidas en la configuración serial
 def extraer_por_signo(datos_recibidos, configuracion_serial):
-    texto = str(datos_recibidos)
-    pos_ini = texto.find('+') + 1
-    pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
-    return texto[pos_ini:pos_fin]
+	texto = str(datos_recibidos)
+	pos_ini = texto.find('+') + 1
+	pos_fin = pos_ini + (configuracion_serial.pos_fin - configuracion_serial.pos_ini)
+	return texto[pos_ini:pos_fin]
 
 # Extrae el último valor numérico del buffer recibido
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
 def extraer_ultimo_valor(datos_recibidos):
-    """
-    Recibe una lista de bytes o strings del puerto serial
-    y devuelve el último valor numérico válido antes de \r\n.
-    """
-    valores = []
-    for item in datos_recibidos:
-        # Decodificar si es bytes
-        texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
-        # Quitar espacios y saltos de línea (\r\n)
-        texto = texto.strip()
-        # Filtrar solo dígitos
-        limpio = "".join(ch for ch in texto if ch.isdigit())
-        if limpio:
-            try:
-                valores.append(int(limpio))
-            except ValueError:
-                # En caso de que limpio no sea convertible a int
-                continue
+	"""
+	Recibe una lista de bytes o strings del puerto serial
+	y devuelve el último valor numérico válido antes de \r\n.
+	"""
+	valores = []
+	for item in datos_recibidos:
+		# Decodificar si es bytes
+		texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
+		# Quitar espacios y saltos de línea (\r\n)
+		texto = texto.strip()
+		# Filtrar solo dígitos
+		limpio = "".join(ch for ch in texto if ch.isdigit())
+		if limpio:
+			try:
+				valores.append(int(limpio))
+			except ValueError:
+				# En caso de que limpio no sea convertible a int
+				continue
 
-    # Devolver el último valor válido
-    return valores[-1] if valores else None
+	# Devolver el último valor válido
+	print(valores)
+	return valores[-1] if valores else None
 
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 	if sucursal_usuario == 1:
