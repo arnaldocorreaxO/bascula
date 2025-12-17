@@ -13,9 +13,11 @@ media
 # app/core/reports/jasperbase.py
 app/core/reports/*.xls
 app/core/reports/*.xlsx
-app/deploy/start_bascula.bat
-app/deploy/vpn_start_bascula.bat
-
+# app/deploy/start_bascula.bat
+# app/deploy/vpn_start_bascula.bat
+deploy
+test
+# conn
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -264,7 +266,8 @@ config/*
 staticfiles/*
 factora.sqlite3
 db/factora.sqlite3
-media
+# media
+test
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
