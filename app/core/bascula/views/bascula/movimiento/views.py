@@ -3,6 +3,7 @@ import json
 import math
 import os
 import datetime
+import re
 
 from config import settings
 from core.bascula.forms import (ChoferForm, MovimientoEntradaForm, MovimientoForm,
@@ -727,28 +728,25 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
 def extraer_ultimo_valor(datos_recibidos):
-	"""
-	Recibe una lista de bytes o strings del puerto serial
-	y devuelve el último valor numérico válido antes de \r\n.
-	"""
-	valores = []
-	for item in datos_recibidos:
-		# Decodificar si es bytes
-		texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
-		# Quitar espacios y saltos de línea (\r\n)
-		texto = texto.strip()
-		# Filtrar solo dígitos
-		limpio = "".join(ch for ch in texto if ch.isdigit())
-		if limpio:
-			try:
-				valores.append(int(limpio))
-			except ValueError:
-				# En caso de que limpio no sea convertible a int
-				continue
+    """
+    Recibe una lista de bytes o strings del puerto serial
+    y devuelve el último valor numérico válido antes de \r\n.
+    """
+    valores = []
+    for item in datos_recibidos:
+        # Decodificar si es bytes
+        texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
+        # Quitar espacios y saltos de línea
+        texto = texto.strip()
+        # Buscar secuencias de dígitos completas
+        numeros = re.findall(r"\d+", texto)
+        for num in numeros:
+            valores.append(int(num))
 
-	# Devolver el último valor válido
-	print(valores)
-	return valores[-1] if valores else None
+    # Devolver el último valor válido
+    return valores[-1] if valores else None
+
+
 
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 	if sucursal_usuario == 1:
