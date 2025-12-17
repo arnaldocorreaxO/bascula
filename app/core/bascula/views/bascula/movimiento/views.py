@@ -727,23 +727,29 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Extrae el último valor numérico del buffer recibido
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
-def extraer_ultimo_valor(datos_recibidos):
+def extraer_valor_por_enter(datos_recibidos):
     """
-    Recibe una lista de bytes o strings del puerto serial
-    y devuelve el último valor numérico válido (múltiplo de 10).
+    Busca el primer \r\n en cada item y lee hasta 6 caracteres antes.
+    Devuelve el último valor válido encontrado.
     """
+    import re
     valores = []
     for item in datos_recibidos:
         texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
-        texto = texto.strip()
-        numeros = re.findall(r"\d+", texto)
-        for num in numeros:
-            valor = int(num)
-            # Solo aceptar múltiplos de 10
-            if valor % 10 == 0:
-                valores.append(valor)
-    # Devolver el último valor válido
+        # Buscar la posición del primer \r\n
+        pos = texto.find("\r\n")
+        if pos > 0:
+            # Tomar hasta 6 caracteres antes del \r\n
+            bloque = texto[max(0, pos-6):pos]
+            # Extraer dígitos de ese bloque
+            numeros = re.findall(r"\d+", bloque)
+            for num in numeros:
+                valor = int(num)
+                # Validar múltiplos de 10
+                if valor % 10 == 0:
+                    valores.append(valor)
     return valores[-1] if valores else None
+
 
 
 
