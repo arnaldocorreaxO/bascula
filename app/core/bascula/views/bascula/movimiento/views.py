@@ -727,7 +727,7 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Extrae el último valor numérico del buffer recibido
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
-def extraer_por_salto_de_linea(datos_recibidos, ancho=6):
+def extraer_por_salto_de_linea(datos_recibidos, ancho=12):
     """
     Busca el primer salto de línea \r\n en cada item y lee hasta `ancho` caracteres antes.
     Devuelve el último valor válido encontrado (múltiplo de 10).
@@ -739,8 +739,9 @@ def extraer_por_salto_de_linea(datos_recibidos, ancho=6):
         print(f"Texto recibido: {repr(texto)}")
         print(f"Posición de \\r\\n: {pos}")
         
-        if pos >= 0:
+        if pos >= 0:  # incluir caso pos == 0
             bloque = texto[max(0, pos-ancho):pos]
+            print(f"Bloque analizado: {repr(bloque)}")
             numeros = re.findall(r"\d+", bloque)
             for num in numeros:
                 valor = int(num)
@@ -749,6 +750,7 @@ def extraer_por_salto_de_linea(datos_recibidos, ancho=6):
     
     print("Valores extraídos:", valores)
     return valores[-1] if valores else None
+
 
 
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
