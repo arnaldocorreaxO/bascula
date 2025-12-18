@@ -727,31 +727,29 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Extrae el último valor numérico del buffer recibido
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
-def extraer_por_salto_de_linea(datos_recibidos):
-	"""
-	Busca el primer enter \r\n en cada item y lee hasta 6 caracteres antes.
-	Devuelve el último valor válido encontrado.
-	"""
-	import re
-	valores = []
-	for item in datos_recibidos:
-		texto = item.decode(errors="ignore") if isinstance(item, bytes) else str(item)
-		# Buscar la posición del primer \r\n
-		pos = texto.find("\r\n")
-		print('Texto recibido:', repr(texto))
-		print('Posición de \\r\\n:', pos)
-		if pos > 0:
-			# Tomar hasta 6 caracteres antes del \r\n
-			bloque = texto[max(0, pos-6):pos]
-			# Extraer dígitos de ese bloque
-			numeros = re.findall(r"\d+", bloque)
-			for num in numeros:
-				valor = int(num)
-				# Validar múltiplos de 10
-				if valor % 10 == 0:
-					valores.append(valor)
-	print('Valores extraídos:', valores)
-	return valores[-1] if valores else None
+def extraer_por_salto_de_linea(datos_recibidos, ancho=6):
+    """
+    Busca el primer salto de línea \r\n en cada item y lee hasta `ancho` caracteres antes.
+    Devuelve el último valor válido encontrado (múltiplo de 10).
+    """
+    valores = []
+    for item in datos_recibidos:
+        texto = item.decode("latin-1", errors="ignore") if isinstance(item, bytes) else str(item)
+        pos = texto.find("\r\n")
+        print(f"Texto recibido: {repr(texto)}")
+        print(f"Posición de \\r\\n: {pos}")
+        
+        if pos >= 0:
+            bloque = texto[max(0, pos-ancho):pos]
+            numeros = re.findall(r"\d+", bloque)
+            for num in numeros:
+                valor = int(num)
+                if valor % 10 == 0:
+                    valores.append(valor)
+    
+    print("Valores extraídos:", valores)
+    return valores[-1] if valores else None
+
 
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 	if sucursal_usuario == 1:
