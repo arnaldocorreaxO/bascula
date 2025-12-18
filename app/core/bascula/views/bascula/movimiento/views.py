@@ -728,28 +728,29 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
 def extraer_por_salto_de_linea(datos_recibidos, ancho=12):
-    """
-    Busca el primer salto de línea \r\n en cada item y lee hasta `ancho` caracteres antes.
-    Devuelve el último valor válido encontrado (múltiplo de 10).
-    """
-    valores = []
-    for item in datos_recibidos:
-        texto = item.decode("latin-1", errors="ignore") if isinstance(item, bytes) else str(item)
-        pos = texto.find("\r\n")
-        print(f"Texto recibido: {repr(texto)}")
-        print(f"Posición de \\r\\n: {pos}")
-        
-        if pos >= 0:  # incluir caso pos == 0
-            bloque = texto[max(0, pos-ancho):pos]
-            print(f"Bloque analizado: {repr(bloque)}")
-            numeros = re.findall(r"\d+", bloque)
-            for num in numeros:
-                valor = int(num)
-                if valor % 10 == 0:
-                    valores.append(valor)
-    
-    print("Valores extraídos:", valores)
-    return valores[-1] if valores else None
+	"""
+	Busca el primer salto de línea \r\n en cada item y lee hasta `ancho` caracteres antes.
+	Devuelve el último valor válido encontrado (múltiplo de 10).
+	"""
+	valores = []
+	texto= str(datos_recibidos)
+	# for item in datos_recibidos:
+	#     texto = item.decode("latin-1", errors="ignore") if isinstance(item, bytes) else str(item)
+	pos = texto.find("\r\n")
+	print(f"Texto recibido: {repr(texto)}")
+	print(f"Posición de \\r\\n: {pos}")
+	
+	if pos >= 0:  # incluir caso pos == 0
+		bloque = texto[max(0, pos-ancho):pos]
+		print(f"Bloque analizado: {repr(bloque)}")
+		numeros = re.findall(r"\d+", bloque)
+		for num in numeros:
+			valor = int(num)
+			if valor % 10 == 0:
+				valores.append(valor)
+	
+	print("Valores extraídos:", valores)
+	return valores[-1] if valores else None
 
 
 
