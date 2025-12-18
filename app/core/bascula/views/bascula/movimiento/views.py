@@ -727,9 +727,9 @@ def extraer_por_signo(datos_recibidos, configuracion_serial):
 # Extrae el último valor numérico del buffer recibido
 # Si hay valores, devolver el último
 # Ej. valores = [1200, 1250, 1300]
-def extraer_valor_por_enter(datos_recibidos):
+def extraer_por_enter(datos_recibidos):
     """
-    Busca el primer \r\n en cada item y lee hasta 6 caracteres antes.
+    Busca el primer enter \r\n en cada item y lee hasta 6 caracteres antes.
     Devuelve el último valor válido encontrado.
     """
     import re
@@ -750,12 +750,6 @@ def extraer_valor_por_enter(datos_recibidos):
                     valores.append(valor)
     return valores[-1] if valores else None
 
-
-
-
-
-
-
 def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 	if sucursal_usuario == 1:
 		"""OBTENER VALORES DEL BUFFER DE LA BASCULA 1"""
@@ -771,7 +765,7 @@ def obtener_peso(sucursal_usuario, configuracion_serial, datos_recibidos):
 			if isinstance(datos_recibidos, (bytes, str)) and '+' in str(datos_recibidos):
 				return extraer_por_signo(datos_recibidos, configuracion_serial)
 			else:
-				return extraer_ultimo_valor(datos_recibidos)
+				return extraer_por_enter(datos_recibidos)
 
 		# # VISORES SIPEL ORION DESHABILITADOS
 		# if True == False:
