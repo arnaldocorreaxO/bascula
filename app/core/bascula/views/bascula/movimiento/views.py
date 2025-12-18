@@ -736,7 +736,7 @@ def extraer_por_salto_de_linea(datos_recibidos, ancho=12):
 	texto= str(datos_recibidos)
 	# for item in datos_recibidos:
 	#     texto = item.decode("latin-1", errors="ignore") if isinstance(item, bytes) else str(item)
-	pos = texto.find("\r\n")
+	pos = texto.find("\\r\\n")
 	print(f"Texto recibido: {repr(texto)}")
 	print(f"Posición de \\r\\n: {pos}")
 	
